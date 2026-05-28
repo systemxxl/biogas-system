@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+/* Project CSS variables and base rules (extracted from previous styles) */
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.15 0.02 160);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.15 0.02 160);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.15 0.02 160);
+  --primary: oklch(0.55 0.16 150);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.96 0.01 150);
+  --secondary-foreground: oklch(0.2 0.03 160);
+  --muted: oklch(0.96 0.005 150);
+  --muted-foreground: oklch(0.45 0.02 160);
+  --accent: oklch(0.95 0.03 150);
+  --accent-foreground: oklch(0.25 0.05 150);
+  --destructive: oklch(0.6 0.22 27);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.92 0.01 150);
+  --input: oklch(0.92 0.01 150);
+  --ring: oklch(0.55 0.16 150);
+
+  --brand: oklch(0.55 0.16 150);
+  --brand-dark: oklch(0.35 0.12 150);
+  --brand-foreground: oklch(1 0 0);
+  --surface: oklch(0.98 0.005 150);
+  --surface-muted: oklch(0.94 0.01 150);
+}
+
+.dark {
+  --background: oklch(0.15 0.02 160);
+  --foreground: oklch(0.98 0.003 150);
+  --card: oklch(0.2 0.02 160);
+  --card-foreground: oklch(0.98 0.003 150);
+  --popover: oklch(0.2 0.02 160);
+  --popover-foreground: oklch(0.98 0.003 150);
+  --primary: oklch(0.65 0.17 150);
+  --primary-foreground: oklch(0.15 0.02 160);
+  --secondary: oklch(0.27 0.02 160);
+  --secondary-foreground: oklch(0.98 0.003 150);
+  --muted: oklch(0.27 0.02 160);
+  --muted-foreground: oklch(0.7 0.02 160);
+  --accent: oklch(0.27 0.04 150);
+  --accent-foreground: oklch(0.98 0.003 150);
+  --destructive: oklch(0.7 0.19 22);
+  --destructive-foreground: oklch(0.98 0.003 150);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.65 0.17 150);
+  --brand: oklch(0.65 0.17 150);
+  --brand-dark: oklch(0.45 0.14 150);
+  --brand-foreground: oklch(0.15 0.02 160);
+  --surface: oklch(0.2 0.02 160);
+  --surface-muted: oklch(0.25 0.02 160);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial);
+  }
+  h1, h2, h3, h4 { font-family: var(--font-display, system-ui); }
+}
