@@ -15,6 +15,7 @@ import {
   Users,
   Wrench,
 } from "lucide-react";
+import { TestimonialCarousel } from "../components/TestimonialCarousel";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -54,9 +55,15 @@ const benefits = [
 ];
 
 const testimonials = [
-  { name: "Mary N.", role: "Narok Town", text: "Hotflame Biogas installed our system professionally and trained us well. Cooking is now easy and clean." },
-  { name: "Joseph K.", role: "Ololulunga, Narok", text: "We had a dormant system for years. They restored it completely. Excellent service!" },
-  { name: "Grace W.", role: "Narok County", text: "Their training sessions on clean energy are eye-opening. Our community is now more informed." },
+  {name: "Mary N.", role: "Homeowner, Narok", text: "Our cooking is now smoke-free and faster. Hotflame Biogas did a great job. We are saving money and our kitchen is so much cleaner." },
+  { name: "Joseph K.", role: "Farmer, Narok", text: "Reliable system, excellent installation and great follow-up support. The slurry has improved our farm yields significantly." },
+  { name: "Grace M.", role: "School Administrator", text: "Hotflame Biogas is professional, knowledgeable and passionate about clean energy. Highly recommended!" },
+  { name: "Peter O.", role: "Dairy Farmer, Narok", text: "The system has reduced smoke in our kitchen and the slurry is helping our vegetables grow better than before." },
+  { name: "Ann W.", role: "Mother, Narok County", text: "We spend less on charcoal now. The team explained everything clearly and checked on us after installation." },
+  { name: "David K.", role: "Institution Manager", text: "Their work was organized from site assessment to training. The system is practical for our daily cooking needs." },
+  { name: "Mercy L.", role: "Smallholder Farmer", text: "Hotflame Biogas gave us a clean solution for waste and energy. It has made the compound cleaner and more useful." },
+  { name: "Samuel M.", role: "Community Leader", text: "The training helped our group understand biogas safety, maintenance and the value of organic fertilizer." },
+  { name: "Beatrice N.", role: "Homeowner, Narok", text: "We wanted something affordable and reliable. Their after-sales support has made the whole experience easier." },
 ];
 
 function Services() {
@@ -136,20 +143,8 @@ function Services() {
           </div>
 
           <p className="mt-14 text-center text-sm font-black uppercase tracking-[0.3em]">What Our Clients Say</p>
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
-            {testimonials.map((item) => (
-              <article key={item.name} className="rounded-xl bg-white/85 p-7 text-zinc-900 shadow-xl backdrop-blur">
-                <p className="text-5xl font-black leading-none text-emerald-700">“</p>
-                <p className="-mt-5 text-sm font-medium leading-7 text-zinc-700">{item.text}</p>
-                <div className="mt-6 flex items-center gap-3">
-                  <img src="/assets/520757073_2951050318419308_839469618729031390_n.jpg" alt="" className="h-12 w-12 rounded-full object-cover" />
-                  <div>
-                    <p className="font-black">{item.name}</p>
-                    <p className="text-xs font-medium text-zinc-600">{item.role}</p>
-                  </div>
-                </div>
-              </article>
-            ))}
+          <div className="mt-8">
+            <TestimonialCarousel testimonials={testimonials} itemsPerView={3} />
           </div>
 
           <div className="mt-10 grid items-center gap-6 rounded-xl border border-white/40 bg-emerald-900/80 p-6 md:grid-cols-[0.6fr_1.4fr_1fr]">
@@ -161,8 +156,7 @@ function Services() {
             </div>
             <div className="space-y-3 text-sm font-bold text-white/85">
               <p><MessageCircle className="mr-2 inline h-4 w-4" /> +254 715 613 635</p>
-              <p><Mail className="mr-2 inline h-4 w-4" /> info@hotflamebiogas.co.ke</p>
-              <p><MapPin className="mr-2 inline h-4 w-4" /> Narok Town, Kenya</p>
+              <p><Mail className="mr-2 inline h-4 w-4" /> hotflamebiogas@gmail.com</p>
               <a href="https://wa.me/+254715613635" className="inline-flex items-center gap-2 rounded-md border border-white px-5 py-3 font-black transition hover:bg-white hover:text-emerald-900">
                 Chat on WhatsApp <MessageCircle className="h-4 w-4" />
               </a>
