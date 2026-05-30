@@ -69,6 +69,9 @@ function Projects() {
 
   return (
     <>
+      {/* Spacer to prevent hero background from filling the absolute header area */}
+      <div className="h-20 bg-white" />
+      
       <section className="relative overflow-hidden bg-zinc-950 py-16 text-white md:py-20">
         {/* Custom Edited Background Layer */}
         <div 
