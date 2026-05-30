@@ -84,7 +84,7 @@ function Projects() {
         <div className="relative z-10 mx-auto max-w-7xl px-5 md:px-8">
           <div className="flex flex-col items-start text-left">
             <div className="max-w-2xl">
-              <h1 className="text-4xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl uppercase">
+              <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl uppercase">
                 Projects / Gallery
               </h1>
               <p className="mt-6 text-lg font-medium leading-8 text-white/90">
