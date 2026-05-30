@@ -69,23 +69,45 @@ function Projects() {
 
   return (
     <>
-      <section className="bg-white">
-        <div className="mx-auto max-w-7xl px-5 py-20 md:px-8">
-          <div className="max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-700">Projects</p>
-            <h1 className="mt-4 text-4xl font-black tracking-tight text-zinc-950 sm:text-5xl lg:text-6xl">
-              Real Biogas Projects That Change Lives
-            </h1>
-            <p className="mt-6 text-lg leading-8 text-zinc-600">
-              Explore our installations, restorations, training sessions, media outreach, and appliance setups across Narok and the surrounding region.
-            </p>
-          </div>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2">
-            <div className="overflow-hidden rounded-[2rem] border border-zinc-200 shadow-lg">
-              <img src="/assets/645415092_122159713724958675_2122180214002289931_n.jpg" alt="Biogas installation" className="h-[340px] w-full object-cover" />
+      <section className="relative overflow-hidden bg-zinc-950 py-16 text-white md:py-20">
+        {/* Custom Edited Background Layer */}
+        <div 
+          className="absolute inset-0 z-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/assets/projects-hero-bg.jpg')" }}
+        />
+        {/* Scoped dark overlay - darkens the left side for content punch, fades to transparent on the right */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent lg:w-2/3" />
+
+        <div className="relative z-10 mx-auto max-w-7xl px-5 md:px-8">
+          <div className="flex flex-col items-start text-left">
+            <div className="max-w-2xl">
+              <h1 className="text-4xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl uppercase">
+                Projects / Gallery
+              </h1>
+              <p className="mt-6 text-lg font-medium leading-8 text-white/90">
+                Real projects. Real impact. From biogas plant installations and restorations to training, appliance setups, and media outreach — see how we're turning organic waste into clean energy and stronger communities across Narok County.
+              </p>
             </div>
-            <div className="overflow-hidden rounded-[2rem] border border-zinc-200 shadow-lg">
-              <img src="/assets/653370674_122161808180958675_2027784688729312152_n.jpg" alt="Community training" className="h-[340px] w-full object-cover" />
+            
+            <div className="mt-10 flex flex-wrap justify-start gap-4">
+              {[
+                { i: Leaf, n: "120+", l: "Biogas Systems Installed" },
+                { i: Users, n: "800+", l: "Happy Households" },
+                { i: Building2, n: "25+", l: "Institutions Served" },
+              ].map((s) => (
+                <div
+                  key={s.l}
+                  className="inline-flex items-center gap-3 rounded-2xl border border-white/20 bg-white/10 p-4 backdrop-blur-md shadow-lg"
+                >
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-700 text-white">
+                    <s.i className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <div className="font-black text-white">{s.n}</div>
+                    <div className="text-xs font-medium text-white/80">{s.l}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -117,9 +139,9 @@ function Projects() {
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {visible.map((item) => (
               <article key={item.title} className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.13)]">
-                <img src={item.image} alt={item.title} className="h-44 w-full object-cover" />
+                <img src={item.image} alt={item.title} className="h-44 w-full rounded-xl object-cover" />
                 <div className="p-5">
-                  <span className="-mt-12 mb-3 grid h-10 w-10 place-items-center rounded-full border-4 border-white bg-emerald-50 text-emerald-700 shadow">
+                  <span className="relative z-10 -mt-12 mb-3 grid h-10 w-10 place-items-center rounded-full border-4 border-white bg-white text-emerald-700 shadow-md">
                     <item.icon className="h-5 w-5" />
                   </span>
                   <h3 className="font-black text-zinc-950">{item.title}</h3>

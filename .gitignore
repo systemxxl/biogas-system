@@ -31,3 +31,4 @@ dist-ssr
 *.sln
 *.sw?
 \n# Backend env\nbackend/.env\nbackend/.env.local\n
+
