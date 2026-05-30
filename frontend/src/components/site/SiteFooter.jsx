@@ -1,5 +1,14 @@
 import { Link } from "@tanstack/react-router";
-import { Facebook, Globe2, Instagram, Mail, MapPin, MessageCircle, Phone, Youtube } from "lucide-react";
+import {
+  Facebook,
+  Globe2,
+  Instagram,
+  Mail,
+  MapPin,
+  MessageCircle,
+  Phone,
+  Youtube,
+} from "lucide-react";
 
 const quickLinks = [
   { to: "/", label: "Home" },
@@ -77,7 +86,7 @@ export function SiteFooter() {
             <ul className="space-y-3 text-sm text-white/80">
               <li className="flex gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-emerald-300" />
-                Narok, Kenya
+                Kenya
               </li>
               <li className="flex gap-3">
                 <Phone className="h-4 w-4 shrink-0 text-emerald-300" />
@@ -86,10 +95,6 @@ export function SiteFooter() {
               <li className="flex gap-3">
                 <Mail className="h-4 w-4 shrink-0 text-emerald-300" />
                 hotflamebiogas@gmail.com
-              </li>
-              <li className="flex gap-3">
-                <Globe2 className="h-4 w-4 shrink-0 text-emerald-300" />
-                www.hotflamebiogas.co.ke
               </li>
             </ul>
           </div>

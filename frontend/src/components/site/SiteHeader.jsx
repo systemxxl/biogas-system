@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Menu, MessageCircle } from "lucide-react";
+import { Menu, Phone, Clock } from "lucide-react";
 import { Logo } from "./Logo";
 
 const nav = [
@@ -12,18 +12,56 @@ const nav = [
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 bg-white/95 shadow-sm backdrop-blur">
+      {/* Top Bar */}
+      <div className="bg-[#1a2e1a] py-1.5">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 md:px-8">
+          <div className="flex items-center gap-3">
+            <a
+              href="tel:+254715613635"
+              className="flex items-center gap-1.5 text-[0.75rem] text-white/75 no-underline hover:text-white transition"
+            >
+              <Phone size={13} />
+              <span>0715 613 635</span>
+            </a>
+
+            <span className="text-white/20 text-[0.85rem]">|</span>
+
+            <a
+              href="tel:+254783934440"
+              className="flex items-center gap-1.5 text-[0.75rem] text-white/75 no-underline hover:text-white transition"
+            >
+              <Phone size={13} />
+              <span>0783 934 440</span>
+            </a>
+          </div>
+
+          <div className="flex items-center gap-1.5 text-[0.75rem] text-white/65">
+            <Clock size={13} />
+            <span>Mon–Sat, 8am–6pm EAT</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Header */}
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 md:px-8">
-        <Link to="/" className="flex items-center hover:opacity-80 transition" aria-label="Hot Flame Biogas home">
+        <Link
+          to="/"
+          className="flex items-center transition hover:opacity-80"
+          aria-label="Hot Flame Biogas home"
+        >
           <Logo />
         </Link>
 
+        {/* Desktop Navigation */}
         <nav className="hidden items-center gap-9 md:flex">
           {nav.map((item) => (
             <Link
               key={item.to}
               to={item.to}
               className="border-b-2 border-transparent pb-1 text-sm font-bold text-zinc-900 transition hover:text-emerald-700"
-              activeProps={{ className: "border-emerald-700 text-emerald-700" }}
+              activeProps={{
+                className: "border-emerald-700 text-emerald-700",
+              }}
               activeOptions={{ exact: item.to === "/" }}
             >
               {item.label}
@@ -31,36 +69,42 @@ export function SiteHeader() {
           ))}
         </nav>
 
+        {/* Desktop Call Button */}
         <a
-          href="https://wa.me/+254715613635"
-          className="hidden items-center gap-2 rounded-md bg-emerald-700 px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-emerald-800 md:inline-flex"
+          href="tel:+254715613635"
+          className="hidden items-center justify-center gap-2 rounded-md bg-emerald-700 px-4 py-3 text-sm font-bold text-white transition hover:bg-emerald-800 md:flex"
         >
-          <MessageCircle className="h-4 w-4" />
-          Chat on WhatsApp
+          <Phone className="h-4 w-4" />
+          +254 715 613 635
         </a>
 
+        {/* Mobile Menu */}
         <details className="group relative md:hidden">
           <summary className="grid h-10 w-10 cursor-pointer list-none place-items-center rounded-md border border-zinc-200 text-zinc-900 marker:hidden">
             <Menu className="h-5 w-5" />
             <span className="sr-only">Open menu</span>
           </summary>
+
           <div className="absolute right-0 top-12 w-56 rounded-xl border border-zinc-200 bg-white p-3 shadow-xl">
             {nav.map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
                 className="block rounded-lg px-3 py-2 text-sm font-bold text-zinc-900 hover:bg-emerald-50 hover:text-emerald-700"
-                activeProps={{ className: "bg-emerald-50 text-emerald-700" }}
+                activeProps={{
+                  className: "bg-emerald-50 text-emerald-700",
+                }}
                 activeOptions={{ exact: item.to === "/" }}
               >
                 {item.label}
               </Link>
             ))}
+
             <a
-              href="+254715613635"
-              className="mt-2 flex items-center justify-center gap-2 rounded-md bg-emerald-700 px-4 py-3 text-sm font-bold text-white"
+              href="tel:+254715613635"
+              className="mt-2 flex items-center justify-center gap-2 rounded-md bg-emerald-700 px-4 py-3 text-sm font-bold text-white transition hover:bg-emerald-800"
             >
-              <MessageCircle className="h-4 w-4" />
+              <Phone className="h-4 w-4" />
               Call Us
             </a>
           </div>
