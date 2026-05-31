@@ -11,7 +11,9 @@ import {
   Search,
   Tag,
   User,
+  X,
 } from "lucide-react";
+import * as Dialog from "@radix-ui/react-dialog";
 
 export const Route = createFileRoute("/blogs")({
   head: () => ({
@@ -40,6 +42,7 @@ const blogPosts = [
     category: "technology",
     title: "How Modern Biogas Digesters Work",
     excerpt: "Understanding the science behind turning organic waste into clean, combustible gas for your home.",
+    content: "Biogas technology is a remarkably simple yet powerful way to manage waste. At its core, a biogas digester is an airtight container where bacteria break down organic matter—such as cow dung, kitchen waste, or crop residues—in the absence of oxygen. This process, called anaerobic digestion, produces a gas composed mainly of methane and carbon dioxide. \n\nModern digesters, like the fixed-dome models we install, are designed to maintain optimal temperatures and pressure. As the waste decomposes, the gas rises to the top of the dome, where it is piped directly to your kitchen. The remaining slurry, now odorless and free of pathogens, is automatically pushed out into a collection tank, ready to be used as a potent organic fertilizer.",
     author: "Mary Mwami",
     date: "May 15, 2026",
     readTime: "5 min read",
@@ -51,6 +54,7 @@ const blogPosts = [
     category: "guides",
     title: "Maintaining Your Biogas System: A Checklist",
     excerpt: "Simple daily and weekly steps to ensure your system continues to produce high-quality gas for years.",
+    content: "A well-maintained biogas system can last for over 25 years. To ensure your system performs at its peak, follow this simple maintenance checklist:\n\n1. **Daily Feeding**: Consistency is key. Feed your digester a consistent mix of waste and water (usually 1:1 ratio). Avoid overloading it one day and leaving it empty the next.\n2. **Check for Leaks**: Periodically use soapy water on pipe joints to check for gas leaks. If you see bubbles, tighten the connection.\n3. **Slurry Management**: Ensure the overflow point is clear so the bio-slurry can flow out freely. This prevents pressure build-up that could damage the dome.\n4. **Keep it Warm**: Digesters work best in warm conditions. If you live in a colder area, ensure the dome is well-insulated with soil or a greenhouse structure.\n\nBy following these steps, you guarantee a steady flame and a healthy digester ecosystem.",
     author: "Technical Team",
     date: "May 10, 2026",
     readTime: "8 min read",
@@ -62,6 +66,7 @@ const blogPosts = [
     category: "sustainability",
     title: "The Environmental Impact of Bio-Slurry",
     excerpt: "Why the liquid by-product of your digester is just as valuable as the gas it produces.",
+    content: "While most people install biogas systems for the free cooking gas, the real 'gold' is often the bio-slurry. During the digestion process, the nutrients in the organic waste (Nitrogen, Phosphorus, and Potassium) are preserved and converted into a form that plants can easily absorb.\n\nUnlike raw manure, bio-slurry is liquid and can be applied directly to crops or mixed with irrigation water. It improves soil structure, increases water retention, and—most importantly—replaces expensive chemical fertilizers. Farmers using our systems have reported up to a 40% increase in crop yields, particularly with leafy greens like kale and spinach. By using slurry, you're not just saving money; you're building a truly circular and sustainable farm.",
     author: "Ronald Mwau",
     date: "May 02, 2026",
     readTime: "6 min read",
@@ -73,6 +78,7 @@ const blogPosts = [
     category: "news",
     title: "Hot Flame Biogas Expands to Bomet County",
     excerpt: "Celebrating our new regional office and first 10 installations in the South Rift region.",
+    content: "We are thrilled to announce that Hot Flame Biogas has officially opened its doors in Bomet County! This expansion is part of our commitment to making clean energy accessible to every household in the South Rift region. \n\nIn our first month of operation in Bomet, we have already completed 10 successful installations for dairy farmers who were previously struggling with high wood-fuel costs. Our new local team, led by experienced technicians, will provide site assessments, construction, and training for residents. We look forward to transforming more lives and protecting the beautiful forests of Bomet through sustainable energy solutions.",
     author: "Mary Mwami",
     date: "April 20, 2026",
     readTime: "3 min read",
@@ -84,6 +90,7 @@ const blogPosts = [
     category: "technology",
     title: "Fixed Dome vs. Floating Drum: Which is Right for You?",
     excerpt: "A comprehensive comparison of the two most popular digester designs in East Africa.",
+    content: "Choosing the right biogas design is crucial for long-term success. The two most common designs are the Fixed Dome and the Floating Drum. \n\n**Fixed Dome**: Built underground using bricks and cement. It has no moving parts, making it extremely durable and long-lasting (20+ years). It is also space-efficient as the top can be used for other farm activities. This is our preferred design at Hot Flame Biogas due to its low maintenance.\n\n**Floating Drum**: Features a steel or fiberglass drum that rises and falls with gas production. While it provides a constant gas pressure, the metal drum is prone to rusting and requires frequent painting and eventual replacement. \n\nFor most Kenyan households and institutions, the durability and 'build-and-forget' nature of the Fixed Dome system makes it the superior choice for ROI.",
     author: "Technical Team",
     date: "April 12, 2026",
     readTime: "10 min read",
@@ -95,6 +102,7 @@ const blogPosts = [
     category: "guides",
     title: "Optimizing Feedstock for Maximum Gas Output",
     excerpt: "What to put in (and keep out) of your digester for the best gas production rates.",
+    content: "Not all waste is created equal when it comes to gas production. To get the most 'bang for your buck,' you need to understand your feedstock. \n\n**The Best Inputs**: Cow dung is the gold standard because it already contains the bacteria needed for digestion. Pig waste and poultry droppings are also high-energy but require more careful water mixing. Kitchen waste (fruit peels, leftover food) is excellent for a quick gas boost.\n\n**What to Avoid**: Never put plastic, glass, or chemicals (like bleach or detergents) into your digester, as these will kill the helpful bacteria. Also, avoid large amounts of citrus peels or highly acidic waste, which can drop the pH level and stop gas production. \n\nA balanced diet for your digester ensures a bright, blue flame every single day.",
     author: "Ronald Mwau",
     date: "March 28, 2026",
     readTime: "7 min read",
@@ -106,6 +114,7 @@ const blogPosts = [
 function Blogs() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedPost, setSelectedPost] = useState(null);
 
   const filteredPosts = blogPosts.filter((post) => {
     const matchesCategory = activeCategory === "all" || post.category === activeCategory;
@@ -176,7 +185,8 @@ function Blogs() {
                 {filteredPosts.map((post) => (
                   <article 
                     key={post.id} 
-                    className="group flex flex-col overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-sm transition-all hover:shadow-xl hover:-translate-y-1"
+                    className="group flex flex-col cursor-pointer overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-sm transition-all hover:shadow-xl hover:-translate-y-1"
+                    onClick={() => setSelectedPost(post)}
                   >
                     <div className="relative h-56 w-full overflow-hidden">
                       <img 
@@ -218,7 +228,13 @@ function Blogs() {
                             <span className="text-xs font-bold text-zinc-700">{post.author}</span>
                           </div>
                           
-                          <button className="flex items-center gap-1 text-sm font-black text-emerald-700 transition hover:gap-2">
+                          <button 
+                            className="flex items-center gap-1 text-sm font-black text-emerald-700 transition hover:gap-2"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedPost(post);
+                            }}
+                          >
                             Read More <ArrowRight className="h-4 w-4" />
                           </button>
                         </div>
@@ -245,6 +261,72 @@ function Blogs() {
           </div>
         </div>
       </section>
+
+      {/* Blog Detail Modal */}
+      <Dialog.Root open={!!selectedPost} onOpenChange={(open) => !open && setSelectedPost(null)}>
+        <Dialog.Portal>
+          <Dialog.Overlay className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm animate-in fade-in duration-300" />
+          <Dialog.Content className="fixed left-[50%] top-[50%] z-[101] w-full max-w-3xl translate-x-[-50%] translate-y-[-50%] p-4 focus:outline-none">
+            <div className="relative max-h-[90vh] overflow-y-auto rounded-[2rem] bg-white shadow-2xl animate-in zoom-in-95 fade-in duration-300 no-scrollbar">
+              <Dialog.Close className="absolute right-6 top-6 z-20 rounded-full bg-white/90 p-2 text-zinc-900 shadow-lg backdrop-blur transition-all hover:scale-110 hover:bg-emerald-700 hover:text-white">
+                <X className="h-6 w-6" />
+                <span className="sr-only">Close</span>
+              </Dialog.Close>
+
+              <div className="flex flex-col">
+                <div className="h-64 w-full md:h-80">
+                  <img src={selectedPost?.image} alt={selectedPost?.title} className="h-full w-full object-cover" />
+                </div>
+
+                <div className="p-8 md:p-12">
+                  <div className="mb-6 flex flex-wrap items-center gap-4 text-[10px] font-black uppercase tracking-widest text-emerald-700">
+                    <span className="rounded-lg bg-emerald-50 px-3 py-1.5 border border-emerald-100">{selectedPost?.category}</span>
+                    <span className="flex items-center gap-1.5 text-zinc-400">
+                      <Calendar className="h-3.5 w-3.5" />
+                      {selectedPost?.date}
+                    </span>
+                    <span className="flex items-center gap-1.5 text-zinc-400">
+                      <Clock className="h-3.5 w-3.5" />
+                      {selectedPost?.readTime}
+                    </span>
+                  </div>
+
+                  <Dialog.Title className="text-3xl font-black leading-tight text-zinc-950 md:text-4xl">
+                    {selectedPost?.title}
+                  </Dialog.Title>
+
+                  <div className="mt-8 space-y-6">
+                    {selectedPost?.content.split('\n\n').map((paragraph, idx) => (
+                      <p key={idx} className="text-base font-medium leading-relaxed text-zinc-600">
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+
+                  <div className="mt-12 flex flex-wrap gap-2">
+                    {selectedPost?.tags.map(tag => (
+                      <span key={tag} className="flex items-center gap-1 rounded-full bg-zinc-100 px-3 py-1 text-[10px] font-bold text-zinc-500">
+                        <Tag className="h-3 w-3" />
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="mt-10 flex items-center gap-4 border-t border-zinc-100 pt-8">
+                    <div className="h-12 w-12 rounded-full bg-emerald-700 flex items-center justify-center text-white font-black text-xl">
+                      {selectedPost?.author.charAt(0)}
+                    </div>
+                    <div>
+                      <p className="text-sm font-black text-zinc-950">{selectedPost?.author}</p>
+                      <p className="text-xs font-bold text-zinc-400">Contributor, Hot Flame Biogas</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
 
       {/* Newsletter / CTA Section */}
       <section className="bg-emerald-950 py-16 text-white">
