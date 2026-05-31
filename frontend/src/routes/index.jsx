@@ -10,6 +10,7 @@ import {
   Sprout,
   Users,
 } from "lucide-react";
+import { TestimonialCarousel } from "../components/TestimonialCarousel";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -419,6 +420,12 @@ function Home() {
               </article>
             ))}
           </div>
+
+            <div className="mt-8">
+              <TestimonialCarousel testimonials={testimonials} itemsPerView={3} />
+            </div>
+
+          
         </div>
       </section>
 
