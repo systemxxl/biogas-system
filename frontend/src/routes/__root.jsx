@@ -9,7 +9,7 @@ import {
 } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
-
+import { WhatsAppButton } from "@/components/site/WhatsAppButton";
 import appCss from "../tailwind.css?url";
 
 function NotFoundComponent() {
@@ -120,6 +120,9 @@ function RootComponent() {
         <Outlet />
       </main>
       <SiteFooter />
+      <div className="fixed bottom-6 right-6 flex flex-col gap-4 z-[999]">
+        <WhatsAppButton />
+      </div>
     </QueryClientProvider>
   );
 }
