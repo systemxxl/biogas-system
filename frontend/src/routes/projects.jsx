@@ -14,8 +14,11 @@ import {
   Sprout,
   Users,
   Wrench,
+  X,
 } from "lucide-react";
+import * as Dialog from "@radix-ui/react-dialog";
 import { TestimonialCarousel } from "../components/TestimonialCarousel";
+import { Carousel } from "../components/Carousel";
 
 export const Route = createFileRoute("/projects")({
   head: () => ({
@@ -40,14 +43,111 @@ const filters = [
 ];
 
 const gallery = [
-  { cat: "installations", icon: Leaf, title: "Biogas Plant Installation", text: "New household biogas plant installation for clean cooking and sustainable living.", image: "/assets/645415092_122159713724958675_2122180214002289931_n.jpg" },
-  { cat: "training", icon: Users, title: "Community Training", text: "Training communities on biogas technology, operation and maintenance best practices.", image: "/assets/653370674_122161808180958675_2027784688729312152_n.jpg" },
-  { cat: "appliances", icon: Flame, title: "Appliance Setup", text: "Installation of biogas stoves and appliances for efficient and safe energy use.", image: "/assets/biogas stove.png" },
-  { cat: "installations", icon: CheckCircle2, title: "Completed Digester", text: "Finished biogas digester ready for use, built to last and perform efficiently.", image: "/assets/project-3.jpg" },
-  { cat: "installations", icon: Wrench, title: "Digester Construction", text: "Ongoing construction of a durable biogas digester from start to finish.", image: "/assets/645432563_122159713526958675_8841646942470576377_n.jpg" },
-  { cat: "fertilizer", icon: Recycle, title: "Organic Fertilizer", text: "High-quality organic fertilizer produced as a by-product of biogas systems.", image: "/assets/kale.jpeg" },
-  { cat: "training", icon: Mic2, title: "Media & Awareness", text: "Radio and media outreach to educate and inspire more communities to adopt biogas.", image: "/assets/525562475_122105325824958675_2183548524119828192_n.jpg" },
-  { cat: "installations", icon: Building2, title: "Institutional Project", text: "Biogas solutions for schools, institutions and commercial establishments.", image: "/assets/565137370_122134110734958675_5886927147664881699_n.jpg" },
+  { 
+    id: 1,
+    cat: "installations", 
+    icon: Leaf, 
+    title: "Biogas Plant Installation", 
+    text: "New household biogas plant installation for clean cooking and sustainable living.", 
+    image: "/assets/645415092_122159713724958675_2122180214002289931_n.jpg",
+    images: [
+      "/assets/645415092_122159713724958675_2122180214002289931_n.jpg",
+      "/assets/645432563_122159713526958675_8841646942470576377_n.jpg",
+      "/assets/project-3.jpg"
+    ],
+    description: "This project involved the complete design and installation of a 6-cubic-meter household biogas digester. The system now provides enough gas for three full meals a day, significantly reducing the family's reliance on firewood and charcoal. The installation includes a high-efficiency biogas stove and a pressure gauge for monitoring gas production."
+  },
+  { 
+    id: 2,
+    cat: "training", 
+    icon: Users, 
+    title: "Community Training", 
+    text: "Training communities on biogas technology, operation and maintenance best practices.", 
+    image: "/assets/653370674_122161808180958675_2027784688729312152_n.jpg",
+    images: [
+      "/assets/653370674_122161808180958675_2027784688729312152_n.jpg",
+      "/assets/525562475_122105325824958675_2183548524119828192_n.jpg"
+    ],
+    description: "Our community outreach programs focus on empowering local residents with the knowledge to operate and maintain their biogas systems. This particular session in Narok Town brought together 15 households to discuss safety protocols, feedstock optimization, and the secondary benefits of bio-slurry for kitchen gardens."
+  },
+  { 
+    id: 3,
+    cat: "appliances", 
+    icon: Flame, 
+    title: "Appliance Setup", 
+    text: "Installation of biogas stoves and appliances for efficient and safe energy use.", 
+    image: "/assets/biogas stove.png",
+    images: [
+      "/assets/biogas stove.png",
+      "/assets/service-3.jpg"
+    ],
+    description: "We provide and install specialized biogas appliances, including single and double burner stoves, biogas lamps, and water heaters. These appliances are specifically calibrated for the lower pressure and composition of biogas, ensuring maximum thermal efficiency and safety in the kitchen."
+  },
+  { 
+    id: 4,
+    cat: "installations", 
+    icon: CheckCircle2, 
+    title: "Completed Digester", 
+    text: "Finished biogas digester ready for use, built to last and perform efficiently.", 
+    image: "/assets/project-3.jpg",
+    images: [
+      "/assets/project-3.jpg",
+      "/assets/finished doom installed.png"
+    ],
+    description: "A recently completed fixed-dome digester project. This type of digester is known for its durability and low maintenance costs. It features an integrated slurry tank that automatically collects bio-fertilizer, making it a circular solution for farmers who want to combine energy production with organic farming."
+  },
+  { 
+    id: 5,
+    cat: "installations", 
+    icon: Wrench, 
+    title: "Digester Construction", 
+    text: "Ongoing construction of a durable biogas digester from start to finish.", 
+    image: "/assets/645432563_122159713526958675_8841646942470576377_n.jpg",
+    images: [
+      "/assets/645432563_122159713526958675_8841646942470576377_n.jpg",
+      "/assets/service-1.jpg"
+    ],
+    description: "Construction phase of a large-scale institutional digester. This stage involves meticulous bricklaying and plastering to ensure the dome is completely gas-tight. Our skilled masonry team uses specialized techniques and high-quality waterproof cement to guarantee a lifespan of over 20 years."
+  },
+  { 
+    id: 6,
+    cat: "fertilizer", 
+    icon: Recycle, 
+    title: "Organic Fertilizer", 
+    text: "High-quality organic fertilizer produced as a by-product of biogas systems.", 
+    image: "/assets/kale.jpeg",
+    images: [
+      "/assets/kale.jpeg",
+      "/assets/cow.jpeg"
+    ],
+    description: "Bio-slurry is a powerful organic fertilizer that comes out of the digester after gas extraction. It is rich in nitrogen, phosphorus, and potassium. In this project, we helped a farmer set up an irrigation system to apply slurry directly to their kale crop, leading to a 40% increase in yield compared to chemical fertilizers."
+  },
+  { 
+    id: 7,
+    cat: "training", 
+    icon: Mic2, 
+    title: "Media & Awareness", 
+    text: "Radio and media outreach to educate and inspire more communities to adopt biogas.", 
+    image: "/assets/525562475_122105325824958675_2183548524119828192_n.jpg",
+    images: [
+      "/assets/525562475_122105325824958675_2183548524119828192_n.jpg",
+      "/assets/525607100_122105325632958675_1745228413023663076_n.jpg"
+    ],
+    description: "Through partnerships with local radio stations and community leaders, we share success stories and technical advice about biogas. This outreach is vital for debunking myths and showing the practical, daily impact of clean energy technology on health and household finances."
+  },
+  { 
+    id: 8,
+    cat: "installations", 
+    icon: Building2, 
+    title: "Institutional Project", 
+    text: "Biogas solutions for schools, institutions and commercial establishments.", 
+    image: "/assets/565137370_122134110734958675_5886927147664881699_n.jpg",
+    images: [
+      "/assets/565137370_122134110734958675_5886927147664881699_n.jpg",
+      "/assets/project-1.jpg"
+    ],
+    description: "This institutional-grade biogas system was installed at a local school to manage kitchen waste and provide gas for cooking student meals. It not only saves the school thousands of shillings in fuel costs but also provides a clean, smoke-free environment for the kitchen staff and students."
+  },
 ];
 
 const testimonials = [
@@ -65,23 +165,22 @@ const testimonials = [
 
 function Projects() {
   const [active, setActive] = useState("all");
+  const [selectedProject, setSelectedProject] = useState(null);
   const visible = active === "all" ? gallery : gallery.filter((item) => item.cat === active);
 
   return (
     <>
       <section className="relative overflow-hidden bg-zinc-950 py-16 text-white md:py-20">
-        {/* Custom Edited Background Layer */}
         <div 
           className="absolute inset-0 z-0 bg-cover bg-center"
           style={{ backgroundImage: "url('/assets/projects-hero-bg.jpg')" }}
         />
-        {/* Scoped dark overlay - darkens the left side for content punch, fades to transparent on the right */}
         <div className="absolute inset-0 z-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent lg:w-2/3" />
 
         <div className="relative z-10 mx-auto max-w-7xl px-5 md:px-8">
           <div className="flex flex-col items-start text-left">
             <div className="max-w-2xl">
-              <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl uppercase">
+              <h1 className="text-4xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl uppercase">
                 Projects / Gallery
               </h1>
               <p className="mt-6 text-lg font-medium leading-8 text-white/90">
@@ -138,20 +237,91 @@ function Projects() {
 
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {visible.map((item) => (
-              <article key={item.title} className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.13)]">
-                <img src={item.image} alt={item.title} className="h-44 w-full rounded-xl object-cover" />
+              <article 
+                key={item.id} 
+                className="group cursor-pointer overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.13)] transition-all hover:scale-[1.02]"
+                onClick={() => setSelectedProject(item)}
+              >
+                <div className="relative h-44 w-full overflow-hidden">
+                  <img src={item.image} alt={item.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-black/20 opacity-0 transition-opacity group-hover:opacity-100" />
+                </div>
                 <div className="p-5">
                   <span className="relative z-10 -mt-12 mb-3 grid h-10 w-10 place-items-center rounded-full border-4 border-white bg-white text-emerald-700 shadow-md">
                     <item.icon className="h-5 w-5" />
                   </span>
-                  <h3 className="font-black text-zinc-950">{item.title}</h3>
-                  <p className="mt-2 text-sm font-medium leading-6 text-zinc-600">{item.text}</p>
+                  <h3 className="font-black text-zinc-950 group-hover:text-emerald-700">{item.title}</h3>
+                  <p className="mt-2 text-sm font-medium leading-6 text-zinc-600 line-clamp-2">{item.text}</p>
                 </div>
               </article>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Project Detail Modal */}
+      <Dialog.Root open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
+        <Dialog.Portal>
+          <Dialog.Overlay className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm animate-in fade-in duration-300" />
+          <Dialog.Content className="fixed left-[50%] top-[50%] z-[101] w-full max-w-4xl translate-x-[-50%] translate-y-[-50%] p-4 focus:outline-none">
+            <div className="relative overflow-hidden rounded-[2rem] bg-white shadow-2xl animate-in zoom-in-95 fade-in duration-300">
+              <Dialog.Close className="absolute right-6 top-6 z-20 rounded-full bg-white/90 p-2 text-zinc-900 shadow-lg backdrop-blur transition-all hover:scale-110 hover:bg-emerald-700 hover:text-white">
+                <X className="h-6 w-6" />
+                <span className="sr-only">Close</span>
+              </Dialog.Close>
+
+              <div className="grid lg:grid-cols-[1fr_0.8fr]">
+                {/* Image Carousel Side */}
+                <div className="bg-zinc-100">
+                  <Carousel
+                    items={selectedProject?.images || []}
+                    renderItem={(img, idx) => (
+                      <div key={idx} className="h-[300px] w-full lg:h-[500px]">
+                        <img src={img} alt="" className="h-full w-full object-cover" />
+                      </div>
+                    )}
+                    className="h-full"
+                  />
+                </div>
+
+                {/* Content Side */}
+                <div className="flex flex-col p-8 lg:p-10">
+                  <div className="flex items-center gap-3 text-emerald-700 mb-4">
+                    <span className="grid h-10 w-10 place-items-center rounded-lg bg-emerald-50 border border-emerald-100">
+                      {selectedProject && <selectedProject.icon className="h-5 w-5" />}
+                    </span>
+                    <span className="text-xs font-black uppercase tracking-widest">{selectedProject?.cat}</span>
+                  </div>
+                  
+                  <Dialog.Title className="text-3xl font-black tracking-tight text-zinc-950">
+                    {selectedProject?.title}
+                  </Dialog.Title>
+                  
+                  <div className="mt-6 flex-1">
+                    <h4 className="text-sm font-black uppercase text-zinc-400 tracking-wider mb-2">Project Overview</h4>
+                    <Dialog.Description className="text-sm font-medium leading-relaxed text-zinc-600">
+                      {selectedProject?.description}
+                    </Dialog.Description>
+                  </div>
+
+                  <div className="mt-8 pt-8 border-t border-zinc-100">
+                    <div className="flex items-center justify-between">
+                      <div className="flex -space-x-3">
+                        {[1, 2, 3].map(i => (
+                          <div key={i} className="h-8 w-8 rounded-full border-2 border-white bg-zinc-200 overflow-hidden">
+                            <img src={`/assets/520757073_2951050318419308_839469618729031390_n.jpg`} alt="" />
+                          </div>
+                        ))}
+                      </div>
+                      <p className="text-xs font-bold text-zinc-500">Impacting hundreds of lives</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
 
       <section className="bg-white py-10">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
