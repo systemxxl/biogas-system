@@ -26,7 +26,7 @@ const menuItems = [
   { to: "/admin/settings", label: "Settings", icon: Settings },
 ];
 
-import { AdminProvider } from "../components/admin/AdminContext";
+import { AdminProvider } from "../../components/admin/AdminContext";
 
 function AdminLayout() {
   const location = useLocation();

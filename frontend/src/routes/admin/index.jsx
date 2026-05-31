@@ -12,7 +12,7 @@ import {
   ChevronRight,
   ArrowRight
 } from "lucide-react";
-import { useAdmin } from "../components/admin/AdminContext";
+import { useAdmin } from "../../components/admin/AdminContext";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminOverview,
