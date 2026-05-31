@@ -11,8 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ProjectsRouteImport } from './routes/projects'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminServicesRouteImport } from './routes/admin.services'
+import { Route as AdminProjectsRouteImport } from './routes/admin.projects'
+import { Route as AdminBlogsRouteImport } from './routes/admin.blogs'
 
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
@@ -22,6 +27,11 @@ const ServicesRoute = ServicesRouteImport.update({
 const ProjectsRoute = ProjectsRouteImport.update({
   id: '/projects',
   path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -34,37 +44,99 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminServicesRoute = AdminServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminProjectsRoute = AdminProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBlogsRoute = AdminBlogsRouteImport.update({
+  id: '/blogs',
+  path: '/blogs',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
+  '/admin/blogs': typeof AdminBlogsRoute
+  '/admin/projects': typeof AdminProjectsRoute
+  '/admin/services': typeof AdminServicesRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
+  '/admin/blogs': typeof AdminBlogsRoute
+  '/admin/projects': typeof AdminProjectsRoute
+  '/admin/services': typeof AdminServicesRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
+  '/admin/blogs': typeof AdminBlogsRoute
+  '/admin/projects': typeof AdminProjectsRoute
+  '/admin/services': typeof AdminServicesRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/projects' | '/services'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/projects'
+    | '/services'
+    | '/admin/blogs'
+    | '/admin/projects'
+    | '/admin/services'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/projects' | '/services'
-  id: '__root__' | '/' | '/about' | '/projects' | '/services'
+  to:
+    | '/'
+    | '/about'
+    | '/projects'
+    | '/services'
+    | '/admin/blogs'
+    | '/admin/projects'
+    | '/admin/services'
+    | '/admin'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/projects'
+    | '/services'
+    | '/admin/blogs'
+    | '/admin/projects'
+    | '/admin/services'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
   ProjectsRoute: typeof ProjectsRoute
   ServicesRoute: typeof ServicesRoute
 }
@@ -85,6 +157,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -99,12 +178,57 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/services': {
+      id: '/admin/services'
+      path: '/services'
+      fullPath: '/admin/services'
+      preLoaderRoute: typeof AdminServicesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/projects': {
+      id: '/admin/projects'
+      path: '/projects'
+      fullPath: '/admin/projects'
+      preLoaderRoute: typeof AdminProjectsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/blogs': {
+      id: '/admin/blogs'
+      path: '/blogs'
+      fullPath: '/admin/blogs'
+      preLoaderRoute: typeof AdminBlogsRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
+
+interface AdminRouteChildren {
+  AdminBlogsRoute: typeof AdminBlogsRoute
+  AdminProjectsRoute: typeof AdminProjectsRoute
+  AdminServicesRoute: typeof AdminServicesRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminBlogsRoute: AdminBlogsRoute,
+  AdminProjectsRoute: AdminProjectsRoute,
+  AdminServicesRoute: AdminServicesRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
   ProjectsRoute: ProjectsRoute,
   ServicesRoute: ServicesRoute,
 }

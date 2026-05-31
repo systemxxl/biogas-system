@@ -1,20 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
-  Coins,
-  Flame,
-  Leaf,
   Mail,
   MessageCircle,
-  Recycle,
-  RotateCcw,
-  Settings2,
-  ShieldCheck,
-  Sprout,
-  Users,
-  Wrench,
 } from "lucide-react";
 import { TestimonialCarousel } from "../components/TestimonialCarousel";
+import { mainServices, workSteps, serviceBenefits } from "../lib/services";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -29,96 +20,6 @@ export const Route = createFileRoute("/services")({
   }),
   component: Services,
 });
-
-const services = [
-  {
-    icon: Flame,
-    title: "Biogas Plant Installation",
-    text: "We design and install high-quality biogas digesters for homes, farms, institutions and communities.",
-    image: "/assets/645415092_122159713724958675_2122180214002289931_n.jpg",
-  },
-  {
-    icon: Settings2,
-    title: "Appliance Setup",
-    text: "We install and configure biogas appliances including cookers, lamps, water heaters and generators.",
-    image: "/assets/biogas stove.png",
-  },
-  {
-    icon: RotateCcw,
-    title: "Dormant System Restoration",
-    text: "We restore inactive or underperforming biogas systems to full working capacity safely and efficiently.",
-    image: "/assets/project-3.jpg",
-  },
-  {
-    icon: Sprout,
-    title: "Gas Value Addition",
-    text: "We help you maximize biogas value through purification, compression and innovative utilization.",
-    image: "/assets/chuff cutter biogas powerd.png",
-  },
-  {
-    icon: Users,
-    title: "Civic Education & Training",
-    text: "We empower communities with knowledge on clean energy, waste management and safe biogas use.",
-    image: "/assets/653370674_122161808180958675_2027784688729312152_n.jpg",
-  },
-  {
-    icon: Wrench,
-    title: "Maintenance & Support",
-    text: "We offer regular maintenance, inspections and technical support for reliable and long-lasting performance.",
-    image: "/assets/565137370_122134110734958675_5886927147664881699_n.jpg",
-  },
-];
-
-const steps = [
-  {
-    title: "Consultation",
-    text: "We understand your needs and recommend the best biogas solution.",
-    image: "/assets/525235684_122105325746958675_8978318613629820094_n.jpg",
-  },
-  {
-    title: "Site Assessment",
-    text: "We evaluate your site, waste availability and energy needs.",
-    image: "/assets/645415092_122159713724958675_2122180214002289931_n.jpg",
-  },
-  {
-    title: "Installation",
-    text: "Our team installs your system with quality and safety in mind.",
-    image: "/assets/644338450_122159713730958675_2879931428597694725_n.jpg",
-  },
-  {
-    title: "User Training",
-    text: "We train users on safe operation and efficient usage.",
-    image: "/assets/653370674_122161808180958675_2027784688729312152_n.jpg",
-  },
-  {
-    title: "After-Sales Support",
-    text: "We provide ongoing support, maintenance and system check-ups.",
-    image: "/assets/565137370_122134110734958675_5886927147664881699_n.jpg",
-  },
-];
-
-const benefits = [
-  {
-    icon: Leaf,
-    title: "Clean Energy",
-    text: "Biogas is a clean-burning fuel that reduces smoke, pollution and deforestation.",
-  },
-  {
-    icon: Coins,
-    title: "Saves Money",
-    text: "Lower energy bills and less reliance on firewood, charcoal and LPG.",
-  },
-  {
-    icon: Recycle,
-    title: "Sustainable Future",
-    text: "Converts waste to energy, improves sanitation and protects our environment.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Reliable Systems",
-    text: "Built for durability with expert support you can always count on.",
-  },
-];
 
 const testimonials = [
   {
@@ -233,7 +134,7 @@ function Services() {
           </h2>
 
           <div className="mt-12 grid gap-7 md:grid-cols-2 lg:grid-cols-3">
-            {services.map((item) => (
+            {mainServices.map((item) => (
               <article
                 key={item.title}
                 className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
@@ -275,7 +176,7 @@ function Services() {
           </h2>
 
           <div className="grid gap-5 md:grid-cols-3 lg:grid-cols-5">
-            {steps.map((step, index) => (
+            {workSteps.map((step, index) => (
               <article
                 key={step.title}
                 className="rounded-xl bg-white p-4 text-zinc-900 shadow-xl"
@@ -300,7 +201,7 @@ function Services() {
           </div>
 
           <div className="mt-12 grid gap-4 rounded-xl border border-white/25 bg-white/20 p-4 backdrop-blur md:grid-cols-2 lg:grid-cols-4">
-            {benefits.map((item) => (
+            {serviceBenefits.map((item) => (
               <div
                 key={item.title}
                 className="rounded-lg bg-white/90 p-5 text-zinc-900"

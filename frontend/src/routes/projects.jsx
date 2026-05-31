@@ -2,20 +2,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   ArrowRight,
-  Building2,
-  CheckCircle2,
-  Coins,
-  Flame,
-  Leaf,
   MessageCircle,
-  Mic2,
-  Recycle,
-  Settings2,
-  Sprout,
-  Users,
-  Wrench,
+  X,
 } from "lucide-react";
+import * as Dialog from "@radix-ui/react-dialog";
 import { TestimonialCarousel } from "../components/TestimonialCarousel";
+import { Carousel } from "../components/Carousel";
+import { projectsGallery, projectCategories } from "../lib/projects";
 
 export const Route = createFileRoute("/projects")({
   head: () => ({
@@ -29,26 +22,6 @@ export const Route = createFileRoute("/projects")({
   }),
   component: Projects,
 });
-
-const filters = [
-  { id: "all", label: "All", icon: Leaf },
-  { id: "installations", label: "Installations", icon: Wrench },
-  { id: "restorations", label: "Restorations", icon: Settings2 },
-  { id: "training", label: "Training", icon: Users },
-  { id: "appliances", label: "Appliances", icon: Flame },
-  { id: "fertilizer", label: "Fertilizer", icon: Leaf },
-];
-
-const gallery = [
-  { cat: "installations", icon: Leaf, title: "Biogas Plant Installation", text: "New household biogas plant installation for clean cooking and sustainable living.", image: "/assets/645415092_122159713724958675_2122180214002289931_n.jpg" },
-  { cat: "training", icon: Users, title: "Community Training", text: "Training communities on biogas technology, operation and maintenance best practices.", image: "/assets/653370674_122161808180958675_2027784688729312152_n.jpg" },
-  { cat: "appliances", icon: Flame, title: "Appliance Setup", text: "Installation of biogas stoves and appliances for efficient and safe energy use.", image: "/assets/biogas stove.png" },
-  { cat: "installations", icon: CheckCircle2, title: "Completed Digester", text: "Finished biogas digester ready for use, built to last and perform efficiently.", image: "/assets/project-3.jpg" },
-  { cat: "installations", icon: Wrench, title: "Digester Construction", text: "Ongoing construction of a durable biogas digester from start to finish.", image: "/assets/645432563_122159713526958675_8841646942470576377_n.jpg" },
-  { cat: "fertilizer", icon: Recycle, title: "Organic Fertilizer", text: "High-quality organic fertilizer produced as a by-product of biogas systems.", image: "/assets/kale.jpeg" },
-  { cat: "training", icon: Mic2, title: "Media & Awareness", text: "Radio and media outreach to educate and inspire more communities to adopt biogas.", image: "/assets/525562475_122105325824958675_2183548524119828192_n.jpg" },
-  { cat: "installations", icon: Building2, title: "Institutional Project", text: "Biogas solutions for schools, institutions and commercial establishments.", image: "/assets/565137370_122134110734958675_5886927147664881699_n.jpg" },
-];
 
 const testimonials = [
   { name: "Mary N.", role: "Homeowner, Narok", text: "Our cooking is now smoke-free and faster. Hotflame Biogas did a great job. We are saving money and our kitchen is so much cleaner." },
@@ -65,23 +38,22 @@ const testimonials = [
 
 function Projects() {
   const [active, setActive] = useState("all");
-  const visible = active === "all" ? gallery : gallery.filter((item) => item.cat === active);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const visible = active === "all" ? projectsGallery : projectsGallery.filter((item) => item.cat === active);
 
   return (
     <>
       <section className="relative overflow-hidden bg-zinc-950 py-16 text-white md:py-20">
-        {/* Custom Edited Background Layer */}
         <div 
           className="absolute inset-0 z-0 bg-cover bg-center"
           style={{ backgroundImage: "url('/assets/projects-hero-bg.jpg')" }}
         />
-        {/* Scoped dark overlay - darkens the left side for content punch, fades to transparent on the right */}
         <div className="absolute inset-0 z-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent lg:w-2/3" />
 
         <div className="relative z-10 mx-auto max-w-7xl px-5 md:px-8">
           <div className="flex flex-col items-start text-left">
             <div className="max-w-2xl">
-              <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl uppercase">
+              <h1 className="text-4xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl uppercase">
                 Projects / Gallery
               </h1>
               <p className="mt-6 text-lg font-medium leading-8 text-white/90">
@@ -91,9 +63,9 @@ function Projects() {
             
             <div className="mt-10 flex flex-wrap justify-start gap-4">
               {[
-                { i: Leaf, n: "120+", l: "Biogas Systems Installed" },
-                { i: Users, n: "800+", l: "Happy Households" },
-                { i: Building2, n: "25+", l: "Institutions Served" },
+                { i: projectCategories.find(c => c.id === 'all').icon, n: "120+", l: "Biogas Systems Installed" },
+                { i: projectCategories.find(c => c.id === 'training').icon, n: "800+", l: "Happy Households" },
+                { i: projectCategories.find(c => c.id === 'installations').icon, n: "25+", l: "Institutions Served" },
               ].map((s) => (
                 <div
                   key={s.l}
@@ -116,7 +88,7 @@ function Projects() {
       <section className="bg-white py-6">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <div className="flex flex-wrap justify-center gap-3">
-            {filters.map((filter) => {
+            {projectCategories.map((filter) => {
               const activeFilter = active === filter.id;
               return (
                 <button
@@ -138,14 +110,21 @@ function Projects() {
 
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {visible.map((item) => (
-              <article key={item.title} className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.13)]">
-                <img src={item.image} alt={item.title} className="h-44 w-full rounded-xl object-cover" />
+              <article 
+                key={item.id} 
+                className="group cursor-pointer overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.13)] transition-all hover:scale-[1.02]"
+                onClick={() => setSelectedProject(item)}
+              >
+                <div className="relative h-44 w-full overflow-hidden">
+                  <img src={item.image} alt={item.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                  <div className="absolute inset-0 bg-black/20 opacity-0 transition-opacity group-hover:opacity-100" />
+                </div>
                 <div className="p-5">
                   <span className="relative z-10 -mt-12 mb-3 grid h-10 w-10 place-items-center rounded-full border-4 border-white bg-white text-emerald-700 shadow-md">
                     <item.icon className="h-5 w-5" />
                   </span>
-                  <h3 className="font-black text-zinc-950">{item.title}</h3>
-                  <p className="mt-2 text-sm font-medium leading-6 text-zinc-600">{item.text}</p>
+                  <h3 className="font-black text-zinc-950 group-hover:text-emerald-700">{item.title}</h3>
+                  <p className="mt-2 text-sm font-medium leading-6 text-zinc-600 line-clamp-2">{item.text}</p>
                 </div>
               </article>
             ))}
@@ -153,44 +132,72 @@ function Projects() {
         </div>
       </section>
 
-      <section className="bg-white py-10">
-        <div className="mx-auto max-w-7xl px-5 md:px-8">
-          <div className="grid items-center gap-8 rounded-2xl border-2 border-emerald-700 bg-emerald-50/50 p-8 lg:grid-cols-[0.85fr_1.15fr]">
-            <div>
-              <p className="text-sm font-black uppercase tracking-widest text-emerald-700">Featured Success Story</p>
-              <h2 className="mt-3 text-3xl font-black leading-tight text-zinc-950 md:text-4xl">From Waste to Clean Energy</h2>
-              <p className="mt-5 text-sm font-medium leading-7 text-zinc-700">
-                A household in Narok County transformed their daily routine with Hot Flame Biogas. From smoky fires and high fuel costs to clean, affordable energy and organic fertilizer for their farm.
-              </p>
-              <div className="mt-7 grid gap-5 sm:grid-cols-3">
-                {[
-                  { icon: Flame, title: "Cleaner Cooking", text: "No more smoke, healthier homes." },
-                  { icon: Coins, title: "Saves Money", text: "Up to 60% savings on energy costs." },
-                  { icon: Sprout, title: "Organic Fertilizer", text: "Boosts soil health and crop yields." },
-                ].map((item) => (
-                  <div key={item.title}>
-                    <span className="grid h-14 w-14 place-items-center rounded-lg border border-emerald-200 bg-white text-emerald-700">
-                      <item.icon className="h-7 w-7" />
+      {/* Project Detail Modal */}
+      <Dialog.Root open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
+        <Dialog.Portal>
+          <Dialog.Overlay className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm animate-in fade-in duration-300" />
+          <Dialog.Content className="fixed left-[50%] top-[50%] z-[101] w-full max-w-4xl translate-x-[-50%] translate-y-[-50%] p-4 focus:outline-none">
+            <div className="relative overflow-hidden rounded-[2rem] bg-white shadow-2xl animate-in zoom-in-95 fade-in duration-300 text-left">
+              <Dialog.Close className="absolute right-6 top-6 z-20 rounded-full bg-white/90 p-2 text-zinc-900 shadow-lg backdrop-blur transition-all hover:scale-110 hover:bg-emerald-700 hover:text-white">
+                <X className="h-6 w-6" />
+                <span className="sr-only">Close</span>
+              </Dialog.Close>
+
+              <div className="grid lg:grid-cols-[1fr_0.8fr]">
+                {/* Image Carousel Side */}
+                <div className="bg-zinc-100">
+                  <Carousel
+                    items={selectedProject?.images || []}
+                    renderItem={(img, idx) => (
+                      <div key={idx} className="h-[300px] w-full lg:h-[500px]">
+                        <img src={img} alt="" className="h-full w-full object-cover" />
+                      </div>
+                    )}
+                    className="h-full"
+                  />
+                </div>
+
+                {/* Content Side */}
+                <div className="flex flex-col p-8 lg:p-10">
+                  <div className="flex items-center gap-3 text-emerald-700 mb-4">
+                    <span className="grid h-10 w-10 place-items-center rounded-lg bg-emerald-50 border border-emerald-100">
+                      {selectedProject && <selectedProject.icon className="h-5 w-5" />}
                     </span>
-                    <h3 className="mt-3 text-sm font-black text-emerald-700">{item.title}</h3>
-                    <p className="mt-1 text-xs font-medium leading-5 text-zinc-600">{item.text}</p>
+                    <span className="text-xs font-black uppercase tracking-widest">{selectedProject?.cat}</span>
                   </div>
-                ))}
+                  
+                  <Dialog.Title className="text-3xl font-black tracking-tight text-zinc-950">
+                    {selectedProject?.title}
+                  </Dialog.Title>
+                  
+                  <div className="mt-6 flex-1">
+                    <h4 className="text-sm font-black uppercase text-zinc-400 tracking-wider mb-2 text-left">Project Overview</h4>
+                    <Dialog.Description className="text-sm font-medium leading-relaxed text-zinc-600 text-left">
+                      {selectedProject?.description}
+                    </Dialog.Description>
+                  </div>
+
+                  <div className="mt-8 pt-8 border-t border-zinc-100">
+                    <div className="flex items-center justify-between">
+                      <div className="flex -space-x-3">
+                        {[1, 2, 3].map(i => (
+                          <div key={i} className="h-8 w-8 rounded-full border-2 border-white bg-zinc-200 overflow-hidden">
+                            <img src={`/assets/520757073_2951050318419308_839469618729031390_n.jpg`} alt="" />
+                          </div>
+                        ))}
+                      </div>
+                      <p className="text-xs font-bold text-zinc-500">Impacting hundreds of lives</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="grid overflow-hidden rounded-xl md:grid-cols-2">
-              <div className="relative h-80">
-                <img src="/assets/cow.jpeg" alt="Before clean biogas" className="h-full w-full object-cover" />
-                <span className="absolute left-3 top-3 rounded bg-zinc-700 px-3 py-1 text-xs font-black text-white">Before</span>
-              </div>
-              <div className="relative h-80">
-                <img src="/assets/project-3.jpg" alt="After biogas installation" className="h-full w-full object-cover" />
-                <span className="absolute left-3 top-3 rounded bg-emerald-700 px-3 py-1 text-xs font-black text-white">After</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+      
+      {/* ... rest of the Success Story and CTA sections ... */}
+      <SuccessStorySection />
 
       <section className="bg-white py-14">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
@@ -222,4 +229,47 @@ function Projects() {
       </section>
     </>
   );
+}
+
+function SuccessStorySection() {
+  return (
+    <section className="bg-white py-10">
+        <div className="mx-auto max-w-7xl px-5 md:px-8">
+          <div className="grid items-center gap-8 rounded-2xl border-2 border-emerald-700 bg-emerald-50/50 p-8 lg:grid-cols-[0.85fr_1.15fr]">
+            <div>
+              <p className="text-sm font-black uppercase tracking-widest text-emerald-700 text-left">Featured Success Story</p>
+              <h2 className="mt-3 text-3xl font-black leading-tight text-zinc-950 md:text-4xl text-left">From Waste to Clean Energy</h2>
+              <p className="mt-5 text-sm font-medium leading-7 text-zinc-700 text-left">
+                A household in Narok County transformed their daily routine with Hot Flame Biogas. From smoky fires and high fuel costs to clean, affordable energy and organic fertilizer for their farm.
+              </p>
+              <div className="mt-7 grid gap-5 sm:grid-cols-3">
+                {[
+                  { icon: Flame, title: "Cleaner Cooking", text: "No more smoke, healthier homes." },
+                  { icon: Coins, title: "Saves Money", text: "Up to 60% savings on energy costs." },
+                  { icon: Sprout, title: "Organic Fertilizer", text: "Boosts soil health and crop yields." },
+                ].map((item) => (
+                  <div key={item.title}>
+                    <span className="grid h-14 w-14 place-items-center rounded-lg border border-emerald-200 bg-white text-emerald-700 mx-auto sm:mx-0">
+                      <item.icon className="h-7 w-7" />
+                    </span>
+                    <h3 className="mt-3 text-sm font-black text-emerald-700 text-left">{item.title}</h3>
+                    <p className="mt-1 text-xs font-medium leading-5 text-zinc-600 text-left">{item.text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="grid overflow-hidden rounded-xl md:grid-cols-2">
+              <div className="relative h-80">
+                <img src="/assets/cow.jpeg" alt="Before clean biogas" className="h-full w-full object-cover" />
+                <span className="absolute left-3 top-3 rounded bg-zinc-700 px-3 py-1 text-xs font-black text-white">Before</span>
+              </div>
+              <div className="relative h-80">
+                <img src="/assets/project-3.jpg" alt="After biogas installation" className="h-full w-full object-cover" />
+                <span className="absolute left-3 top-3 rounded bg-emerald-700 px-3 py-1 text-xs font-black text-white">After</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+  )
 }
