@@ -53,7 +53,6 @@ const media = [
 ];
 
 const testimonials = [
-<<<<<<< HEAD
   {
     name: "Sr. Faith Wanjiku",
     role: "School Administrator",
@@ -69,19 +68,7 @@ const testimonials = [
     role: "Business Owner",
     text: "Professional team, quality work, and great support. I highly recommend Hotflame Biogas.",
   },
-=======
-  { name: "Mary N.", role: "Homeowner, Narok", text: "Our cooking is now smoke-free and faster. Hotflame Biogas did a great job. We are saving money and our kitchen is so much cleaner." },
-  { name: "Joseph K.", role: "Farmer, Narok", text: "Reliable system, excellent installation and great follow-up support. The slurry has improved our farm yields significantly." },
-  { name: "Grace M.", role: "School Administrator", text: "Hotflame Biogas is professional, knowledgeable and passionate about clean energy. Highly recommended!" },
-  { name: "Peter O.", role: "Dairy Farmer, Narok", text: "The system has reduced smoke in our kitchen and the slurry is helping our vegetables grow better than before." },
-  { name: "Ann W.", role: "Mother, Narok County", text: "We spend less on charcoal now. The team explained everything clearly and checked on us after installation." },
-  { name: "David K.", role: "Institution Manager", text: "Their work was organized from site assessment to training. The system is practical for our daily cooking needs." },
-  { name: "Mercy L.", role: "Smallholder Farmer", text: "Hotflame Biogas gave us a clean solution for waste and energy. It has made the compound cleaner and more useful." },
-  { name: "Samuel M.", role: "Community Leader", text: "The training helped our group understand biogas safety, maintenance and the value of organic fertilizer." },
-  { name: "Beatrice N.", role: "Homeowner, Narok", text: "We wanted something affordable and reliable. Their after-sales support has made the whole experience easier." },
->>>>>>> f499003b4eab424f3534a80730d2dbceba3abd1f
 ];
-
 
 function About() {
   return (
@@ -283,7 +270,6 @@ function About() {
             ))}
           </div>
 
-<<<<<<< HEAD
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {testimonials.map((item) => (
               <article
@@ -306,12 +292,6 @@ function About() {
               </article>
             ))}
           </div>
-=======
-             <div className="mt-8">
-                <TestimonialCarousel testimonials={testimonials} itemsPerView={3} />
-              </div>
-            
->>>>>>> f499003b4eab424f3534a80730d2dbceba3abd1f
         </div>
       </section>
 
