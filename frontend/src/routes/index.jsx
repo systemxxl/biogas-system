@@ -10,6 +10,7 @@ import {
   Sprout,
   Users,
 } from "lucide-react";
+import { TestimonialCarousel } from "../components/TestimonialCarousel";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -177,21 +178,12 @@ function Home() {
               Clients trust Hot Flame Biogas for reliable installations, clean cooking, and strong community support.
             </p>
           </div>
-          <div className="grid gap-6 md:grid-cols-3">
-            {testimonials.map((item) => (
-              <article key={item.name} className="rounded-3xl border border-zinc-200 bg-white p-7 shadow-sm">
-                <p className="text-5xl font-black leading-none text-emerald-700">“</p>
-                <p className="-mt-5 text-sm font-medium leading-7 text-zinc-700">{item.text}</p>
-                <div className="mt-6 flex items-center gap-3">
-                  <img src="/assets/520757073_2951050318419308_839469618729031390_n.jpg" alt="" className="h-12 w-12 rounded-full object-cover" />
-                  <div>
-                    <p className="font-black text-zinc-950">{item.name}</p>
-                    <p className="text-xs font-medium text-zinc-600">{item.role}</p>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
+
+            <div className="mt-8">
+              <TestimonialCarousel testimonials={testimonials} itemsPerView={3} />
+            </div>
+
+          
         </div>
       </section>
 

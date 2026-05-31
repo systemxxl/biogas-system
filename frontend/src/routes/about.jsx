@@ -12,6 +12,7 @@ import {
   Target,
   Users,
 } from "lucide-react";
+import { TestimonialCarousel } from "../components/TestimonialCarousel";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -51,10 +52,17 @@ const media = [
 ];
 
 const testimonials = [
-  { name: "Sr. Faith Wanjiku", role: "School Administrator", text: "Hotflame Biogas has improved our sanitation and saved us on energy costs. Their system is reliable and easy to use." },
-  { name: "Joseph Leparan", role: "Farmer, Narok County", text: "We now cook with clean biogas and use the slurry in our farm. This is real transformation for our family." },
-  { name: "Grace N.", role: "Business Owner", text: "Professional team, quality work, and great support. I highly recommend Hotflame Biogas." },
+  { name: "Mary N.", role: "Homeowner, Narok", text: "Our cooking is now smoke-free and faster. Hotflame Biogas did a great job. We are saving money and our kitchen is so much cleaner." },
+  { name: "Joseph K.", role: "Farmer, Narok", text: "Reliable system, excellent installation and great follow-up support. The slurry has improved our farm yields significantly." },
+  { name: "Grace M.", role: "School Administrator", text: "Hotflame Biogas is professional, knowledgeable and passionate about clean energy. Highly recommended!" },
+  { name: "Peter O.", role: "Dairy Farmer, Narok", text: "The system has reduced smoke in our kitchen and the slurry is helping our vegetables grow better than before." },
+  { name: "Ann W.", role: "Mother, Narok County", text: "We spend less on charcoal now. The team explained everything clearly and checked on us after installation." },
+  { name: "David K.", role: "Institution Manager", text: "Their work was organized from site assessment to training. The system is practical for our daily cooking needs." },
+  { name: "Mercy L.", role: "Smallholder Farmer", text: "Hotflame Biogas gave us a clean solution for waste and energy. It has made the compound cleaner and more useful." },
+  { name: "Samuel M.", role: "Community Leader", text: "The training helped our group understand biogas safety, maintenance and the value of organic fertilizer." },
+  { name: "Beatrice N.", role: "Homeowner, Narok", text: "We wanted something affordable and reliable. Their after-sales support has made the whole experience easier." },
 ];
+
 
 function About() {
   return (
@@ -182,21 +190,10 @@ function About() {
             ))}
           </div>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {testimonials.map((item) => (
-              <article key={item.name} className="rounded-xl border border-white/70 bg-white/85 p-7 shadow-lg backdrop-blur">
-                <p className="text-5xl font-black leading-none text-emerald-700">“</p>
-                <p className="-mt-5 text-sm font-medium leading-7 text-zinc-700">{item.text}</p>
-                <div className="mt-6 flex items-center gap-3">
-                  <img src="/assets/520757073_2951050318419308_839469618729031390_n.jpg" alt="" className="h-12 w-12 rounded-full object-cover" />
-                  <div>
-                    <p className="font-black text-zinc-950">{item.name}</p>
-                    <p className="text-xs font-medium text-zinc-600">{item.role}</p>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
+             <div className="mt-8">
+                <TestimonialCarousel testimonials={testimonials} itemsPerView={3} />
+              </div>
+            
         </div>
       </section>
 
