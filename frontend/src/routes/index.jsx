@@ -206,7 +206,7 @@ function Home() {
               Clean Biogas Systems for Homes and Communities
             </h1>
             <p className="mt-6 max-w-xl text-base leading-8 text-zinc-600">
-              We build trusted biogas solutions across Narok County, converting organic waste into
+              We build trusted biogas solutions across the Country, converting organic waste into
               affordable, smoke-free energy.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
@@ -273,9 +273,9 @@ function Home() {
               Powering Homes. Empowering Communities.
             </h2>
             <p className="mt-5 text-sm font-medium leading-7 text-zinc-700">
-              Hotflame Biogas is a clean energy social enterprise based in Narok Town, Kenya. We
-              provide end-to-end biogas solutions from system design and installation to appliance
-              setup, value addition, civic education and system restoration.
+              Hotflame Biogas is a clean energy social enterprise based in Kenya. We provide
+              end-to-end biogas solutions from system design and installation to appliance setup,
+              value addition, civic education and system restoration.
             </p>
             <div className="mt-7 grid grid-cols-2 gap-4 text-sm md:grid-cols-4">
               {[
@@ -421,11 +421,9 @@ function Home() {
             ))}
           </div>
 
-            <div className="mt-8">
-              <TestimonialCarousel testimonials={testimonials} itemsPerView={3} />
-            </div>
-
-          
+          <div className="mt-8">
+            <TestimonialCarousel testimonials={testimonials} itemsPerView={3} />
+          </div>
         </div>
       </section>
 
