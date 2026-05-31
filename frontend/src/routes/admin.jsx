@@ -34,10 +34,10 @@ function AdminLayout() {
   return (
     <AdminProvider>
       <div className="min-h-screen bg-zinc-50 flex flex-col">
-        {/* Top Navigation Bar */}
+        {/* Top Header */}
         <header className="h-20 bg-zinc-900 border-b border-white/10 flex items-center justify-between px-6 sticky top-0 z-40 text-white">
           <div className="flex items-center gap-10">
-            <Link to="/" className="flex items-center gap-3 no-underline group">
+            <Link to="/admin" className="flex items-center gap-3 no-underline group">
               <div className="h-8 w-8 rounded-lg bg-emerald-600 flex items-center justify-center font-black text-white group-hover:bg-emerald-500 transition-colors">
                 H
               </div>
@@ -45,30 +45,6 @@ function AdminLayout() {
                 HotFlame <span className="text-emerald-500">Admin</span>
               </span>
             </Link>
-
-            {/* Horizontal Nav */}
-            <nav className="hidden lg:flex items-center gap-2">
-              {menuItems.map((item) => {
-                const isActive = item.exact 
-                  ? location.pathname === item.to 
-                  : location.pathname.startsWith(item.to);
-                
-                return (
-                  <Link
-                    key={item.to}
-                    to={item.to}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all no-underline ${
-                      isActive 
-                        ? "bg-white/10 text-emerald-400 shadow-sm" 
-                        : "text-zinc-400 hover:text-white hover:bg-white/5"
-                    }`}
-                  >
-                    <item.icon size={16} className={isActive ? "text-emerald-400" : "text-zinc-500"} />
-                    <span className="text-xs font-bold uppercase tracking-widest">{item.label}</span>
-                  </Link>
-                );
-              })}
-            </nav>
           </div>
 
           <div className="flex items-center gap-4">
