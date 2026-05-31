@@ -6,6 +6,7 @@ const nav = [
   { to: "/", label: "Home" },
   { to: "/services", label: "Services" },
   { to: "/projects", label: "Projects/Gallery" },
+  { to: "/blogs", label: "Blogs" },
   { to: "/about", label: "About Us" },
 ];
 
