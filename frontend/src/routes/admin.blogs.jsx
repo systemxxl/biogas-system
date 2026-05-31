@@ -8,7 +8,7 @@ import {
   FileText
 } from "lucide-react";
 import { useState } from "react";
-import { useAdmin } from "../../components/admin/AdminContext";
+import { useAdmin } from "../components/admin/AdminContext";
 import { blogCategories } from "../../lib/blogs";
 import * as Dialog from "@radix-ui/react-dialog";
 

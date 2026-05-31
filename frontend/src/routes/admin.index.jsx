@@ -1,129 +1,152 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { 
   Plus, 
-  ArrowUpRight, 
   Users, 
   Wrench, 
   ImageIcon, 
   FileText, 
   TrendingUp,
-  Clock
+  Edit3,
+  Trash2,
+  ExternalLink,
+  ChevronRight,
+  ArrowRight
 } from "lucide-react";
+import { useAdmin } from "../components/admin/AdminContext";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminOverview,
 });
 
-const stats = [
-  { label: "Total Services", value: "8", icon: Wrench, color: "bg-blue-50 text-blue-600", trend: "+2 this month" },
-  { label: "Project Gallery", value: "124", icon: ImageIcon, color: "bg-emerald-50 text-emerald-600", trend: "+12 new photos" },
-  { label: "Blog Posts", value: "42", icon: FileText, color: "bg-amber-50 text-amber-600", trend: "+3 pending review" },
-  { label: "Service Inquiries", value: "12", icon: Users, color: "bg-purple-50 text-purple-600", trend: "from WhatsApp" },
-];
-
-const recentActivity = [
-  { action: "Updated", target: "Biogas Plant Installation", type: "Service", time: "2 hours ago" },
-  { action: "Added", target: "How Modern Biogas Digesters Work", type: "Blog", time: "5 hours ago" },
-  { action: "Uploaded", target: "Community Training Gallery", type: "Project", time: "Yesterday" },
-  { action: "Modified", target: "Fixed Dome vs. Floating Drum", type: "Blog", time: "2 days ago" },
-];
-
 function AdminOverview() {
+  const { 
+    blogs, deleteBlog,
+    projects, deleteProject,
+    services, deleteService 
+  } = useAdmin();
+
   return (
-    <div className="space-y-10">
+    <div className="space-y-12 text-left">
       {/* Welcome Section */}
-      <div>
-        <h1 className="text-3xl font-black text-zinc-950 tracking-tight">Welcome back, Mary</h1>
-        <p className="mt-2 text-zinc-500 font-medium">Manage your site content and track your impact from here.</p>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+          <h1 className="text-4xl font-black text-zinc-950 tracking-tight">Admin Dashboard</h1>
+          <p className="mt-2 text-zinc-500 font-medium italic">Manage HotFlame Biogas content from one place.</p>
+        </div>
+        <div className="flex gap-3">
+           <Link to="/admin/blogs" className="bg-emerald-600 text-white px-5 py-3 rounded-xl font-black text-xs uppercase tracking-widest no-underline shadow-lg shadow-emerald-900/20 hover:bg-emerald-700 transition-all">Add Content</Link>
+        </div>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
-          <div key={stat.label} className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm transition-hover hover:shadow-md">
-            <div className="flex items-start justify-between">
-              <div className={`p-3 rounded-xl ${stat.color}`}>
-                <stat.icon size={24} />
-              </div>
-              <div className="flex items-center gap-1 text-[10px] font-black text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full uppercase tracking-tighter">
-                <TrendingUp size={10} />
-                Live
-              </div>
+      {/* Stats Summary */}
+      <div className="grid gap-4 sm:grid-cols-3">
+        {[
+          { label: "Active Services", value: services.length, icon: Wrench, color: "text-blue-600" },
+          { label: "Gallery Projects", value: projects.length, icon: ImageIcon, color: "text-emerald-600" },
+          { label: "Blog Articles", value: blogs.length, icon: FileText, color: "text-amber-600" },
+        ].map((s) => (
+          <div key={s.label} className="bg-white p-6 rounded-2xl border border-zinc-100 shadow-sm flex items-center gap-5">
+            <div className="h-12 w-12 rounded-xl bg-zinc-50 flex items-center justify-center">
+              <s.icon size={24} className={s.color} />
             </div>
-            <div className="mt-5">
-              <p className="text-sm font-bold text-zinc-400 uppercase tracking-widest">{stat.label}</p>
-              <h3 className="text-3xl font-black text-zinc-950 mt-1">{stat.value}</h3>
-              <p className="mt-2 text-xs font-bold text-zinc-500">{stat.trend}</p>
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">{s.label}</p>
+              <h3 className="text-2xl font-black text-zinc-950">{s.value}</h3>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-[1.5fr_1fr]">
-        {/* Quick Actions */}
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-black text-zinc-950 tracking-tight">Quick Actions</h2>
+      {/* Management Sections */}
+      <div className="space-y-16">
+        
+        {/* Services Section */}
+        <section>
+          <div className="flex items-center justify-between mb-6 border-b border-zinc-100 pb-4">
+            <h2 className="text-xl font-black text-zinc-950 flex items-center gap-2">
+              <Wrench size={20} className="text-emerald-600" /> Services
+            </h2>
+            <Link to="/admin/services" className="text-xs font-black text-emerald-700 hover:underline uppercase tracking-widest no-underline flex items-center gap-1">
+              Manage All <ChevronRight size={14} />
+            </Link>
           </div>
-          
-          <div className="grid gap-4 sm:grid-cols-2">
-            {[
-              { to: "/admin/services", label: "Add New Service", icon: Wrench, color: "emerald" },
-              { to: "/admin/projects", label: "Upload Project Photo", icon: ImageIcon, color: "emerald" },
-              { to: "/admin/blogs", label: "Write Blog Post", icon: FileText, color: "emerald" },
-              { to: "/admin/settings", label: "Edit Site Info", icon: TrendingUp, color: "emerald" },
-            ].map((action) => (
-              <Link
-                key={action.label}
-                to={action.to}
-                className="group flex items-center gap-4 p-5 rounded-2xl bg-white border border-zinc-200 hover:border-emerald-500 hover:bg-emerald-50/30 transition-all no-underline shadow-sm"
-              >
-                <div className="h-12 w-12 rounded-xl bg-zinc-100 group-hover:bg-emerald-100 flex items-center justify-center text-zinc-500 group-hover:text-emerald-700 transition-colors">
-                  <action.icon size={22} />
+          <div className="grid gap-4">
+            {services.slice(0, 3).map((item) => (
+              <div key={item.id} className="bg-white p-4 rounded-2xl border border-zinc-100 shadow-sm flex items-center justify-between group">
+                <div className="flex items-center gap-4 min-w-0">
+                  <div className="h-10 w-10 rounded-lg bg-zinc-50 overflow-hidden shrink-0">
+                    <img src={item.image} alt="" className="h-full w-full object-cover" />
+                  </div>
+                  <p className="font-bold text-zinc-900 truncate text-sm">{item.title}</p>
                 </div>
-                <div className="flex-1">
-                  <p className="font-black text-zinc-950 group-hover:text-emerald-950">{action.label}</p>
-                  <p className="text-xs font-bold text-zinc-400">Update section</p>
+                <div className="flex items-center gap-2">
+                   <Link to="/admin/services" className="p-2 rounded-lg hover:bg-emerald-50 text-emerald-600 transition-colors"><Edit3 size={16} /></Link>
+                   <button onClick={() => deleteService(item.id)} className="p-2 rounded-lg hover:bg-red-50 text-red-600 transition-colors"><Trash2 size={16} /></button>
                 </div>
-                <Plus className="h-5 w-5 text-zinc-300 group-hover:text-emerald-500 transition-colors" />
-              </Link>
+              </div>
             ))}
           </div>
-        </div>
+        </section>
 
-        {/* Recent Activity */}
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-black text-zinc-950 tracking-tight text-left">Recent Activity</h2>
-            <Link to="/admin" className="text-xs font-black text-emerald-700 hover:underline uppercase tracking-widest no-underline">View Log</Link>
+        {/* Projects Section */}
+        <section>
+          <div className="flex items-center justify-between mb-6 border-b border-zinc-100 pb-4">
+            <h2 className="text-xl font-black text-zinc-950 flex items-center gap-2">
+              <ImageIcon size={20} className="text-emerald-600" /> Project Gallery
+            </h2>
+            <Link to="/admin/projects" className="text-xs font-black text-emerald-700 hover:underline uppercase tracking-widest no-underline flex items-center gap-1">
+              Manage All <ChevronRight size={14} />
+            </Link>
           </div>
-
-          <div className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden">
-            <div className="divide-y divide-zinc-100">
-              {recentActivity.map((activity, i) => (
-                <div key={i} className="p-4 flex items-start gap-4 hover:bg-zinc-50 transition-colors">
-                  <div className="h-9 w-9 rounded-full bg-zinc-100 flex items-center justify-center shrink-0">
-                    <Clock size={16} className="text-zinc-400" />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {projects.slice(0, 4).map((item) => (
+              <div key={item.id} className="bg-white p-3 rounded-2xl border border-zinc-100 shadow-sm group">
+                <div className="h-32 rounded-xl bg-zinc-50 overflow-hidden mb-3 relative">
+                  <img src={item.image} alt="" className="h-full w-full object-cover group-hover:scale-105 transition-transform" />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                    <Link to="/admin/projects" className="h-8 w-8 rounded-full bg-white text-emerald-600 flex items-center justify-center shadow-lg"><Edit3 size={14} /></Link>
+                    <button onClick={() => deleteProject(item.id)} className="h-8 w-8 rounded-full bg-white text-red-600 flex items-center justify-center shadow-lg"><Trash2 size={14} /></button>
                   </div>
-                  <div>
-                    <p className="text-sm font-bold text-zinc-900 leading-tight">
-                      {activity.action} <span className="text-emerald-700">{activity.target}</span>
-                    </p>
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="text-[10px] font-black uppercase text-zinc-400 tracking-tighter">{activity.type}</span>
-                      <span className="h-1 w-1 bg-zinc-200 rounded-full"></span>
-                      <span className="text-[10px] font-bold text-zinc-400">{activity.time}</span>
-                    </div>
-                  </div>
-                  <ArrowUpRight className="ml-auto h-4 w-4 text-zinc-300" />
                 </div>
-              ))}
-            </div>
-            <button className="w-full py-4 bg-zinc-50 border-t border-zinc-100 text-sm font-black text-zinc-500 hover:text-zinc-900 transition-colors">
-              Load More History
-            </button>
+                <p className="font-bold text-zinc-900 text-xs truncate">{item.title}</p>
+                <p className="text-[10px] font-black text-emerald-700 uppercase mt-1">{item.cat}</p>
+              </div>
+            ))}
           </div>
-        </div>
+        </section>
+
+        {/* Blogs Section */}
+        <section>
+          <div className="flex items-center justify-between mb-6 border-b border-zinc-100 pb-4">
+            <h2 className="text-xl font-black text-zinc-950 flex items-center gap-2">
+              <FileText size={20} className="text-emerald-600" /> Blog Articles
+            </h2>
+            <Link to="/admin/blogs" className="text-xs font-black text-emerald-700 hover:underline uppercase tracking-widest no-underline flex items-center gap-1">
+              Manage All <ChevronRight size={14} />
+            </Link>
+          </div>
+          <div className="bg-white rounded-2xl border border-zinc-100 shadow-sm overflow-hidden">
+            <table className="w-full text-left">
+              <tbody className="divide-y divide-zinc-50">
+                {blogs.slice(0, 5).map((post) => (
+                  <tr key={post.id} className="hover:bg-zinc-50/30 transition-colors group">
+                    <td className="px-6 py-4">
+                      <p className="text-sm font-bold text-zinc-900 truncate">{post.title}</p>
+                      <p className="text-[10px] font-black text-zinc-400 uppercase mt-0.5">{post.date} • {post.category}</p>
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <Link to="/admin/blogs" className="p-2 rounded-lg text-emerald-600 hover:bg-emerald-50"><Edit3 size={16} /></Link>
+                        <button onClick={() => deleteBlog(post.id)} className="p-2 rounded-lg text-red-600 hover:bg-red-50"><Trash2 size={16} /></button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ import {
   ImageIcon
 } from "lucide-react";
 import { useState } from "react";
-import { useAdmin } from "../../components/admin/AdminContext";
+import { useAdmin } from "../components/admin/AdminContext";
 import { projectCategories } from "../../lib/projects";
 import * as Dialog from "@radix-ui/react-dialog";
 
