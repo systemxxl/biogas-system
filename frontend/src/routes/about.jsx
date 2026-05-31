@@ -64,6 +64,7 @@ const testimonials = [
   { name: "Beatrice N.", role: "Homeowner, Narok", text: "We wanted something affordable and reliable. Their after-sales support has made the whole experience easier." },
 ];
 
+
 function About() {
   return (
     <>
