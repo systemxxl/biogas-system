@@ -37,7 +37,7 @@ export function SiteHeader() {
 
           <div className="flex items-center gap-1.5 text-[0.75rem] text-white/65">
             <Clock size={13} />
-            <span>Mon–Sat, 8am–6pm EAT</span>
+            <span>Everyday</span>
           </div>
         </div>
       </div>
@@ -68,15 +68,6 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-
-        {/* Desktop Call Button */}
-        <a
-          href="tel:+254715613635"
-          className="hidden items-center justify-center gap-2 rounded-md bg-emerald-700 px-4 py-3 text-sm font-bold text-white transition hover:bg-emerald-800 md:flex"
-        >
-          <Phone className="h-4 w-4" />
-          +254 715 613 635
-        </a>
 
         {/* Mobile Menu */}
         <details className="group relative md:hidden">
