@@ -2,23 +2,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   ArrowRight,
-  Building2,
-  CheckCircle2,
-  Coins,
-  Flame,
-  Leaf,
   MessageCircle,
-  Mic2,
-  Recycle,
-  Settings2,
-  Sprout,
-  Users,
-  Wrench,
   X,
 } from "lucide-react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { TestimonialCarousel } from "../components/TestimonialCarousel";
 import { Carousel } from "../components/Carousel";
+import { projectsGallery, projectCategories } from "../lib/projects";
 
 export const Route = createFileRoute("/projects")({
   head: () => ({
@@ -32,123 +22,6 @@ export const Route = createFileRoute("/projects")({
   }),
   component: Projects,
 });
-
-const filters = [
-  { id: "all", label: "All", icon: Leaf },
-  { id: "installations", label: "Installations", icon: Wrench },
-  { id: "restorations", label: "Restorations", icon: Settings2 },
-  { id: "training", label: "Training", icon: Users },
-  { id: "appliances", label: "Appliances", icon: Flame },
-  { id: "fertilizer", label: "Fertilizer", icon: Leaf },
-];
-
-const gallery = [
-  { 
-    id: 1,
-    cat: "installations", 
-    icon: Leaf, 
-    title: "Biogas Plant Installation", 
-    text: "New household biogas plant installation for clean cooking and sustainable living.", 
-    image: "/assets/645415092_122159713724958675_2122180214002289931_n.jpg",
-    images: [
-      "/assets/645415092_122159713724958675_2122180214002289931_n.jpg",
-      "/assets/645432563_122159713526958675_8841646942470576377_n.jpg",
-      "/assets/project-3.jpg"
-    ],
-    description: "This project involved the complete design and installation of a 6-cubic-meter household biogas digester. The system now provides enough gas for three full meals a day, significantly reducing the family's reliance on firewood and charcoal. The installation includes a high-efficiency biogas stove and a pressure gauge for monitoring gas production."
-  },
-  { 
-    id: 2,
-    cat: "training", 
-    icon: Users, 
-    title: "Community Training", 
-    text: "Training communities on biogas technology, operation and maintenance best practices.", 
-    image: "/assets/653370674_122161808180958675_2027784688729312152_n.jpg",
-    images: [
-      "/assets/653370674_122161808180958675_2027784688729312152_n.jpg",
-      "/assets/525562475_122105325824958675_2183548524119828192_n.jpg"
-    ],
-    description: "Our community outreach programs focus on empowering local residents with the knowledge to operate and maintain their biogas systems. This particular session in Narok Town brought together 15 households to discuss safety protocols, feedstock optimization, and the secondary benefits of bio-slurry for kitchen gardens."
-  },
-  { 
-    id: 3,
-    cat: "appliances", 
-    icon: Flame, 
-    title: "Appliance Setup", 
-    text: "Installation of biogas stoves and appliances for efficient and safe energy use.", 
-    image: "/assets/biogas stove.png",
-    images: [
-      "/assets/biogas stove.png",
-      "/assets/service-3.jpg"
-    ],
-    description: "We provide and install specialized biogas appliances, including single and double burner stoves, biogas lamps, and water heaters. These appliances are specifically calibrated for the lower pressure and composition of biogas, ensuring maximum thermal efficiency and safety in the kitchen."
-  },
-  { 
-    id: 4,
-    cat: "installations", 
-    icon: CheckCircle2, 
-    title: "Completed Digester", 
-    text: "Finished biogas digester ready for use, built to last and perform efficiently.", 
-    image: "/assets/project-3.jpg",
-    images: [
-      "/assets/project-3.jpg",
-      "/assets/finished doom installed.png"
-    ],
-    description: "A recently completed fixed-dome digester project. This type of digester is known for its durability and low maintenance costs. It features an integrated slurry tank that automatically collects bio-fertilizer, making it a circular solution for farmers who want to combine energy production with organic farming."
-  },
-  { 
-    id: 5,
-    cat: "installations", 
-    icon: Wrench, 
-    title: "Digester Construction", 
-    text: "Ongoing construction of a durable biogas digester from start to finish.", 
-    image: "/assets/645432563_122159713526958675_8841646942470576377_n.jpg",
-    images: [
-      "/assets/645432563_122159713526958675_8841646942470576377_n.jpg",
-      "/assets/service-1.jpg"
-    ],
-    description: "Construction phase of a large-scale institutional digester. This stage involves meticulous bricklaying and plastering to ensure the dome is completely gas-tight. Our skilled masonry team uses specialized techniques and high-quality waterproof cement to guarantee a lifespan of over 20 years."
-  },
-  { 
-    id: 6,
-    cat: "fertilizer", 
-    icon: Recycle, 
-    title: "Organic Fertilizer", 
-    text: "High-quality organic fertilizer produced as a by-product of biogas systems.", 
-    image: "/assets/kale.jpeg",
-    images: [
-      "/assets/kale.jpeg",
-      "/assets/cow.jpeg"
-    ],
-    description: "Bio-slurry is a powerful organic fertilizer that comes out of the digester after gas extraction. It is rich in nitrogen, phosphorus, and potassium. In this project, we helped a farmer set up an irrigation system to apply slurry directly to their kale crop, leading to a 40% increase in yield compared to chemical fertilizers."
-  },
-  { 
-    id: 7,
-    cat: "training", 
-    icon: Mic2, 
-    title: "Media & Awareness", 
-    text: "Radio and media outreach to educate and inspire more communities to adopt biogas.", 
-    image: "/assets/525562475_122105325824958675_2183548524119828192_n.jpg",
-    images: [
-      "/assets/525562475_122105325824958675_2183548524119828192_n.jpg",
-      "/assets/525607100_122105325632958675_1745228413023663076_n.jpg"
-    ],
-    description: "Through partnerships with local radio stations and community leaders, we share success stories and technical advice about biogas. This outreach is vital for debunking myths and showing the practical, daily impact of clean energy technology on health and household finances."
-  },
-  { 
-    id: 8,
-    cat: "installations", 
-    icon: Building2, 
-    title: "Institutional Project", 
-    text: "Biogas solutions for schools, institutions and commercial establishments.", 
-    image: "/assets/565137370_122134110734958675_5886927147664881699_n.jpg",
-    images: [
-      "/assets/565137370_122134110734958675_5886927147664881699_n.jpg",
-      "/assets/project-1.jpg"
-    ],
-    description: "This institutional-grade biogas system was installed at a local school to manage kitchen waste and provide gas for cooking student meals. It not only saves the school thousands of shillings in fuel costs but also provides a clean, smoke-free environment for the kitchen staff and students."
-  },
-];
 
 const testimonials = [
   { name: "Mary N.", role: "Homeowner, Narok", text: "Our cooking is now smoke-free and faster. Hotflame Biogas did a great job. We are saving money and our kitchen is so much cleaner." },
@@ -166,7 +39,7 @@ const testimonials = [
 function Projects() {
   const [active, setActive] = useState("all");
   const [selectedProject, setSelectedProject] = useState(null);
-  const visible = active === "all" ? gallery : gallery.filter((item) => item.cat === active);
+  const visible = active === "all" ? projectsGallery : projectsGallery.filter((item) => item.cat === active);
 
   return (
     <>
@@ -190,9 +63,9 @@ function Projects() {
             
             <div className="mt-10 flex flex-wrap justify-start gap-4">
               {[
-                { i: Leaf, n: "120+", l: "Biogas Systems Installed" },
-                { i: Users, n: "800+", l: "Happy Households" },
-                { i: Building2, n: "25+", l: "Institutions Served" },
+                { i: projectCategories.find(c => c.id === 'all').icon, n: "120+", l: "Biogas Systems Installed" },
+                { i: projectCategories.find(c => c.id === 'training').icon, n: "800+", l: "Happy Households" },
+                { i: projectCategories.find(c => c.id === 'installations').icon, n: "25+", l: "Institutions Served" },
               ].map((s) => (
                 <div
                   key={s.l}
@@ -215,7 +88,7 @@ function Projects() {
       <section className="bg-white py-6">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <div className="flex flex-wrap justify-center gap-3">
-            {filters.map((filter) => {
+            {projectCategories.map((filter) => {
               const activeFilter = active === filter.id;
               return (
                 <button
@@ -264,7 +137,7 @@ function Projects() {
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm animate-in fade-in duration-300" />
           <Dialog.Content className="fixed left-[50%] top-[50%] z-[101] w-full max-w-4xl translate-x-[-50%] translate-y-[-50%] p-4 focus:outline-none">
-            <div className="relative overflow-hidden rounded-[2rem] bg-white shadow-2xl animate-in zoom-in-95 fade-in duration-300">
+            <div className="relative overflow-hidden rounded-[2rem] bg-white shadow-2xl animate-in zoom-in-95 fade-in duration-300 text-left">
               <Dialog.Close className="absolute right-6 top-6 z-20 rounded-full bg-white/90 p-2 text-zinc-900 shadow-lg backdrop-blur transition-all hover:scale-110 hover:bg-emerald-700 hover:text-white">
                 <X className="h-6 w-6" />
                 <span className="sr-only">Close</span>
@@ -298,8 +171,8 @@ function Projects() {
                   </Dialog.Title>
                   
                   <div className="mt-6 flex-1">
-                    <h4 className="text-sm font-black uppercase text-zinc-400 tracking-wider mb-2">Project Overview</h4>
-                    <Dialog.Description className="text-sm font-medium leading-relaxed text-zinc-600">
+                    <h4 className="text-sm font-black uppercase text-zinc-400 tracking-wider mb-2 text-left">Project Overview</h4>
+                    <Dialog.Description className="text-sm font-medium leading-relaxed text-zinc-600 text-left">
                       {selectedProject?.description}
                     </Dialog.Description>
                   </div>
@@ -322,45 +195,8 @@ function Projects() {
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
-
-      <section className="bg-white py-10">
-        <div className="mx-auto max-w-7xl px-5 md:px-8">
-          <div className="grid items-center gap-8 rounded-2xl border-2 border-emerald-700 bg-emerald-50/50 p-8 lg:grid-cols-[0.85fr_1.15fr]">
-            <div>
-              <p className="text-sm font-black uppercase tracking-widest text-emerald-700">Featured Success Story</p>
-              <h2 className="mt-3 text-3xl font-black leading-tight text-zinc-950 md:text-4xl">From Waste to Clean Energy</h2>
-              <p className="mt-5 text-sm font-medium leading-7 text-zinc-700">
-                A household in Narok County transformed their daily routine with Hot Flame Biogas. From smoky fires and high fuel costs to clean, affordable energy and organic fertilizer for their farm.
-              </p>
-              <div className="mt-7 grid gap-5 sm:grid-cols-3">
-                {[
-                  { icon: Flame, title: "Cleaner Cooking", text: "No more smoke, healthier homes." },
-                  { icon: Coins, title: "Saves Money", text: "Up to 60% savings on energy costs." },
-                  { icon: Sprout, title: "Organic Fertilizer", text: "Boosts soil health and crop yields." },
-                ].map((item) => (
-                  <div key={item.title}>
-                    <span className="grid h-14 w-14 place-items-center rounded-lg border border-emerald-200 bg-white text-emerald-700">
-                      <item.icon className="h-7 w-7" />
-                    </span>
-                    <h3 className="mt-3 text-sm font-black text-emerald-700">{item.title}</h3>
-                    <p className="mt-1 text-xs font-medium leading-5 text-zinc-600">{item.text}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="grid overflow-hidden rounded-xl md:grid-cols-2">
-              <div className="relative h-80">
-                <img src="/assets/cow.jpeg" alt="Before clean biogas" className="h-full w-full object-cover" />
-                <span className="absolute left-3 top-3 rounded bg-zinc-700 px-3 py-1 text-xs font-black text-white">Before</span>
-              </div>
-              <div className="relative h-80">
-                <img src="/assets/project-3.jpg" alt="After biogas installation" className="h-full w-full object-cover" />
-                <span className="absolute left-3 top-3 rounded bg-emerald-700 px-3 py-1 text-xs font-black text-white">After</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      
+      <SuccessStorySection />
 
       <section className="bg-white py-14">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
@@ -392,4 +228,53 @@ function Projects() {
       </section>
     </>
   );
+}
+
+function SuccessStorySection() {
+  const { Flame, Coins, Sprout } = {
+    Flame: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>,
+    Coins: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18.1"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg>,
+    Sprout: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 20h10"/><path d="M10 20c5.5-2.5 1.5-12.5 4-15.5"/><path d="M14 20c-5.5-2.5-1.5-12.5-4-15.5"/><path d="M12 20V10"/></svg>
+  }
+
+  return (
+    <section className="bg-white py-10">
+        <div className="mx-auto max-w-7xl px-5 md:px-8">
+          <div className="grid items-center gap-8 rounded-2xl border-2 border-emerald-700 bg-emerald-50/50 p-8 lg:grid-cols-[0.85fr_1.15fr]">
+            <div>
+              <p className="text-sm font-black uppercase tracking-widest text-emerald-700 text-left">Featured Success Story</p>
+              <h2 className="mt-3 text-3xl font-black leading-tight text-zinc-950 md:text-4xl text-left">From Waste to Clean Energy</h2>
+              <p className="mt-5 text-sm font-medium leading-7 text-zinc-700 text-left">
+                A household in Narok County transformed their daily routine with Hot Flame Biogas. From smoky fires and high fuel costs to clean, affordable energy and organic fertilizer for their farm.
+              </p>
+              <div className="mt-7 grid gap-5 sm:grid-cols-3">
+                {[
+                  { icon: Flame, title: "Cleaner Cooking", text: "No more smoke, healthier homes." },
+                  { icon: Coins, title: "Saves Money", text: "Up to 60% savings on energy costs." },
+                  { icon: Sprout, title: "Organic Fertilizer", text: "Boosts soil health and crop yields." },
+                ].map((item) => (
+                  <div key={item.title}>
+                    <span className="grid h-14 w-14 place-items-center rounded-lg border border-emerald-200 bg-white text-emerald-700 mx-auto sm:mx-0">
+                      <item.icon className="h-7 w-7" />
+                    </span>
+                    <h3 className="mt-3 text-sm font-black text-emerald-700 text-left">{item.title}</h3>
+                    <p className="mt-1 text-xs font-medium leading-5 text-zinc-600 text-left">{item.text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="grid overflow-hidden rounded-xl md:grid-cols-2">
+              <div className="relative h-80">
+                <img src="/assets/cow.jpeg" alt="Before clean biogas" className="h-full w-full object-cover" />
+                <span className="absolute left-3 top-3 rounded bg-zinc-700 px-3 py-1 text-xs font-black text-white">Before</span>
+              </div>
+              <div className="relative h-80">
+                <img src="/assets/project-3.jpg" alt="After biogas installation" className="h-full w-full object-cover" />
+                <span className="absolute left-3 top-3 rounded bg-emerald-700 px-3 py-1 text-xs font-black text-white">After</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+  )
 }
