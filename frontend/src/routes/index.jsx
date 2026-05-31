@@ -206,7 +206,7 @@ function Home() {
               Clean Biogas Systems for Homes and Communities
             </h1>
             <p className="mt-6 max-w-xl text-base leading-8 text-zinc-600">
-              We build trusted biogas solutions across Narok County, converting organic waste into
+              We build trusted biogas solutions across the Country, converting organic waste into
               affordable, smoke-free energy.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
@@ -273,9 +273,9 @@ function Home() {
               Powering Homes. Empowering Communities.
             </h2>
             <p className="mt-5 text-sm font-medium leading-7 text-zinc-700">
-              Hotflame Biogas is a clean energy social enterprise based in Narok Town, Kenya. We
-              provide end-to-end biogas solutions from system design and installation to appliance
-              setup, value addition, civic education and system restoration.
+              Hotflame Biogas is a clean energy social enterprise based in Kenya. We provide
+              end-to-end biogas solutions from system design and installation to appliance setup,
+              value addition, civic education and system restoration.
             </p>
             <div className="mt-7 grid grid-cols-2 gap-4 text-sm md:grid-cols-4">
               {[
@@ -398,12 +398,41 @@ function Home() {
               community support.
             </p>
           </div>
+<<<<<<< HEAD
           
             <div className="mt-8">
               <TestimonialCarousel testimonials={testimonials} itemsPerView={3} />
             </div>
 
           
+=======
+          <div className="grid gap-6 md:grid-cols-3">
+            {testimonials.map((item) => (
+              <article
+                key={item.name}
+                className="rounded-3xl border border-zinc-200 bg-white p-7 shadow-sm"
+              >
+                <p className="text-5xl font-black leading-none text-emerald-700">“</p>
+                <p className="-mt-5 text-sm font-medium leading-7 text-zinc-700">{item.text}</p>
+                <div className="mt-6 flex items-center gap-3">
+                  <img
+                    src="/assets/520757073_2951050318419308_839469618729031390_n.jpg"
+                    alt=""
+                    className="h-12 w-12 rounded-full object-cover"
+                  />
+                  <div>
+                    <p className="font-black text-zinc-950">{item.name}</p>
+                    <p className="text-xs font-medium text-zinc-600">{item.role}</p>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-8">
+            <TestimonialCarousel testimonials={testimonials} itemsPerView={3} />
+          </div>
+>>>>>>> fa751836abed002e893e45fa715308664f1bd96e
         </div>
       </section>
 
