@@ -89,7 +89,7 @@ function BlogDetail() {
       {/* Featured Image */}
       <section className="bg-white">
         <div className="mx-auto max-w-5xl px-5 md:px-8">
-          <div className="overflow-hidden rounded-[2rem] shadow-2xl">
+          <div className="overflow-hidden shadow-2xl">
             <img src={post.image} alt={post.title} className="h-[400px] w-full object-cover md:h-[550px]" />
           </div>
         </div>
