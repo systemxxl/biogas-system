@@ -15,6 +15,7 @@ import {
   Users,
   Wrench,
 } from "lucide-react";
+import { TestimonialCarousel } from "../components/TestimonialCarousel";
 
 export const Route = createFileRoute("/projects")({
   head: () => ({
@@ -50,10 +51,17 @@ const gallery = [
 ];
 
 const testimonials = [
-  { name: "Mary N.", role: "Narok County, Kenya", text: "Hot Flame Biogas changed our lives. No more buying charcoal every week and our children no longer suffer from smoke in the kitchen." },
-  { name: "Joseph K.", role: "Narok County, Kenya", text: "The biogas plant is reliable and easy to use. The organic fertilizer has improved our crops so much." },
-  { name: "Grace M.", role: "School Administrator", text: "We installed a biogas system in our school and it has helped us save money and teach students about clean energy." },
+  { name: "Mary N.", role: "Homeowner, Narok", text: "Our cooking is now smoke-free and faster. Hotflame Biogas did a great job. We are saving money and our kitchen is so much cleaner." },
+  { name: "Joseph K.", role: "Farmer, Narok", text: "Reliable system, excellent installation and great follow-up support. The slurry has improved our farm yields significantly." },
+  { name: "Grace M.", role: "School Administrator", text: "Hotflame Biogas is professional, knowledgeable and passionate about clean energy. Highly recommended!" },
+  { name: "Peter O.", role: "Dairy Farmer, Narok", text: "The system has reduced smoke in our kitchen and the slurry is helping our vegetables grow better than before." },
+  { name: "Ann W.", role: "Mother, Narok County", text: "We spend less on charcoal now. The team explained everything clearly and checked on us after installation." },
+  { name: "David K.", role: "Institution Manager", text: "Their work was organized from site assessment to training. The system is practical for our daily cooking needs." },
+  { name: "Mercy L.", role: "Smallholder Farmer", text: "Hotflame Biogas gave us a clean solution for waste and energy. It has made the compound cleaner and more useful." },
+  { name: "Samuel M.", role: "Community Leader", text: "The training helped our group understand biogas safety, maintenance and the value of organic fertilizer." },
+  { name: "Beatrice N.", role: "Homeowner, Narok", text: "We wanted something affordable and reliable. Their after-sales support has made the whole experience easier." },
 ];
+
 
 function Projects() {
   const [active, setActive] = useState("all");
@@ -191,20 +199,9 @@ function Projects() {
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <p className="text-center text-sm font-black uppercase tracking-[0.3em] text-emerald-700">What Our Clients Say</p>
           <h2 className="mt-2 text-center text-3xl font-black text-zinc-950 md:text-4xl">Trusted by Families & Institutions</h2>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {testimonials.map((item) => (
-              <article key={item.name} className="rounded-xl border border-zinc-200 bg-white p-7 shadow-lg">
-                <p className="text-5xl font-black leading-none text-emerald-700">“</p>
-                <p className="-mt-5 text-sm font-medium leading-7 text-zinc-700">{item.text}</p>
-                <div className="mt-6 flex items-center gap-3">
-                  <img src="/assets/520757073_2951050318419308_839469618729031390_n.jpg" alt="" className="h-12 w-12 rounded-full object-cover" />
-                  <div>
-                    <p className="font-black text-zinc-950">{item.name}</p>
-                    <p className="text-xs font-medium text-zinc-600">{item.role}</p>
-                  </div>
-                </div>
-              </article>
-            ))}
+          
+          <div className="mt-8">
+            <TestimonialCarousel testimonials={testimonials} itemsPerView={3} />
           </div>
         </div>
       </section>

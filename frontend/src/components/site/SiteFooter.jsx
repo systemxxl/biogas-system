@@ -1,67 +1,109 @@
 import { Link } from "@tanstack/react-router";
-import { Flame, MapPin, Mail, Phone, Facebook, Twitter, Instagram, Youtube } from "lucide-react";
+import {
+  Facebook,
+  Globe2,
+  Instagram,
+  Mail,
+  MapPin,
+  MessageCircle,
+  Phone,
+  Youtube,
+} from "lucide-react";
+
+const quickLinks = [
+  { to: "/", label: "Home" },
+  { to: "/services", label: "Services" },
+  { to: "/projects", label: "Projects/Gallery" },
+  { to: "/about", label: "About Us" },
+];
+
+const services = [
+  "Biogas Plant Design & Installation",
+  "Appliance Setup",
+  "Biogas Value Addition",
+  "Civic Education & Training",
+  "System Maintenance & Restoration",
+];
 
 export function SiteFooter() {
   return (
-    <footer className="bg-[oklch(0.18_0.03_160)] text-white/85">
-      <div className="mx-auto max-w-7xl px-6 py-14 grid gap-10 md:grid-cols-4">
-        <div>
-          <div className="flex items-center gap-2 mb-4">
-            <span className="grid place-items-center w-9 h-9 rounded-md bg-brand text-brand-foreground">
-              <Flame className="w-4 h-4" />
-            </span>
-            <span className="font-display font-bold">
-              <span className="block leading-tight">HOT FLAME</span>
-              <span className="block text-[10px] text-brand tracking-widest">BIOGAS</span>
-            </span>
+    <footer className="text-white">
+      <div
+        className="relative bg-cover bg-center"
+        style={{ backgroundImage: "url('/assets/terrain.jpeg')" }}
+      >
+        <div className="absolute inset-0 bg-emerald-950/88" />
+        <div className="relative mx-auto grid max-w-7xl gap-10 px-5 py-12 md:grid-cols-[1.2fr_0.8fr_1fr_1.1fr] md:px-8">
+          <div>
+            <img
+              src="/assets/542691207_122122112558958675_2549281255820505158_n.jpg"
+              alt="Hot Flame Biogas"
+              className="mb-4 h-16 w-40 rounded bg-white object-contain p-1"
+            />
+            <p className="max-w-xs text-sm leading-6 text-white/80">
+              Turning organic waste into clean energy for a better, healthier planet.
+            </p>
+            <div className="mt-5 flex gap-3">
+              {[Facebook, Instagram, Youtube, MessageCircle].map((Icon, index) => (
+                <a
+                  key={index}
+                  href="#"
+                  className="grid h-9 w-9 place-items-center rounded-full bg-emerald-600 text-white transition hover:bg-emerald-500"
+                >
+                  <Icon className="h-4 w-4" />
+                </a>
+              ))}
+            </div>
           </div>
-          <p className="text-sm text-white/70">
-            Turning organic waste into clean energy for a better, healthier planet.
-          </p>
-          <div className="flex gap-3 mt-5">
-            {[Facebook, Twitter, Instagram, Youtube].map((Icon, i) => (
-              <a key={i} href="#" className="grid place-items-center w-9 h-9 rounded-full bg-brand text-white hover:bg-brand-dark">
-                <Icon className="w-4 h-4" />
-              </a>
-            ))}
+
+          <div>
+            <h3 className="mb-4 text-sm font-black tracking-widest">QUICK LINKS</h3>
+            <ul className="space-y-2 text-sm text-white/80">
+              {quickLinks.map((link) => (
+                <li key={link.to}>
+                  <Link to={link.to} className="transition hover:text-emerald-300">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
 
-        <div>
-          <h4 className="text-brand font-semibold mb-4 text-sm tracking-wide">QUICK LINKS</h4>
-          <ul className="space-y-2 text-sm">
-            <li><Link to="/" className="hover:text-brand">Home</Link></li>
-            <li><Link to="/services" className="hover:text-brand">Services</Link></li>
-            <li><Link to="/projects" className="hover:text-brand">Projects/Gallery</Link></li>
-            <li><Link to="/about" className="hover:text-brand">About Us</Link></li>
-          </ul>
-        </div>
+          <div>
+            <h3 className="mb-4 text-sm font-black tracking-widest">OUR SERVICES</h3>
+            <ul className="space-y-2 text-sm text-white/80">
+              {services.map((item) => (
+                <li key={item} className="flex gap-2">
+                  <span className="text-emerald-300">◆</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        <div>
-          <h4 className="text-brand font-semibold mb-4 text-sm tracking-wide">OUR SERVICES</h4>
-          <ul className="space-y-2 text-sm">
-            <li>Biogas Plant Design & Installation</li>
-            <li>Biogas Plant Restoration & Repairs</li>
-            <li>Biogas Stoves & Appliances</li>
-            <li>Training, Media & Awareness</li>
-            <li>Organic Fertilizer & By-products</li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="text-brand font-semibold mb-4 text-sm tracking-wide">GET IN TOUCH</h4>
-          <ul className="space-y-3 text-sm">
-            <li className="flex items-start gap-2"><MapPin className="w-4 h-4 mt-0.5 text-brand" /> Narok Town, Narok County, Kenya</li>
-            <li className="flex items-center gap-2"><Mail className="w-4 h-4 text-brand" /><span>info@hotflamebiogas.co.ke</span></li>
-            <li className="flex items-center gap-2"><Phone className="w-4 h-4 text-brand" /> +254 792 934 102</li>
-            <li className="flex items-center gap-2"><Phone className="w-4 h-4 text-brand" /> +254 792 934 102</li>
-          </ul>
+          <div>
+            <h3 className="mb-4 text-sm font-black tracking-widest">GET IN TOUCH</h3>
+            <ul className="space-y-3 text-sm text-white/80">
+              <li className="flex gap-3">
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-emerald-300" />
+                Kenya
+              </li>
+              <li className="flex gap-3">
+                <Phone className="h-4 w-4 shrink-0 text-emerald-300" />
+                +254 715 613 635
+              </li>
+              <li className="flex gap-3">
+                <Mail className="h-4 w-4 shrink-0 text-emerald-300" />
+                hotflamebiogas@gmail.com
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
 
-      <div className="border-t border-white/10 bg-[oklch(0.25_0.05_150)]">
-        <div className="mx-auto max-w-7xl px-6 py-4 flex flex-wrap justify-between gap-2 text-xs text-white/80">
-          <span>© 2025 - HOT FLAME BIOGAS. All Rights Reserved.</span>
+      <div className="bg-emerald-700">
+        <div className="mx-auto flex max-w-7xl flex-wrap justify-between gap-3 px-5 py-4 text-xs text-white/85 md:px-8">
+          <span>© 2026 Hotflame Biogas. All rights reserved.</span>
           <span>Clean Energy. Strong Communities. Sustainable Future.</span>
         </div>
       </div>

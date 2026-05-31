@@ -1,137 +1,368 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { MapPin, Leaf, ShieldCheck, ArrowRight, Flame, Settings2, Wrench, Sprout, GraduationCap, Recycle, Coins, Phone, Mail } from "lucide-react";
+import {
+  ArrowRight,
+  Coins,
+  Flame,
+  Leaf,
+  Mail,
+  MessageCircle,
+  Recycle,
+  RotateCcw,
+  Settings2,
+  ShieldCheck,
+  Sprout,
+  Users,
+  Wrench,
+} from "lucide-react";
+import { TestimonialCarousel } from "../components/TestimonialCarousel";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
-      { title: "Services — Hot Flame Biogas" },
-      { name: "description", content: "End-to-end biogas solutions: installation, appliance setup, restoration, training and maintenance." },
+      { title: "Services - Hot Flame Biogas" },
+      {
+        name: "description",
+        content:
+          "End-to-end biogas services for homes, farms, schools and communities.",
+      },
     ],
   }),
   component: Services,
 });
 
 const services = [
-  { icon: Flame, title: "Biogas Plant Installation", desc: "We design and install high-quality biogas digesters for homes, farms, institutions and communities." },
-  { icon: Settings2, title: "Appliance Setup", desc: "We install and configure biogas appliances including cookers, lamps, water heaters and generators." },
-  { icon: Wrench, title: "Dormant System Restoration", desc: "We restore inactive or underperforming biogas systems to full working capacity safely and efficiently." },
-  { icon: Sprout, title: "Gas Value Addition", desc: "We help you maximize biogas value through purification, compression and innovative utilization." },
-  { icon: GraduationCap, title: "Civic Education & Training", desc: "We empower communities with knowledge on clean energy, waste management and safe biogas use." },
-  { icon: ShieldCheck, title: "Maintenance & Support", desc: "We offer regular maintenance, inspections and technical support for reliable and long-lasting performance." },
+  {
+    icon: Flame,
+    title: "Biogas Plant Installation",
+    text: "We design and install high-quality biogas digesters for homes, farms, institutions and communities.",
+    image: "/assets/645415092_122159713724958675_2122180214002289931_n.jpg",
+  },
+  {
+    icon: Settings2,
+    title: "Appliance Setup",
+    text: "We install and configure biogas appliances including cookers, lamps, water heaters and generators.",
+    image: "/assets/biogas stove.png",
+  },
+  {
+    icon: RotateCcw,
+    title: "Dormant System Restoration",
+    text: "We restore inactive or underperforming biogas systems to full working capacity safely and efficiently.",
+    image: "/assets/project-3.jpg",
+  },
+  {
+    icon: Sprout,
+    title: "Gas Value Addition",
+    text: "We help you maximize biogas value through purification, compression and innovative utilization.",
+    image: "/assets/chuff cutter biogas powerd.png",
+  },
+  {
+    icon: Users,
+    title: "Civic Education & Training",
+    text: "We empower communities with knowledge on clean energy, waste management and safe biogas use.",
+    image: "/assets/653370674_122161808180958675_2027784688729312152_n.jpg",
+  },
+  {
+    icon: Wrench,
+    title: "Maintenance & Support",
+    text: "We offer regular maintenance, inspections and technical support for reliable and long-lasting performance.",
+    image: "/assets/565137370_122134110734958675_5886927147664881699_n.jpg",
+  },
 ];
 
 const steps = [
-  { n: 1, title: "Consultation", desc: "We understand your needs and recommend the best biogas solution." },
-  { n: 2, title: "Site Assessment", desc: "We evaluate your site, waste availability and energy needs." },
-  { n: 3, title: "Installation", desc: "Our team installs your system with quality and safety in mind." },
-  { n: 4, title: "User Training", desc: "We train users on safe operation and efficient usage." },
-  { n: 5, title: "After-Sales Support", desc: "We provide ongoing support, maintenance and system check-ups." },
+  {
+    title: "Consultation",
+    text: "We understand your needs and recommend the best biogas solution.",
+    image: "/assets/525235684_122105325746958675_8978318613629820094_n.jpg",
+  },
+  {
+    title: "Site Assessment",
+    text: "We evaluate your site, waste availability and energy needs.",
+    image: "/assets/645415092_122159713724958675_2122180214002289931_n.jpg",
+  },
+  {
+    title: "Installation",
+    text: "Our team installs your system with quality and safety in mind.",
+    image: "/assets/644338450_122159713730958675_2879931428597694725_n.jpg",
+  },
+  {
+    title: "User Training",
+    text: "We train users on safe operation and efficient usage.",
+    image: "/assets/653370674_122161808180958675_2027784688729312152_n.jpg",
+  },
+  {
+    title: "After-Sales Support",
+    text: "We provide ongoing support, maintenance and system check-ups.",
+    image: "/assets/565137370_122134110734958675_5886927147664881699_n.jpg",
+  },
 ];
 
-const why = [
-  { icon: Leaf, title: "Clean Energy", desc: "Biogas is a clean-burning fuel that reduces smoke, pollution and deforestation." },
-  { icon: Coins, title: "Saves Money", desc: "Lower energy bills and less reliance on firewood, charcoal and LPG." },
-  { icon: Recycle, title: "Sustainable Future", desc: "Converts waste to energy, improves sanitation and protects our environment." },
-  { icon: ShieldCheck, title: "Reliable Systems", desc: "Built for durability with expert support you can always count on." },
+const benefits = [
+  {
+    icon: Leaf,
+    title: "Clean Energy",
+    text: "Biogas is a clean-burning fuel that reduces smoke, pollution and deforestation.",
+  },
+  {
+    icon: Coins,
+    title: "Saves Money",
+    text: "Lower energy bills and less reliance on firewood, charcoal and LPG.",
+  },
+  {
+    icon: Recycle,
+    title: "Sustainable Future",
+    text: "Converts waste to energy, improves sanitation and protects our environment.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Reliable Systems",
+    text: "Built for durability with expert support you can always count on.",
+  },
+];
+
+const testimonials = [
+  {
+    name: "Mary N.",
+    role: "Homeowner, Narok",
+    text: "Our cooking is now smoke-free and faster. Hotflame Biogas did a great job. We are saving money and our kitchen is so much cleaner.",
+  },
+  {
+    name: "Joseph K.",
+    role: "Farmer, Narok",
+    text: "Reliable system, excellent installation and great follow-up support. The slurry has improved our farm yields significantly.",
+  },
+  {
+    name: "Grace M.",
+    role: "School Administrator",
+    text: "Hotflame Biogas is professional, knowledgeable and passionate about clean energy. Highly recommended!",
+  },
+  {
+    name: "Peter O.",
+    role: "Dairy Farmer, Narok",
+    text: "The system has reduced smoke in our kitchen and the slurry is helping our vegetables grow better than before.",
+  },
+  {
+    name: "Ann W.",
+    role: "Mother, Narok County",
+    text: "We spend less on charcoal now. The team explained everything clearly and checked on us after installation.",
+  },
+  {
+    name: "David K.",
+    role: "Institution Manager",
+    text: "Their work was organized from site assessment to training. The system is practical for our daily cooking needs.",
+  },
+  {
+    name: "Mercy L.",
+    role: "Smallholder Farmer",
+    text: "Hotflame Biogas gave us a clean solution for waste and energy. It has made the compound cleaner and more useful.",
+  },
+  {
+    name: "Samuel M.",
+    role: "Community Leader",
+    text: "The training helped our group understand biogas safety, maintenance and the value of organic fertilizer.",
+  },
+  {
+    name: "Beatrice N.",
+    role: "Homeowner, Narok",
+    text: "We wanted something affordable and reliable. Their after-sales support has made the whole experience easier.",
+  },
 ];
 
 function Services() {
   return (
     <>
-      <section className="relative pt-32 pb-20 bg-surface-muted">
-        <div className="mx-auto max-w-7xl px-6 grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <h1 className="font-display text-4xl md:text-6xl font-bold leading-[1.05]">
-              Our <span className="text-brand">Services</span>
+      <section className="relative min-h-[72vh] overflow-hidden text-white md:min-h-[76vh]">
+        <img
+          src="/assets/service-3.jpg"
+          alt="Biogas digester construction"
+          className="absolute inset-0 h-full w-full object-cover object-center"
+        />
+
+        <div className="absolute inset-0 bg-black/25" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/35 to-transparent" />
+
+        <div className="relative z-10 mx-auto flex min-h-[72vh] max-w-7xl items-center px-5 py-20 md:min-h-[76vh] md:px-8">
+          <div className="max-w-4xl">
+            <div className="mb-5 inline-flex items-center gap-3">
+              <span className="h-[2px] w-12 rounded-full bg-lime-300" />
+
+              <p className="text-sm font-bold uppercase tracking-[0.35em] text-lime-300 drop-shadow-lg">
+                Our Services
+              </p>
+            </div>
+
+            <h1 className="max-w-4xl text-4xl font-black leading-tight tracking-tight text-white drop-shadow-2xl sm:text-5xl lg:text-6xl">
+              Biogas Solutions for{" "}
+              <span className="text-lime-300">Homes, Farms</span> &
+              Communities
             </h1>
-            <h2 className="mt-4 font-display text-2xl md:text-3xl font-semibold">Clean Energy Solutions for Homes, Farms and Communities.</h2>
-            <p className="mt-4 text-muted-foreground max-w-xl">
-              We design, install and maintain biogas systems that turn organic waste into clean, affordable energy. From installation and appliance setup to training, restoration and ongoing support — we're with you every step of the way.
+
+            <p className="mt-6 max-w-2xl text-base font-medium leading-8 text-white/90 drop-shadow-xl sm:text-lg">
+              End-to-end biogas design, installation, appliance setup,
+              restoration, training, and maintenance built for lasting local
+              impact.
             </p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              
-              <Link to="/projects" className="inline-flex items-center gap-2 rounded-md border-2 border-brand text-brand px-5 py-3 text-sm font-semibold hover:bg-brand hover:text-brand-foreground">
-                View Our Projects <ArrowRight className="w-4 h-4" />
+
+            <div className="mt-8 flex flex-wrap gap-4">
+              <a
+                href="https://wa.me/+254715613635"
+                className="inline-flex items-center gap-2 rounded-full bg-lime-400 px-6 py-3 text-sm font-black text-zinc-950 shadow-xl transition hover:scale-105 hover:bg-lime-300"
+              >
+                Get a Consultation <ArrowRight className="h-4 w-4" />
+              </a>
+
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/10 px-6 py-3 text-sm font-black text-white shadow-lg backdrop-blur-sm transition hover:bg-white hover:text-zinc-950"
+              >
+                Contact Us
               </Link>
             </div>
-            <div className="mt-5 flex flex-wrap gap-2 text-xs">
-              {[ { i: Leaf, t: "Sustainable" }, { i: ShieldCheck, t: "Reliable" }].map((c) => (
-                <span key={c.t} className="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5">
-                  <c.i className="w-3.5 h-3.5 text-brand" /> {c.t}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white py-16">
+        <div className="mx-auto max-w-7xl px-5 md:px-8">
+          <p className="text-center text-sm font-black uppercase tracking-[0.3em] text-zinc-700">
+            What We Offer
+          </p>
+
+          <h2 className="mt-2 text-center text-3xl font-black text-zinc-950 md:text-4xl">
+            End-to-End Biogas Solutions
+          </h2>
+
+          <div className="mt-12 grid gap-7 md:grid-cols-2 lg:grid-cols-3">
+            {services.map((item) => (
+              <article
+                key={item.title}
+                className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
+              >
+                <div className="relative">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="h-40 w-full object-cover"
+                  />
+
+                  <span className="absolute left-4 top-4 grid h-14 w-14 place-items-center rounded-full border-4 border-white bg-emerald-700 text-white shadow-lg">
+                    <item.icon className="h-6 w-6" />
+                  </span>
+                </div>
+
+                <div className="p-5">
+                  <h3 className="font-black text-zinc-950">{item.title}</h3>
+
+                  <p className="mt-2 text-sm font-medium leading-6 text-zinc-600">
+                    {item.text}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="relative overflow-hidden bg-emerald-950 py-16 text-white">
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-40"
+          style={{ backgroundImage: "url('/assets/terrain.jpeg')" }}
+        />
+
+        <div className="relative mx-auto max-w-7xl px-5 md:px-8">
+          <h2 className="mb-10 text-center text-sm font-black uppercase tracking-[0.3em]">
+            How We Work
+          </h2>
+
+          <div className="grid gap-5 md:grid-cols-3 lg:grid-cols-5">
+            {steps.map((step, index) => (
+              <article
+                key={step.title}
+                className="rounded-xl bg-white p-4 text-zinc-900 shadow-xl"
+              >
+                <span className="grid h-8 w-8 place-items-center rounded-full bg-emerald-700 text-sm font-black text-white">
+                  {index + 1}
                 </span>
-              ))}
+
+                <h3 className="mt-3 text-sm font-black">{step.title}</h3>
+
+                <p className="mt-2 min-h-14 text-xs font-medium leading-5 text-zinc-600">
+                  {step.text}
+                </p>
+
+                <img
+                  src={step.image}
+                  alt={step.title}
+                  className="mt-4 h-28 w-full rounded-lg object-cover"
+                />
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-12 grid gap-4 rounded-xl border border-white/25 bg-white/20 p-4 backdrop-blur md:grid-cols-2 lg:grid-cols-4">
+            {benefits.map((item) => (
+              <div
+                key={item.title}
+                className="rounded-lg bg-white/90 p-5 text-zinc-900"
+              >
+                <item.icon className="mb-3 h-10 w-10 text-emerald-700" />
+
+                <h3 className="font-black text-emerald-700">{item.title}</h3>
+
+                <p className="mt-2 text-sm font-medium leading-6 text-zinc-600">
+                  {item.text}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-14 text-center text-sm font-black uppercase tracking-[0.3em]">
+            What Our Clients Say
+          </p>
+
+          <div className="mt-8">
+            <TestimonialCarousel testimonials={testimonials} itemsPerView={3} />
+          </div>
+
+          <div className="mt-10 grid items-center gap-6 rounded-xl border border-white/40 bg-emerald-900/80 p-6 md:grid-cols-[0.6fr_1.4fr_1fr]">
+            <img
+              src="/assets/650836646_122161105478958675_3445836754463755117_n.jpg"
+              alt="Hotflame Biogas team member"
+              className="hidden h-40 w-full rounded-lg object-cover object-top md:block"
+            />
+
+            <div>
+              <h2 className="text-3xl font-black">
+                Ready to Switch to Clean Energy?
+              </h2>
+
+              <p className="mt-1 text-2xl font-black text-emerald-300">
+                Let's Build a Greener Future Together.
+              </p>
+
+              <p className="mt-2 text-sm text-white/80">
+                Get a free consultation today and discover the power of biogas.
+              </p>
             </div>
-          </div>
-          <div className="aspect-[4/3] rounded-2xl bg-surface border border-border" />
-        </div>
-      </section>
 
-      {/* WHAT WE OFFER */}
-      <section className="py-20 bg-background">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="text-center mb-12">
-            <p className="text-muted-foreground text-sm tracking-widest">WHAT WE OFFER</p>
-            <h2 className="font-display text-3xl md:text-4xl font-bold mt-2">End-to-End Biogas Solutions</h2>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((s) => (
-              <div key={s.title} className="rounded-xl border border-border bg-card overflow-hidden">
-                <div className="aspect-[16/9] bg-surface-muted relative">
-                  <div className="absolute top-4 left-4 w-11 h-11 rounded-full bg-brand text-brand-foreground grid place-items-center">
-                    <s.icon className="w-5 h-5" />
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="font-semibold text-lg mb-2">{s.title}</h3>
-                  <p className="text-sm text-muted-foreground">{s.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            <div className="space-y-3 text-sm font-bold text-white/85">
+              <p>
+                <MessageCircle className="mr-2 inline h-4 w-4" />
+                +254 715 613 635
+              </p>
 
-      {/* HOW WE WORK */}
-      <section className="py-20 bg-[oklch(0.35_0.08_150)] text-white">
-        <div className="mx-auto max-w-7xl px-6">
-          <h2 className="text-center font-display text-3xl md:text-4xl font-bold mb-12">How We Work</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
-            {steps.map((s) => (
-              <div key={s.n} className="rounded-xl bg-card text-card-foreground p-5">
-                <div className="w-9 h-9 rounded-full bg-brand text-brand-foreground grid place-items-center font-bold mb-3">{s.n}</div>
-                <h3 className="font-semibold mb-1">{s.title}</h3>
-                <p className="text-xs text-muted-foreground mb-4">{s.desc}</p>
-                <div className="aspect-video rounded-lg bg-surface-muted" />
-              </div>
-            ))}
-          </div>
+              <p>
+                <Mail className="mr-2 inline h-4 w-4" />
+                hotflamebiogas@gmail.com
+              </p>
 
-          <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {why.map((w) => (
-              <div key={w.title} className="rounded-xl bg-card text-card-foreground p-5">
-                <div className="w-10 h-10 rounded-lg bg-accent text-brand grid place-items-center mb-3">
-                  <w.icon className="w-5 h-5" />
-                </div>
-                <h3 className="font-semibold text-sm text-brand">{w.title}</h3>
-                <p className="text-xs text-muted-foreground mt-1">{w.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section id="contact" className="py-16 bg-[oklch(0.3_0.07_150)] text-white">
-        <div className="mx-auto max-w-7xl px-6 grid lg:grid-cols-2 gap-8 items-center">
-          <div>
-            <h2 className="font-display text-3xl md:text-4xl font-bold">Ready to Switch to Clean Energy?</h2>
-            <p className="text-brand italic mt-2">Let's Build a Greener Future Together.</p>
-            <p className="text-white/80 mt-3">Get a free consultation today and discover the power of biogas.</p>
-          </div>
-          <div className="rounded-xl bg-card text-card-foreground p-6 grid gap-3 text-sm">
-            <div className="flex items-center gap-3"><Phone className="w-4 h-4 text-brand" /> +254 799 813 185</div>
-            <div className="flex items-center gap-3"><Mail className="w-4 h-4 text-brand" /> info@hotflamebiogas.co.ke</div>
-            <div className="flex items-center gap-3"><MapPin className="w-4 h-4 text-brand" /> Narok Town, Kenya</div>
+              <a
+                href="https://wa.me/+254715613635"
+                className="inline-flex items-center gap-2 rounded-md border border-white px-5 py-3 font-black transition hover:bg-white hover:text-emerald-900"
+              >
+                Chat on WhatsApp <MessageCircle className="h-4 w-4" />
+              </a>
+            </div>
           </div>
         </div>
       </section>
