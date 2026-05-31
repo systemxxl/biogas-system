@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { blogPosts, blogCategories } from "../lib/blogs";
 
-export const Route = createFileRoute("/blogs/")({
+export const Route = createFileRoute("/blogs")({
   head: () => ({
     meta: [
       { title: "Blogs & Insights - Hot Flame Biogas" },

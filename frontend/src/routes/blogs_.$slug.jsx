@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { blogPosts } from "../lib/blogs";
 
-export const Route = createFileRoute("/blogs/$slug")({
+export const Route = createFileRoute("/blogs_/$slug")({
   head: ({ params }) => {
     const post = blogPosts.find((p) => p.slug === params.slug);
     return {
