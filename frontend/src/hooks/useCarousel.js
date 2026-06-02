@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 
-/**
- * Custom hook for carousel functionality
- * @param {number} itemsPerView - Number of items visible at once (default: 3)
- * @param {number} autoPlayDuration - Duration in ms before auto-play rotates (default: 5000)
- * @returns {Object} - { currentIndex, next, prev, goTo, totalSlides }
- */
 export function useCarousel(totalItems, itemsPerView = 3, autoPlayDuration = 4000) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
-  
+
   const totalSlides = Math.ceil(totalItems / itemsPerView);
+
+  // Reset to slide 0 when itemsPerView changes (e.g. on resize),
+  // clamping to avoid pointing at a now-nonexistent slide.
+  useEffect(() => {
+    setCurrentIndex((prev) => (prev >= totalSlides ? 0 : prev));
+  }, [totalSlides]);
 
   // Auto-play effect
   useEffect(() => {
