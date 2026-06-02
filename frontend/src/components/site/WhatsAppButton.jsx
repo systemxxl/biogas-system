@@ -21,7 +21,7 @@ export function WhatsAppButton() {
     "Hello Hot Flame Biogas! I'm interested in your biogas installation services. Can you help me?",
   );
 
-  const whatsappUrl = `https://wa.me/254719578313?text=${message}`;
+  const whatsappUrl = `https://wa.me/+254715613635?text=${message}`;
 
   return (
     <div className="flex flex-col items-end gap-3 pointer-events-none">
