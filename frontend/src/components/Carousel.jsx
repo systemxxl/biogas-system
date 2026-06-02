@@ -74,18 +74,18 @@ export function Carousel({
         <>
           <button
             onClick={prev}
-            className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 rounded-full bg-emerald-700 p-1.5 sm:p-2 text-white shadow-lg transition-all duration-300 hover:scale-125 hover:bg-emerald-800"
+            className="absolute left-2 top-1/2 -translate-y-1/2 z-10 rounded-full bg-emerald-700 p-2 text-white shadow-lg transition-all duration-300 hover:scale-125 hover:bg-emerald-800 md:left-0"
             aria-label="Previous slide"
           >
-            <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+            <ChevronLeft className="h-5 w-5" />
           </button>
 
           <button
             onClick={next}
-            className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 rounded-full bg-emerald-700 p-1.5 sm:p-2 text-white shadow-lg transition-all duration-300 hover:scale-125 hover:bg-emerald-800"
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-10 rounded-full bg-emerald-700 p-2 text-white shadow-lg transition-all duration-300 hover:scale-125 hover:bg-emerald-800 md:right-0"
             aria-label="Next slide"
           >
-            <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
+            <ChevronRight className="h-5 w-5" />
           </button>
 
           <div className="mt-6 sm:mt-8 flex justify-center gap-2">

@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import {
   ArrowRight,
   CheckCircle2,
@@ -9,8 +10,13 @@ import {
   ShieldCheck,
   Sprout,
   Users,
+  Loader2
 } from "lucide-react";
 import { TestimonialCarousel } from "../components/TestimonialCarousel";
+import { getServices, getProjects, getTestimonials } from "../lib/api/supabase.api";
+import { getIcon } from "../lib/icons";
+import { mainServices as initialServices } from "../lib/services";
+import { projectsGallery as initialProjects } from "../lib/projects";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -77,66 +83,7 @@ const process = [
   },
 ];
 
-const projects = [
-  {
-    title: "Biogas Installation",
-    text: "Quality installations built to last for years.",
-    image: "/assets/644338450_122159713730958675_2879931428597694725_n.jpg",
-  },
-  {
-    title: "Completed Digesters",
-    text: "Safe, durable and efficient biogas systems.",
-    image: "/assets/645415092_122159713724958675_2122180214002289931_n.jpg",
-  },
-  {
-    title: "Digester Construction",
-    text: "From planning to completion, we deliver.",
-    image: "/assets/645432563_122159713526958675_8841646942470576377_n.jpg",
-  },
-  {
-    title: "Inside Construction",
-    text: "Strong workmanship for maximum performance.",
-    image: "/assets/644007844_122159713376958675_7700649984692294465_n.jpg",
-  },
-  {
-    title: "Media & Community",
-    text: "Educating and engaging communities for change.",
-    image: "/assets/653370674_122161808180958675_2027784688729312152_n.jpg",
-  },
-];
-const services = [
-  {
-    title: "Biogas System Installation",
-    text: "Professional design and installation of household, farm and institutional biogas systems.",
-    icon: Flame,
-  },
-  {
-    title: "Biogas Appliance Setup",
-    text: "Installation of biogas stoves, lamps, water heaters and related equipment.",
-    icon: Sprout,
-  },
-  {
-    title: "System Maintenance",
-    text: "Regular inspection, repairs and maintenance to keep your system running efficiently.",
-    icon: ShieldCheck,
-  },
-  {
-    title: "System Restoration",
-    text: "Reviving old or non-functioning biogas plants and upgrading existing systems.",
-    icon: Recycle,
-  },
-  {
-    title: "Training & Civic Education",
-    text: "Community education, user training and awareness programs on clean energy.",
-    icon: Users,
-  },
-  {
-    title: "Organic Fertilizer Solutions",
-    text: "Helping farmers maximize the value of bio-slurry for healthier crops and soil.",
-    icon: Leaf,
-  },
-];
-const testimonials = [
+const staticTestimonials = [
   {
     name: "Mary N.",
     role: "Homeowner, Narok",
@@ -184,8 +131,6 @@ const testimonials = [
   },
 ];
 
-const scrollingTestimonials = [...testimonials, ...testimonials];
-
 const stats = [
   { number: "120+", label: "Installations Completed", icon: Flame },
   { number: "800+", label: "Families Empowered", icon: Users },
@@ -194,6 +139,27 @@ const stats = [
 ];
 
 function Home() {
+  const { data: dbServices, isLoading: servicesLoading } = useQuery({
+    queryKey: ['services'],
+    queryFn: getServices,
+  });
+
+  const { data: dbProjects, isLoading: projectsLoading } = useQuery({
+    queryKey: ['projects'],
+    queryFn: getProjects,
+  });
+
+  const { data: dbTestimonials } = useQuery({
+    queryKey: ['testimonials'],
+    queryFn: getTestimonials,
+  });
+
+  const services = dbServices?.length > 0 ? dbServices : initialServices;
+  const projects = dbProjects?.length > 0 ? dbProjects : initialProjects;
+  const testimonials = dbTestimonials?.length > 0 ? dbTestimonials : staticTestimonials;
+
+  const featuredProjects = projects.slice(0, 5);
+
   return (
     <>
       <section className="bg-white">
@@ -315,18 +281,21 @@ function Home() {
           </div>
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {services.map((service) => (
-              <div
-                key={service.title}
-                className="group rounded-3xl border border-zinc-200 bg-white p-8 shadow-sm transition hover:-translate-y-2 hover:shadow-xl"
-              >
-                <service.icon className="mb-5 h-12 w-12 text-emerald-700 transition group-hover:scale-110" />
+            {services.map((service) => {
+              const Icon = typeof service.icon === 'string' ? getIcon(service.icon) : service.icon;
+              return (
+                <div
+                  key={service.id || service.title}
+                  className="group rounded-3xl border border-zinc-200 bg-white p-8 shadow-sm transition hover:-translate-y-2 hover:shadow-xl"
+                >
+                  <Icon className="mb-5 h-12 w-12 text-emerald-700 transition group-hover:scale-110" />
 
-                <h3 className="text-xl font-black text-zinc-950">{service.title}</h3>
+                  <h3 className="text-xl font-black text-zinc-950">{service.title}</h3>
 
-                <p className="mt-3 text-sm leading-7 text-zinc-600">{service.text}</p>
-              </div>
-            ))}
+                  <p className="mt-3 text-sm leading-7 text-zinc-600">{service.text}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -362,15 +331,15 @@ function Home() {
             Our Projects & Impact
           </h2>
           <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-5">
-            {projects.map((project) => (
+            {featuredProjects.map((project) => (
               <article
-                key={project.title}
+                key={project.id || project.title}
                 className="overflow-hidden rounded-lg bg-white text-zinc-900 shadow-xl"
               >
-                <img src={project.image} alt={project.title} className="h-36 w-full object-cover" />
+                <img src={project.main_image || project.image} alt={project.title} className="h-36 w-full object-cover" />
                 <div className="p-4">
                   <h3 className="text-sm font-black">{project.title}</h3>
-                  <p className="mt-1 text-xs font-medium leading-5 text-zinc-600">{project.text}</p>
+                  <p className="mt-1 text-xs font-medium leading-5 text-zinc-600">{project.excerpt || project.text}</p>
                 </div>
               </article>
             ))}

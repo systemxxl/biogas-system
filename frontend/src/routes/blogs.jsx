@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import {
   ArrowRight,
   BookOpen,
@@ -9,8 +10,10 @@ import {
   Search,
   User,
   Leaf,
+  Loader2
 } from "lucide-react";
 import { blogPosts, blogCategories } from "../lib/blogs";
+import { getBlogs } from "../lib/api/supabase.api";
 
 export const Route = createFileRoute("/blogs")({
   head: () => ({
@@ -29,7 +32,14 @@ function Blogs() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredPosts = blogPosts.filter((post) => {
+  const { data: dbPosts, isLoading } = useQuery({
+    queryKey: ['blogs'],
+    queryFn: getBlogs,
+  });
+
+  const posts = dbPosts?.length > 0 ? dbPosts : blogPosts;
+
+  const filteredPosts = posts.filter((post) => {
     const matchesCategory = activeCategory === "all" || post.category === activeCategory;
     const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
@@ -93,7 +103,11 @@ function Blogs() {
 
           {/* Blog Grid */}
           <div className="mt-12">
-            {filteredPosts.length > 0 ? (
+            {isLoading && posts.length === 0 ? (
+              <div className="flex justify-center py-20">
+                <Loader2 className="h-8 w-8 animate-spin text-emerald-700" />
+              </div>
+            ) : filteredPosts.length > 0 ? (
               <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                 {filteredPosts.map((post) => (
                   <article 
@@ -123,7 +137,7 @@ function Blogs() {
                         </span>
                         <span className="flex items-center gap-1.5">
                           <Clock className="h-3.5 w-3.5" />
-                          {post.readTime}
+                          {post.read_time || post.readTime}
                         </span>
                       </div>
 

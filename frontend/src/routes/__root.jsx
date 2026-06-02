@@ -110,19 +110,23 @@ function RootShell({ children }) {
   );
 }
 
+import { AuthProvider } from "@/components/admin/AuthContext";
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <SiteHeader />
-      <main className="min-h-screen">
-        <Outlet />
-      </main>
-      <SiteFooter />
-      <div className="fixed bottom-6 right-6 flex flex-col gap-4 z-[999]">
-        <WhatsAppButton />
-      </div>
-    </QueryClientProvider>
+    <AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <SiteHeader />
+        <main className="min-h-screen">
+          <Outlet />
+        </main>
+        <SiteFooter />
+        <div className="fixed bottom-6 right-6 flex flex-col gap-4 z-[999]">
+          <WhatsAppButton />
+        </div>
+      </QueryClientProvider>
+    </AuthProvider>
   );
 }

@@ -1,16 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import {
   ArrowLeft,
   Calendar,
   Clock,
   Tag,
-  User,
   ArrowRight,
+  Loader2,
 } from "lucide-react";
 import { blogPosts } from "../lib/blogs";
+import { getBlogBySlug, getBlogs } from "../lib/api/supabase.api";
 
 export const Route = createFileRoute("/blogs_/$slug")({
   head: ({ params }) => {
+    // Note: head can't easily use async data yet without loader integration, 
+    // so we'll fallback to static for meta if found, or generic.
     const post = blogPosts.find((p) => p.slug === params.slug);
     return {
       meta: [
@@ -27,7 +31,26 @@ export const Route = createFileRoute("/blogs_/$slug")({
 
 function BlogDetail() {
   const { slug } = Route.useParams();
-  const post = blogPosts.find((p) => p.slug === slug);
+
+  const { data: post, isLoading: postLoading } = useQuery({
+    queryKey: ['blog', slug],
+    queryFn: () => getBlogBySlug(slug),
+  });
+
+  const { data: dbPosts } = useQuery({
+    queryKey: ['blogs'],
+    queryFn: getBlogs,
+  });
+
+  const allPosts = dbPosts?.length > 0 ? dbPosts : blogPosts;
+
+  if (postLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-white">
+        <Loader2 className="h-8 w-8 animate-spin text-emerald-700" />
+      </div>
+    );
+  }
 
   if (!post) {
     return (
@@ -41,8 +64,8 @@ function BlogDetail() {
     );
   }
 
-  const relatedPosts = blogPosts
-    .filter((p) => p.id !== post.id && p.category === post.category)
+  const relatedPosts = allPosts
+    .filter((p) => p.slug !== post.slug && p.category === post.category)
     .slice(0, 2);
 
   return (
@@ -66,7 +89,7 @@ function BlogDetail() {
             </span>
             <span className="flex items-center gap-1.5 text-zinc-400">
               <Clock className="h-3.5 w-3.5" />
-              {post.readTime}
+              {post.read_time || post.readTime}
             </span>
           </div>
 
@@ -107,7 +130,7 @@ function BlogDetail() {
           </div>
 
           <div className="mt-16 flex flex-wrap gap-2 border-t border-zinc-100 pt-10">
-            {post.tags.map(tag => (
+            {(post.tags || []).map(tag => (
               <span key={tag} className="flex items-center gap-1 rounded-full bg-zinc-100 px-4 py-2 text-xs font-bold text-zinc-500">
                 <Tag className="h-3.5 w-3.5" />
                 {tag}
@@ -125,7 +148,7 @@ function BlogDetail() {
             <div className="grid gap-8 md:grid-cols-2">
               {relatedPosts.map((rp) => (
                 <Link 
-                  key={rp.id}
+                  key={rp.id || rp.slug}
                   to="/blogs/$slug"
                   params={{ slug: rp.slug }}
                   className="group block bg-white rounded-2xl border border-zinc-100 overflow-hidden shadow-sm transition-all hover:shadow-xl hover:-translate-y-1"
