@@ -81,7 +81,7 @@ export const Route = createRootRouteWithContext()({
       { property: "og:description", content: "Clean biogas solutions in Kenya" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+    
     ],
     links: [
       {
