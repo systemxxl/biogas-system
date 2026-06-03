@@ -130,17 +130,10 @@ function Services() {
             <div className="mt-8 flex flex-wrap gap-4">
               <a
                 href="https://wa.me/+254715613635"
-                className="inline-flex items-center gap-2 rounded-full bg-lime-400 px-6 py-3 text-sm font-black text-zinc-950 shadow-xl transition hover:scale-105 hover:bg-lime-300"
+                className="inline-flex items-center gap-2 rounded-full bg-lime-400 px-6 py-3 text-sm font-black text-zinc-950 shadow-xl transition hover:scale-105 hover:bg-lime-500"
               >
                 Get a Consultation <ArrowRight className="h-4 w-4" />
               </a>
-
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/10 px-6 py-3 text-sm font-black text-white shadow-lg backdrop-blur-sm transition hover:bg-white hover:text-zinc-950"
-              >
-                Contact Us
-              </Link>
             </div>
           </div>
         </div>

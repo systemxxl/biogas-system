@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as DonationsRouteImport } from './routes/donations'
 import { Route as BlogsRouteImport } from './routes/blogs'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdminRouteRouteImport } from './routes/admin/route'
@@ -35,6 +36,11 @@ const ProjectsRoute = ProjectsRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DonationsRoute = DonationsRouteImport.update({
+  id: '/donations',
+  path: '/donations',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogsRoute = BlogsRouteImport.update({
@@ -88,6 +94,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/blogs': typeof BlogsRoute
+  '/donations': typeof DonationsRoute
   '/login': typeof LoginRoute
   '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
@@ -101,6 +108,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/blogs': typeof BlogsRoute
+  '/donations': typeof DonationsRoute
   '/login': typeof LoginRoute
   '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
@@ -116,6 +124,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/blogs': typeof BlogsRoute
+  '/donations': typeof DonationsRoute
   '/login': typeof LoginRoute
   '/projects': typeof ProjectsRoute
   '/services': typeof ServicesRoute
@@ -132,6 +141,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/about'
     | '/blogs'
+    | '/donations'
     | '/login'
     | '/projects'
     | '/services'
@@ -145,6 +155,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/blogs'
+    | '/donations'
     | '/login'
     | '/projects'
     | '/services'
@@ -159,6 +170,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/about'
     | '/blogs'
+    | '/donations'
     | '/login'
     | '/projects'
     | '/services'
@@ -174,6 +186,7 @@ export interface RootRouteChildren {
   AdminRouteRoute: typeof AdminRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   BlogsRoute: typeof BlogsRoute
+  DonationsRoute: typeof DonationsRoute
   LoginRoute: typeof LoginRoute
   ProjectsRoute: typeof ProjectsRoute
   ServicesRoute: typeof ServicesRoute
@@ -201,6 +214,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/donations': {
+      id: '/donations'
+      path: '/donations'
+      fullPath: '/donations'
+      preLoaderRoute: typeof DonationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blogs': {
@@ -292,6 +312,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRouteRoute: AdminRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   BlogsRoute: BlogsRoute,
+  DonationsRoute: DonationsRoute,
   LoginRoute: LoginRoute,
   ProjectsRoute: ProjectsRoute,
   ServicesRoute: ServicesRoute,
