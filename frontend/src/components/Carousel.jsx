@@ -28,6 +28,26 @@ export function Carousel({
       if (itemsPerView[bp] != null) return itemsPerView[bp];
     }
     return 1;
+  const breakpoint = useBreakpoint();
+
+  const resolvedItemsPerView = (() => {
+    if (typeof itemsPerView === "number") {
+      return itemsPerView;
+    }
+
+    switch (breakpoint) {
+      case "lg":
+        return itemsPerView.lg ?? itemsPerView.md ?? itemsPerView.sm ?? itemsPerView.base ?? 1;
+
+      case "md":
+        return itemsPerView.md ?? itemsPerView.sm ?? itemsPerView.base ?? 1;
+
+      case "sm":
+        return itemsPerView.sm ?? itemsPerView.base ?? 1;
+
+      default:
+        return itemsPerView.base ?? 1;
+    }
   })();
 
   const { currentIndex, next, prev, goTo, totalSlides, handleMouseEnter, handleMouseLeave } =
@@ -35,14 +55,15 @@ export function Carousel({
 
   const itemGroups = Array.from({ length: totalSlides }, (_, groupIndex) => {
     const start = groupIndex * resolvedItemsPerView;
+
     return items.slice(start, start + resolvedItemsPerView);
   });
 
-  if (!items || items.length === 0) return null;
+  if (!items?.length) return null;
 
   return (
     <div
-      className={`relative ${className}`}
+      className={`relative w-full ${className}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

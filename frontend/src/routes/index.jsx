@@ -162,48 +162,48 @@ function Home() {
 
   return (
     <>
-      <section className="bg-white">
-        <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 lg:flex lg:items-center lg:justify-between">
-          <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-700">
+      <section className="relative overflow-hidden">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: "url('/assets/biogas plant.jpeg')",
+          }}
+        />
+
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/60" />
+
+        {/* Content */}
+        <div className="relative mx-auto max-w-7xl px-5 py-24 md:px-8 lg:py-40">
+          <div className="max-w-3xl text-white">
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-300">
               Hot Flame Biogas
             </p>
-            <h1 className="mt-4 text-4xl font-black tracking-tight text-zinc-950 sm:text-5xl lg:text-6xl">
+
+            <h1 className="mt-4 text-4xl font-black tracking-tight sm:text-5xl lg:text-7xl">
               Clean Biogas Systems for Homes and Communities
             </h1>
-            <p className="mt-6 max-w-xl text-base leading-8 text-zinc-600">
-              We build trusted biogas solutions across the Country, converting organic waste into
-              affordable, smoke-free energy.
+
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-white/90">
+              We build trusted biogas solutions across Kenya, converting organic waste into
+              affordable, smoke-free energy while protecting the environment.
             </p>
+
             <div className="mt-8 flex flex-wrap gap-4">
               <a
-                href="https://wa.me/+254715613635"
-                className="inline-flex items-center gap-2 rounded-full bg-emerald-700 px-6 py-3 text-sm font-black text-white shadow-lg transition hover:bg-emerald-800"
+                href="https://wa.me/254715613635"
+                className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-6 py-3 text-sm font-black text-white shadow-lg transition hover:bg-emerald-700"
               >
                 Free Consultation <ArrowRight className="h-4 w-4" />
               </a>
+
               <Link
                 to="/projects"
-                className="inline-flex items-center gap-2 rounded-full border border-emerald-700 px-6 py-3 text-sm font-black text-emerald-700 transition hover:bg-emerald-50"
+                className="inline-flex items-center gap-2 rounded-full border border-white px-6 py-3 text-sm font-black text-white transition hover:bg-white/10"
               >
                 See Our Work
               </Link>
-            </div>
-          </div>
-
-          <div className="relative mt-10 lg:mt-0 lg:w-[540px]">
-            <div className="overflow-hidden rounded-[2rem] border border-zinc-200 shadow-lg">
-              <img
-                src="/assets/cow.jpeg"
-                alt="Biogas farm installation"
-                className="h-[440px] w-full object-cover"
-              />
-            </div>
-            <div className="absolute -bottom-6 -left-6 bg-white p-5 rounded-3xl shadow-xl max-w-[260px] border border-border -rotate-3">
-              <p className="font-display text-base font-medium leading-snug mb-2">
-                "We saved 70% on fuel costs in our first quarter."
-              </p>
-              <span className="text-xs opacity-50">— Farmer Joseph, Narok Central</span>
             </div>
           </div>
         </div>

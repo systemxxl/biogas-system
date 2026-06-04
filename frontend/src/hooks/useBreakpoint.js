@@ -20,6 +20,36 @@ export function useBreakpoint() {
     });
     observer.observe(document.documentElement);
     return () => observer.disconnect();
+import { useState, useEffect } from "react";
+
+const BREAKPOINTS = {
+  sm: 640,
+  md: 768,
+  lg: 1024,
+};
+
+function getBreakpoint(width) {
+  if (width >= BREAKPOINTS.lg) return "lg";
+  if (width >= BREAKPOINTS.md) return "md";
+  if (width >= BREAKPOINTS.sm) return "sm";
+  return "base";
+}
+
+export function useBreakpoint() {
+  const [breakpoint, setBreakpoint] = useState("base");
+
+  useEffect(() => {
+    const updateBreakpoint = () => {
+      setBreakpoint(getBreakpoint(window.innerWidth));
+    };
+
+    updateBreakpoint();
+
+    window.addEventListener("resize", updateBreakpoint);
+
+    return () => {
+      window.removeEventListener("resize", updateBreakpoint);
+    };
   }, []);
 
   return breakpoint;

@@ -1,20 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-/**
- * Custom hook for carousel functionality
- * @param {number} itemsPerView - Number of items visible at once (default: 3)
- * @param {number} autoPlayDuration - Duration in ms before auto-play rotates (default: 5000)
- * @returns {Object} - { currentIndex, next, prev, goTo, totalSlides }
- */
-export function useCarousel(totalItems, itemsPerView = 3, autoPlayDuration = 4000) {
+export function useCarousel(
+  totalItems,
+  itemsPerView = 3,
+  autoPlayDuration = 4000
+) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
-  
-  const totalSlides = Math.ceil(totalItems / itemsPerView);
 
-  // Auto-play effect
+  const totalSlides = Math.max(
+    1,
+    Math.ceil(totalItems / itemsPerView)
+  );
+
   useEffect(() => {
-    if (!isAutoPlay) return;
+    setCurrentIndex((prev) =>
+      prev >= totalSlides ? 0 : prev
+    );
+  }, [totalSlides]);
+
+  useEffect(() => {
+    if (!isAutoPlay || totalSlides <= 1) return;
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % totalSlides);
@@ -29,12 +35,14 @@ export function useCarousel(totalItems, itemsPerView = 3, autoPlayDuration = 400
   };
 
   const prev = () => {
-    setCurrentIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
+    setCurrentIndex(
+      (prev) => (prev - 1 + totalSlides) % totalSlides
+    );
     setIsAutoPlay(false);
   };
 
   const goTo = (index) => {
-    setCurrentIndex(index % totalSlides);
+    setCurrentIndex(index);
     setIsAutoPlay(false);
   };
 
