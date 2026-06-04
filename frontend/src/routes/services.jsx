@@ -108,16 +108,16 @@ function Services() {
         <div className="relative z-10 mx-auto flex min-h-[72vh] max-w-7xl items-center px-5 py-20 md:min-h-[76vh] md:px-8">
           <div className="max-w-4xl">
             <div className="mb-5 inline-flex items-center gap-3">
-              <span className="h-[2px] w-12 rounded-full bg-lime-300" />
+              <span className="h-[2px] w-12 rounded-full bg-emerald-700" />
 
-              <p className="text-sm font-bold uppercase tracking-[0.35em] text-lime-300 drop-shadow-lg">
+              <p className="text-sm font-bold uppercase tracking-[0.35em] text-bg-emerald-700 drop-shadow-lg">
                 Our Services
               </p>
             </div>
 
             <h1 className="max-w-4xl text-4xl font-black leading-tight tracking-tight text-white drop-shadow-2xl sm:text-5xl lg:text-6xl">
               Biogas Solutions for{" "}
-              <span className="text-lime-300">Homes, Farms</span> &
+              <span className="font-bold" style={{ color: '#007957' }}>Homes, Farms</span> &
               Communities
             </h1>
 
@@ -130,9 +130,9 @@ function Services() {
             <div className="mt-8 flex flex-wrap gap-4">
               <a
                 href="https://wa.me/+254715613635"
-                className="inline-flex items-center gap-2 rounded-full bg-lime-400 px-6 py-3 text-sm font-black text-zinc-950 shadow-xl transition hover:scale-105 hover:bg-lime-500"
+                className="inline-flex items-center gap-2 rounded-full bg-emerald-700 px-6 py-3 text-sm font-black text-zinc-950 shadow-xl transition hover:scale-105 hover:bg-emerald-700"
               >
-                Get a Consultation <ArrowRight className="h-4 w-4" />
+                Contact us <ArrowRight className="h-4 w-4" />
               </a>
             </div>
           </div>

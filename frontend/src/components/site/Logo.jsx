@@ -2,7 +2,7 @@ export function Logo() {
   return (
     <div className="flex items-center gap-2">
       {/* Logo Image */}
-      <img src="/assets/logo.jpg" alt="HotFlame Biogas Logo" className="h-10 w-10 object-contain" />
+      <img src="/assets/logo.png" alt="HotFlame Biogas Logo" className="h-18 w-18 object-contain" />
 
       {/* Text Logo */}
       <div className="flex flex-col leading-none">
