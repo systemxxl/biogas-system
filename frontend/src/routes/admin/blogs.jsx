@@ -5,12 +5,18 @@ import {
   Edit3, 
   Trash2, 
   X,
-  FileText
+  FileText,
+  Calendar,
+  Loader2,
+  Upload,
+  Image as ImageIcon
 } from "lucide-react";
 import { useState } from "react";
 import { useAdmin } from "../../components/admin/AdminContext";
 import { blogCategories } from "../../lib/blogs";
 import * as Dialog from "@radix-ui/react-dialog";
+import { uploadImage } from "../../lib/api/supabase.api";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/blogs")({
   component: AdminBlogs,
@@ -21,15 +27,17 @@ function AdminBlogs() {
   const [search, setSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingBlog, setEditingBlog] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   // Form State
   const [formData, setFormData] = useState({
     title: "",
+    slug: "",
     category: "technology",
     author: "Mary Mwami",
     excerpt: "",
     content: "",
-    image: "/assets/biogas plant.jpeg",
+    image: "",
     tags: ["Biogas"]
   });
 
@@ -37,11 +45,12 @@ function AdminBlogs() {
     setEditingBlog(null);
     setFormData({
       title: "",
+      slug: "",
       category: "technology",
       author: "Mary Mwami",
       excerpt: "",
       content: "",
-      image: "/assets/biogas plant.jpeg",
+      image: "",
       tags: ["Biogas"]
     });
     setIsModalOpen(true);
@@ -49,23 +58,52 @@ function AdminBlogs() {
 
   const handleOpenEdit = (blog) => {
     setEditingBlog(blog);
-    setFormData({ ...blog });
+    setFormData({ 
+      ...blog,
+      slug: blog.slug || ""
+    });
     setIsModalOpen(true);
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setUploading(true);
+      const url = await uploadImage(file, 'blogs');
+      setFormData(prev => ({ ...prev, image: url }));
+      toast.success("Image uploaded successfully");
+    } catch (error) {
+      toast.error("Upload failed: " + error.message);
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!formData.image) {
+      toast.error("Please upload a featured image first");
+      return;
+    }
+
+    const dataToSave = {
+      ...formData,
+      slug: formData.slug || formData.title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '')
+    };
+    
     if (editingBlog) {
-      updateBlog(editingBlog.id, formData);
+      updateBlog(editingBlog.id, dataToSave);
     } else {
-      addBlog({ ...formData, slug: formData.title.toLowerCase().replace(/ /g, '-') });
+      addBlog(dataToSave);
     }
     setIsModalOpen(false);
   };
 
   const filteredPosts = blogs.filter(post => 
     post.title.toLowerCase().includes(search.toLowerCase()) ||
-    post.author.toLowerCase().includes(search.toLowerCase())
+    (post.author || "").toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -117,7 +155,7 @@ function AdminBlogs() {
                     </div>
                     <div className="min-w-0">
                       <p className="text-sm font-black text-zinc-950 truncate">{post.title}</p>
-                      <p className="text-xs font-bold text-zinc-400 mt-0.5 uppercase tracking-tighter">By {post.author}</p>
+                      <p className="text-xs font-bold text-zinc-400 mt-0.5 uppercase tracking-tighter">By {post.author || 'Admin'}</p>
                     </div>
                   </div>
                 </td>
@@ -153,7 +191,7 @@ function AdminBlogs() {
       <Dialog.Root open={isModalOpen} onOpenChange={setIsModalOpen}>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm" />
-          <Dialog.Content className="fixed left-[50%] top-[50%] z-[101] w-full max-w-2xl translate-x-[-50%] translate-y-[-50%] p-4 focus:outline-none">
+          <Dialog.Content className="fixed left-[50%] top-[50%] z-[101] w-full max-w-3xl translate-x-[-50%] translate-y-[-50%] p-4 focus:outline-none">
             <div className="bg-white rounded-[2rem] shadow-2xl overflow-hidden text-left">
               <div className="p-8 border-b border-zinc-100 flex items-center justify-between bg-zinc-50/50">
                 <h2 className="text-2xl font-black text-zinc-950">{editingBlog ? 'Edit' : 'Create'} Blog Post</h2>
@@ -163,6 +201,40 @@ function AdminBlogs() {
               </div>
 
               <form onSubmit={handleSubmit} className="p-8 space-y-6 max-h-[70vh] overflow-y-auto no-scrollbar">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">Featured Image</label>
+                  <div className="relative group">
+                    <div className="h-56 w-full rounded-2xl bg-zinc-50 border-2 border-dashed border-zinc-200 flex flex-col items-center justify-center overflow-hidden relative transition-all group-hover:border-emerald-300">
+                      {formData.image ? (
+                        <>
+                          <img src={formData.image} alt="Preview" className="h-full w-full object-cover" />
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <Upload className="text-white h-8 w-8" />
+                          </div>
+                        </>
+                      ) : (
+                        <div className="text-center p-6">
+                          <ImageIcon className="h-12 w-12 text-zinc-300 mx-auto mb-2" />
+                          <p className="text-sm font-bold text-zinc-400">Click to upload blog cover</p>
+                          <p className="text-[10px] text-zinc-400 mt-1">Recommended: 1200x800px</p>
+                        </div>
+                      )}
+                      {uploading && (
+                        <div className="absolute inset-0 bg-white/80 flex items-center justify-center">
+                          <Loader2 className="h-8 w-8 animate-spin text-emerald-700" />
+                        </div>
+                      )}
+                      <input 
+                        type="file" 
+                        accept="image/*"
+                        className="absolute inset-0 opacity-0 cursor-pointer" 
+                        onChange={handleImageUpload}
+                        disabled={uploading}
+                      />
+                    </div>
+                  </div>
+                </div>
+
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-zinc-400 ml-1">Title</label>
                   <input 
@@ -222,7 +294,11 @@ function AdminBlogs() {
                 </div>
 
                 <div className="flex items-center gap-4 pt-4 sticky bottom-0 bg-white pb-2">
-                  <button type="submit" className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-2xl font-black shadow-lg shadow-emerald-900/10 transition-all">
+                  <button 
+                    type="submit" 
+                    disabled={uploading}
+                    className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-2xl font-black shadow-lg shadow-emerald-900/10 transition-all disabled:opacity-50"
+                  >
                     {editingBlog ? 'Save Changes' : 'Publish Article'}
                   </button>
                 </div>

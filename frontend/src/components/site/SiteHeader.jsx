@@ -5,44 +5,15 @@ import { Logo } from "./Logo";
 const nav = [
   { to: "/", label: "Home" },
   { to: "/services", label: "Services" },
-  { to: "/projects", label: "Projects/Gallery" },
+  { to: "/projects", label: "Projects" },
   { to: "/blogs", label: "Blogs" },
   { to: "/about", label: "About Us" },
+  { to: "/donations", label: "Donations", variant: "cta" },
 ];
 
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 bg-white/95 shadow-sm backdrop-blur">
-      {/* Top Bar */}
-      <div className="bg-[#1a2e1a] py-1.5">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 md:px-8">
-          <div className="flex items-center gap-3">
-            <a
-              href="tel:+254715613635"
-              className="flex items-center gap-1.5 text-[0.75rem] text-white/75 no-underline hover:text-white transition"
-            >
-              <Phone size={13} />
-              <span>0715 613 635</span>
-            </a>
-
-            <span className="text-white/20 text-[0.85rem]">|</span>
-
-            <a
-              href="tel:+254783934440"
-              className="flex items-center gap-1.5 text-[0.75rem] text-white/75 no-underline hover:text-white transition"
-            >
-              <Phone size={13} />
-              <span>0783 934 440</span>
-            </a>
-          </div>
-
-          <div className="flex items-center gap-1.5 text-[0.75rem] text-white/65">
-            <Clock size={13} />
-            <span>Everyday</span>
-          </div>
-        </div>
-      </div>
-
       {/* Main Header */}
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 md:px-8">
         <Link
@@ -59,9 +30,16 @@ export function SiteHeader() {
             <Link
               key={item.to}
               to={item.to}
-              className="border-b-2 border-transparent pb-1 text-sm font-bold text-zinc-900 transition hover:text-emerald-700"
+              className={
+                item.variant === "cta"
+                  ? "inline-flex items-center rounded-full bg-orange-500 px-4 py-2 text-sm font-bold text-white shadow-sm transition hover:bg-orange-600"
+                  : "border-b-2 border-transparent pb-1 text-sm font-bold text-zinc-900 transition hover:text-emerald-700"
+              }
               activeProps={{
-                className: "border-emerald-700 text-emerald-700",
+                className:
+                  item.variant === "cta"
+                    ? "inline-flex items-center rounded-full bg-orange-600 px-4 py-2 text-sm font-bold text-white shadow-sm"
+                    : "border-emerald-700 text-emerald-700",
               }}
               activeOptions={{ exact: item.to === "/" }}
             >
@@ -82,9 +60,16 @@ export function SiteHeader() {
               <Link
                 key={item.to}
                 to={item.to}
-                className="block rounded-lg px-3 py-2 text-sm font-bold text-zinc-900 hover:bg-emerald-50 hover:text-emerald-700"
+                className={
+                  item.variant === "cta"
+                    ? "mt-1 block rounded-lg bg-orange-500 px-3 py-2 text-sm font-bold text-white hover:bg-orange-600"
+                    : "block rounded-lg px-3 py-2 text-sm font-bold text-zinc-900 hover:bg-emerald-50 hover:text-emerald-700"
+                }
                 activeProps={{
-                  className: "bg-emerald-50 text-emerald-700",
+                  className:
+                    item.variant === "cta"
+                      ? "mt-1 block rounded-lg bg-orange-600 px-3 py-2 text-sm font-bold text-white"
+                      : "bg-emerald-50 text-emerald-700",
                 }}
                 activeOptions={{ exact: item.to === "/" }}
               >

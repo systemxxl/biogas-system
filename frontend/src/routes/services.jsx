@@ -1,11 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import {
   ArrowRight,
   Mail,
   MessageCircle,
+  Loader2
 } from "lucide-react";
 import { TestimonialCarousel } from "../components/TestimonialCarousel";
-import { mainServices, workSteps, serviceBenefits } from "../lib/services";
+import { mainServices as initialServices, workSteps, serviceBenefits } from "../lib/services";
+import { getServices, getTestimonials } from "../lib/api/supabase.api";
+import { getIcon } from "../lib/icons";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -21,7 +25,7 @@ export const Route = createFileRoute("/services")({
   component: Services,
 });
 
-const testimonials = [
+const staticTestimonials = [
   {
     name: "Mary N.",
     role: "Homeowner, Narok",
@@ -70,6 +74,25 @@ const testimonials = [
 ];
 
 function Services() {
+  const { data: dbServices, isLoading: servicesLoading } = useQuery({
+    queryKey: ['services'],
+    queryFn: getServices,
+  });
+
+  const { data: dbTestimonials } = useQuery({
+    queryKey: ['testimonials'],
+    queryFn: getTestimonials,
+  });
+
+  // Use DB data if available, otherwise fallback to static for a smooth first-time experience
+  const services = dbServices?.length > 0 ? dbServices : initialServices;
+  const testimonials = dbTestimonials?.length > 0 ? dbTestimonials : staticTestimonials;
+
+  const processedServices = services.map(s => ({
+    ...s,
+    Icon: typeof s.icon === 'string' ? getIcon(s.icon) : s.icon
+  }));
+
   return (
     <>
       <section className="relative min-h-[72vh] overflow-hidden text-white md:min-h-[76vh]">
@@ -85,16 +108,16 @@ function Services() {
         <div className="relative z-10 mx-auto flex min-h-[72vh] max-w-7xl items-center px-5 py-20 md:min-h-[76vh] md:px-8">
           <div className="max-w-4xl">
             <div className="mb-5 inline-flex items-center gap-3">
-              <span className="h-[2px] w-12 rounded-full bg-lime-300" />
+              <span className="h-[2px] w-12 rounded-full bg-emerald-700" />
 
-              <p className="text-sm font-bold uppercase tracking-[0.35em] text-lime-300 drop-shadow-lg">
+              <p className="text-sm font-bold uppercase tracking-[0.35em] text-bg-emerald-700 drop-shadow-lg">
                 Our Services
               </p>
             </div>
 
             <h1 className="max-w-4xl text-4xl font-black leading-tight tracking-tight text-white drop-shadow-2xl sm:text-5xl lg:text-6xl">
               Biogas Solutions for{" "}
-              <span className="text-lime-300">Homes, Farms</span> &
+              <span className="font-bold" style={{ color: '#007957' }}>Homes, Farms</span> &
               Communities
             </h1>
 
@@ -107,17 +130,10 @@ function Services() {
             <div className="mt-8 flex flex-wrap gap-4">
               <a
                 href="https://wa.me/+254715613635"
-                className="inline-flex items-center gap-2 rounded-full bg-lime-400 px-6 py-3 text-sm font-black text-zinc-950 shadow-xl transition hover:scale-105 hover:bg-lime-300"
+                className="inline-flex items-center gap-2 rounded-full bg-emerald-700 px-6 py-3 text-sm font-black text-zinc-950 shadow-xl transition hover:scale-105 hover:bg-emerald-700"
               >
-                Get a Consultation <ArrowRight className="h-4 w-4" />
+                Contact us <ArrowRight className="h-4 w-4" />
               </a>
-
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/10 px-6 py-3 text-sm font-black text-white shadow-lg backdrop-blur-sm transition hover:bg-white hover:text-zinc-950"
-              >
-                Contact Us
-              </Link>
             </div>
           </div>
         </div>
@@ -133,34 +149,40 @@ function Services() {
             End-to-End Biogas Solutions
           </h2>
 
-          <div className="mt-12 grid gap-7 md:grid-cols-2 lg:grid-cols-3">
-            {mainServices.map((item) => (
-              <article
-                key={item.title}
-                className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
-              >
-                <div className="relative">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="h-40 w-full object-cover"
-                  />
+          {servicesLoading && services.length === 0 ? (
+            <div className="mt-12 flex justify-center">
+                <Loader2 className="h-8 w-8 animate-spin text-emerald-700" />
+            </div>
+          ) : (
+            <div className="mt-12 grid gap-7 md:grid-cols-2 lg:grid-cols-3">
+                {processedServices.map((item) => (
+                <article
+                    key={item.id || item.title}
+                    className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.12)]"
+                >
+                    <div className="relative">
+                    <img
+                        src={item.image}
+                        alt={item.title}
+                        className="h-40 w-full object-cover"
+                    />
 
-                  <span className="absolute left-4 top-4 grid h-14 w-14 place-items-center rounded-full border-4 border-white bg-emerald-700 text-white shadow-lg">
-                    <item.icon className="h-6 w-6" />
-                  </span>
-                </div>
+                    <span className="absolute left-4 top-4 grid h-14 w-14 place-items-center rounded-full border-4 border-white bg-emerald-700 text-white shadow-lg">
+                        {item.Icon && <item.Icon className="h-6 w-6" />}
+                    </span>
+                    </div>
 
-                <div className="p-5">
-                  <h3 className="font-black text-zinc-950">{item.title}</h3>
+                    <div className="p-5">
+                    <h3 className="font-black text-zinc-950">{item.title}</h3>
 
-                  <p className="mt-2 text-sm font-medium leading-6 text-zinc-600">
-                    {item.text}
-                  </p>
-                </div>
-              </article>
-            ))}
-          </div>
+                    <p className="mt-2 text-sm font-medium leading-6 text-zinc-600">
+                        {item.text}
+                    </p>
+                    </div>
+                </article>
+                ))}
+            </div>
+          )}
         </div>
       </section>
 

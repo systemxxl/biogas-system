@@ -1,20 +1,28 @@
-import { createFileRoute, Link, Outlet, useLocation } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, redirect } from "@tanstack/react-router";
 import { 
   LayoutDashboard, 
   FileText, 
   Image as ImageIcon, 
   Settings, 
   LogOut, 
-  ChevronRight,
-  Menu,
-  X,
-  Bell,
   User,
   Wrench
 } from "lucide-react";
-import { useState } from "react";
+import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/components/admin/AuthContext";
 
 export const Route = createFileRoute("/admin")({
+  beforeLoad: async ({ location }) => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      throw redirect({
+        to: "/login",
+        search: {
+          redirect: location.href,
+        },
+      });
+    }
+  },
   component: AdminLayout,
 });
 
@@ -29,7 +37,11 @@ const menuItems = [
 import { AdminProvider } from "../../components/admin/AdminContext";
 
 function AdminLayout() {
-  const location = useLocation();
+  const { user, signOut } = useAuth();
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   return (
     <AdminProvider>
@@ -50,13 +62,19 @@ function AdminLayout() {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-3 pl-4 border-l border-white/10">
               <div className="text-right hidden sm:block">
-                <p className="text-xs font-black text-white leading-none">Mary Mwami</p>
+                <p className="text-xs font-black text-white leading-none">
+                  {user?.email?.split('@')[0] || "Admin"}
+                </p>
                 <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mt-1">Administrator</p>
               </div>
               <div className="h-10 w-10 rounded-xl bg-emerald-600/20 text-emerald-500 flex items-center justify-center border border-emerald-500/20 shadow-sm overflow-hidden">
                 <User className="h-6 w-6" />
               </div>
-              <button className="ml-2 p-2 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-400/10 transition-all">
+              <button 
+                onClick={handleSignOut}
+                className="ml-2 p-2 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-red-400/10 transition-all"
+                title="Sign Out"
+              >
                 <LogOut size={18} />
               </button>
             </div>

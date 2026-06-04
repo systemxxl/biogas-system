@@ -64,42 +64,44 @@ const testimonials = [
   { name: "Beatrice N.", role: "Homeowner, Narok", text: "We wanted something affordable and reliable. Their after-sales support has made the whole experience easier." },
 ];
 
-
 function About() {
   return (
     <>
-      <section className="bg-white">
-        <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 lg:flex lg:items-center lg:justify-between">
-          <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-700">
-              About Hot Flame Biogas
-            </p>
-            <h1 className="mt-4 text-4xl font-black tracking-tight text-zinc-950 sm:text-5xl lg:text-6xl">
-              Turning Organic Waste Into Clean Energy
-            </h1>
-            <p className="mt-6 text-lg leading-8 text-zinc-600">
-              We are a clean energy enterprise based in Narok Town, Kenya. We design and install
-              biogas systems that improve health, lower costs, and protect the environment.
-            </p>
-          </div>
-          <div className="mt-10 lg:mt-0 lg:w-[520px]">
-            <div className="overflow-hidden rounded-[2rem] border border-zinc-200 shadow-lg">
-              <img
-                src="/assets/biogas plant.jpeg"
-                alt="Biogas plant in the field"
-                className="h-[440px] w-full object-cover"
-              />
-            </div>
-          </div>
+      {/* Hero Section with creative floating shapes */}
+      <section className="relative h-[650px] overflow-hidden">
+        <div
+          className="absolute inset-0 z-0 h-full w-full bg-cover bg-center"
+          style={{ backgroundImage: "url('/assets/biogas plant.jpeg')" }}
+        />
+        <div className="absolute inset-0 z-10 bg-black/40"></div>
+
+        {/* Floating/angled shapes */}
+        <div className="absolute top-20 left-[-50px] h-64 w-64 rotate-12 rounded-full bg-emerald-700/20 blur-3xl" />
+        <div className="absolute bottom-10 right-[-60px] h-72 w-72 -rotate-6 rounded-full bg-emerald-500/20 blur-3xl" />
+        <div className="absolute top-1/2 right-1/4 h-48 w-48 rotate-45 rounded-full bg-white/10 blur-2xl" />
+
+        <div className="relative z-20 mx-auto max-w-7xl px-5 py-28 md:px-8 flex flex-col justify-center h-full">
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-emerald-300">
+            About Hot Flame Biogas
+          </p>
+          <h1 className="mt-4 text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl text-white">
+            Turning Organic Waste Into Clean Energy
+          </h1>
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-white/90">
+            We are a clean energy enterprise based in Narok Town, Kenya. We design and install
+            biogas systems that improve health, lower costs, and protect the environment.
+          </p>
         </div>
       </section>
 
+
+      {/* Our Story Section */}
       <section className="bg-white py-14">
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 md:px-8 lg:grid-cols-[0.95fr_1fr]">
           <div className="relative">
             <img
               src="/assets/650836646_122161105478958675_3445836754463755117_n.jpg"
-              alt="Mary Mwami, Founder and CEO"
+              alt="Dancan Kimunyi, Founder and CEO"
               className="h-[470px] w-full rounded-xl object-cover object-top shadow-xl"
             />
             <div className="absolute bottom-8 right-[-10px] hidden max-w-48 rounded-lg bg-white p-3 shadow-xl md:block">
@@ -129,14 +131,57 @@ function About() {
               Today, we design and build high-quality biogas systems that help families,
               institutions, and communities save money, improve health, and protect our environment.
             </p>
-            <p className="mt-7 text-4xl font-black italic text-emerald-700">Mary M.</p>
+            <p className="mt-7 text-4xl font-black italic text-emerald-700">Dan K.</p>
             <p className="mt-1 text-sm font-bold text-zinc-950">
-              Mary Mwami, <span className="font-medium text-zinc-600">Founder & CEO</span>
+              Dancan Kimunyi, <span className="font-medium text-zinc-600">Founder & CEO</span>
             </p>
           </div>
         </div>
       </section>
 
+      {/* Why Choose Us & Our Journey */}
+      <section className="bg-white py-14">
+        <div className="mx-auto grid max-w-7xl gap-10 px-5 md:px-8 lg:grid-cols-[0.95fr_1.05fr]">
+          <div>
+            <p className="text-sm font-black uppercase tracking-widest text-emerald-700">
+              Why Choose Us?
+            </p>
+            <h2 className="mt-2 text-3xl font-black leading-tight text-zinc-950 md:text-4xl">
+              Quality. Reliability. Sustainability.
+            </h2>
+            <ul className="mt-6 space-y-3">
+              {why.map((item) => (
+                <li key={item} className="flex items-start gap-3 text-sm font-bold text-zinc-700">
+                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-700" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <img
+              src="/assets/645415092_122159713724958675_2122180214002289931_n.jpg"
+              alt="Completed biogas digester"
+              className="mt-7 h-44 w-full max-w-md rounded-lg object-cover shadow-lg"
+            />
+          </div>
+          <div>
+            <p className="text-sm font-black uppercase tracking-widest text-emerald-700">
+              Our Journey
+            </p>
+            <ol className="mt-6 space-y-5 border-l-2 border-emerald-700 pl-7">
+              {journey.map((item) => (
+                <li key={item.year} className="relative grid gap-3 sm:grid-cols-[80px_1fr]">
+                  <span className="absolute -left-[35px] top-1 grid h-4 w-4 place-items-center rounded-full border-2 border-emerald-700 bg-white" />
+                  <p className="font-black text-zinc-950">{item.year}</p>
+                  <p className="text-sm font-medium leading-6 text-zinc-600">{item.text}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      {/* Mission, Vision, Core Values, Impact, Media, Testimonials, Call-to-Action */}
+      {/* All remaining sections kept exactly as original */}
       <section className="bg-white pb-12">
         <div className="mx-auto grid max-w-7xl gap-6 px-5 md:grid-cols-3 md:px-8">
           {[
@@ -192,46 +237,6 @@ function About() {
                 </p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-white py-14">
-        <div className="mx-auto grid max-w-7xl gap-10 px-5 md:px-8 lg:grid-cols-[0.95fr_1.05fr]">
-          <div>
-            <p className="text-sm font-black uppercase tracking-widest text-emerald-700">
-              Why Choose Us?
-            </p>
-            <h2 className="mt-2 text-3xl font-black leading-tight text-zinc-950 md:text-4xl">
-              Quality. Reliability. Sustainability.
-            </h2>
-            <ul className="mt-6 space-y-3">
-              {why.map((item) => (
-                <li key={item} className="flex items-start gap-3 text-sm font-bold text-zinc-700">
-                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-700" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <img
-              src="/assets/645415092_122159713724958675_2122180214002289931_n.jpg"
-              alt="Completed biogas digester"
-              className="mt-7 h-44 w-full max-w-md rounded-lg object-cover shadow-lg"
-            />
-          </div>
-          <div>
-            <p className="text-sm font-black uppercase tracking-widest text-emerald-700">
-              Our Journey
-            </p>
-            <ol className="mt-6 space-y-5 border-l-2 border-emerald-700 pl-7">
-              {journey.map((item) => (
-                <li key={item.year} className="relative grid gap-3 sm:grid-cols-[80px_1fr]">
-                  <span className="absolute -left-[35px] top-1 grid h-4 w-4 place-items-center rounded-full border-2 border-emerald-700 bg-white" />
-                  <p className="font-black text-zinc-950">{item.year}</p>
-                  <p className="text-sm font-medium leading-6 text-zinc-600">{item.text}</p>
-                </li>
-              ))}
-            </ol>
           </div>
         </div>
       </section>
@@ -292,3 +297,5 @@ function About() {
     </>
   );
 }
+
+export default About;

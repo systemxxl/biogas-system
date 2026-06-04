@@ -14,7 +14,13 @@ function getBreakpoint(width) {
 }
 
 export function useBreakpoint() {
-  const [breakpoint, setBreakpoint] = useState("base");
+  const [breakpoint, setBreakpoint] = useState(() => {
+    if (typeof window === "undefined") {
+      return "base";
+    }
+
+    return getBreakpoint(window.innerWidth);
+  });
 
   useEffect(() => {
     const updateBreakpoint = () => {

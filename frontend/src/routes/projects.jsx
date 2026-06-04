@@ -1,19 +1,23 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import {
   ArrowRight,
   MessageCircle,
   X,
+  Loader2
 } from "lucide-react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { TestimonialCarousel } from "../components/TestimonialCarousel";
 import { Carousel } from "../components/Carousel";
 import { projectsGallery, projectCategories } from "../lib/projects";
+import { getProjects, getTestimonials } from "../lib/api/supabase.api";
+import { getIcon } from "../lib/icons";
 
 export const Route = createFileRoute("/projects")({
   head: () => ({
     meta: [
-      { title: "Projects / Gallery - Hot Flame Biogas" },
+      { title: "Projects - Hot Flame Biogas" },
       {
         name: "description",
         content: "Hot Flame Biogas projects, installations, restorations, training, appliances and organic fertilizer work.",
@@ -23,7 +27,7 @@ export const Route = createFileRoute("/projects")({
   component: Projects,
 });
 
-const testimonials = [
+const staticTestimonials = [
   { name: "Mary N.", role: "Homeowner, Narok", text: "Our cooking is now smoke-free and faster. Hotflame Biogas did a great job. We are saving money and our kitchen is so much cleaner." },
   { name: "Joseph K.", role: "Farmer, Narok", text: "Reliable system, excellent installation and great follow-up support. The slurry has improved our farm yields significantly." },
   { name: "Grace M.", role: "School Administrator", text: "Hotflame Biogas is professional, knowledgeable and passionate about clean energy. Highly recommended!" },
@@ -39,7 +43,31 @@ const testimonials = [
 function Projects() {
   const [active, setActive] = useState("all");
   const [selectedProject, setSelectedProject] = useState(null);
-  const visible = active === "all" ? projectsGallery : projectsGallery.filter((item) => item.cat === active);
+
+  const { data: dbProjects, isLoading: projectsLoading } = useQuery({
+    queryKey: ['projects'],
+    queryFn: getProjects,
+  });
+
+  const { data: dbTestimonials } = useQuery({
+    queryKey: ['testimonials'],
+    queryFn: getTestimonials,
+  });
+
+  // Fallback to static data if DB is empty
+  const projects = dbProjects?.length > 0 ? dbProjects : projectsGallery;
+  const testimonials = dbTestimonials?.length > 0 ? dbTestimonials : staticTestimonials;
+
+  // Map icons and ensure consistent structure
+  const processedProjects = projects.map(p => ({
+    ...p,
+    cat: p.category || p.cat,
+    text: p.excerpt || p.text,
+    image: p.main_image || p.image,
+    Icon: typeof p.icon === 'string' ? getIcon(p.icon) : (p.icon || Leaf)
+  }));
+
+  const visible = active === "all" ? processedProjects : processedProjects.filter((item) => item.cat === active);
 
   return (
     <>
@@ -51,17 +79,17 @@ function Projects() {
         <div className="absolute inset-0 z-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent lg:w-2/3" />
 
         <div className="relative z-10 mx-auto max-w-7xl px-5 md:px-8">
-          <div className="flex flex-col items-start text-left">
+          <div className="flex flex-col items-center text-center md:items-start md:text-left">
             <div className="max-w-2xl">
               <h1 className="text-4xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl uppercase">
-                Projects / Gallery
+                Projects
               </h1>
               <p className="mt-6 text-lg font-medium leading-8 text-white/90">
                 Real projects. Real impact. From biogas plant installations and restorations to training, appliance setups, and media outreach — see how we're turning organic waste into clean energy and stronger communities across Narok County.
               </p>
             </div>
             
-            <div className="mt-10 flex flex-wrap justify-start gap-4">
+            <div className="mt-10 flex flex-wrap justify-center gap-4 md:justify-start">
               {[
                 { i: projectCategories.find(c => c.id === 'all').icon, n: "120+", l: "Biogas Systems Installed" },
                 { i: projectCategories.find(c => c.id === 'training').icon, n: "800+", l: "Happy Households" },
@@ -108,86 +136,89 @@ function Projects() {
             })}
           </div>
 
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {visible.map((item) => (
-              <article 
-                key={item.id} 
-                className="group cursor-pointer overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.13)] transition-all hover:scale-[1.02]"
-                onClick={() => setSelectedProject(item)}
-              >
-                <div className="relative h-44 w-full overflow-hidden">
-                  <img src={item.image} alt={item.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                  <div className="absolute inset-0 bg-black/20 opacity-0 transition-opacity group-hover:opacity-100" />
-                </div>
-                <div className="p-5">
-                  <span className="relative z-10 -mt-12 mb-3 grid h-10 w-10 place-items-center rounded-full border-4 border-white bg-white text-emerald-700 shadow-md">
-                    <item.icon className="h-5 w-5" />
-                  </span>
-                  <h3 className="font-black text-zinc-950 group-hover:text-emerald-700">{item.title}</h3>
-                  <p className="mt-2 text-sm font-medium leading-6 text-zinc-600 line-clamp-2">{item.text}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+          {projectsLoading && projects.length === 0 ? (
+            <div className="mt-12 flex justify-center">
+              <Loader2 className="h-8 w-8 animate-spin text-emerald-700" />
+            </div>
+          ) : (
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {visible.map((item) => (
+                <article 
+                  key={item.id} 
+                  className="group cursor-pointer overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.13)] transition-all hover:scale-[1.02]"
+                  onClick={() => setSelectedProject(item)}
+                >
+                  <div className="relative h-44 w-full overflow-hidden">
+                    <img src={item.image} alt={item.title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                    <div className="absolute inset-0 bg-black/20 opacity-0 transition-opacity group-hover:opacity-100" />
+                  </div>
+                  <div className="p-5">
+                    <span className="relative z-10 -mt-12 mb-3 grid h-10 w-10 place-items-center rounded-full border-4 border-white bg-white text-emerald-700 shadow-md">
+                      <item.Icon className="h-5 w-5" />
+                    </span>
+                    <h3 className="font-black text-zinc-950 group-hover:text-emerald-700">{item.title}</h3>
+                    <p className="mt-2 text-sm font-medium leading-6 text-zinc-600 line-clamp-2">{item.text}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
-      {/* Project Detail Modal */}
       <Dialog.Root open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm animate-in fade-in duration-300" />
-          <Dialog.Content className="fixed left-[50%] top-[50%] z-[101] w-full max-w-4xl translate-x-[-50%] translate-y-[-50%] p-4 focus:outline-none">
-            <div className="relative overflow-hidden rounded-[2rem] bg-white shadow-2xl animate-in zoom-in-95 fade-in duration-300 text-left">
-              <Dialog.Close className="absolute right-6 top-6 z-20 rounded-full bg-white/90 p-2 text-zinc-900 shadow-lg backdrop-blur transition-all hover:scale-110 hover:bg-emerald-700 hover:text-white">
-                <X className="h-6 w-6" />
+          <Dialog.Content className="fixed left-[50%] top-[50%] z-[101] w-[calc(100%-2rem)] max-w-4xl translate-x-[-50%] translate-y-[-50%] focus:outline-none">
+            <div className="relative flex flex-col overflow-hidden rounded-3xl bg-white shadow-2xl animate-in zoom-in-95 fade-in duration-300 text-left max-h-[90vh] lg:h-[85vh] lg:flex-row lg:rounded-[2.5rem]">
+              <Dialog.Close className="absolute right-4 top-4 z-20 rounded-full bg-white/90 p-2 text-zinc-900 shadow-lg backdrop-blur transition-all hover:scale-110 hover:bg-emerald-700 hover:text-white md:right-6 md:top-6">
+                <X className="h-5 w-5 md:h-6 md:w-6" />
                 <span className="sr-only">Close</span>
               </Dialog.Close>
 
-              <div className="grid lg:grid-cols-[1fr_0.8fr]">
-                {/* Image Carousel Side */}
-                <div className="bg-zinc-100">
-                  <Carousel
-                    items={selectedProject?.images || []}
-                    renderItem={(img, idx) => (
-                      <div key={idx} className="h-[300px] w-full lg:h-[500px]">
-                        <img src={img} alt="" className="h-full w-full object-cover" />
-                      </div>
-                    )}
-                    className="h-full"
-                  />
+              {/* Image Carousel Side */}
+              <div className="bg-zinc-100 p-4 sm:p-8 lg:w-[55%] lg:p-0">
+                <Carousel
+                  items={selectedProject?.images || []}
+                  renderItem={(img, idx) => (
+                    <div key={idx} className="h-[200px] w-full sm:h-[300px] lg:h-full">
+                      <img src={img} alt="" className="h-full w-full rounded-2xl object-cover lg:rounded-none" />
+                    </div>
+                  )}
+                  className="h-full"
+                />
+              </div>
+
+              {/* Content Side */}
+              <div className="flex flex-1 flex-col overflow-hidden p-6 sm:p-8 lg:w-[45%] lg:p-10">
+                <div className="flex items-center gap-3 text-emerald-700 mb-4">
+                  <span className="grid h-10 w-10 place-items-center rounded-lg bg-emerald-50 border border-emerald-100">
+                    {selectedProject && (selectedProject.Icon ? <selectedProject.Icon className="h-5 w-5" /> : <getIcon name={selectedProject.icon} className="h-5 w-5" />)}
+                  </span>
+                  <span className="text-xs font-black uppercase tracking-widest">{selectedProject?.cat}</span>
+                </div>
+                
+                <Dialog.Title className="text-2xl font-black tracking-tight text-zinc-950 sm:text-3xl">
+                  {selectedProject?.title}
+                </Dialog.Title>
+                
+                <div className="mt-4 flex-1 overflow-y-auto pr-2 custom-scrollbar sm:mt-6">
+                  <h4 className="text-sm font-black uppercase text-zinc-400 tracking-wider mb-2 text-left">Project Overview</h4>
+                  <Dialog.Description className="text-sm font-medium leading-relaxed text-zinc-600 text-left">
+                    {selectedProject?.description}
+                  </Dialog.Description>
                 </div>
 
-                {/* Content Side */}
-                <div className="flex flex-col p-8 lg:p-10">
-                  <div className="flex items-center gap-3 text-emerald-700 mb-4">
-                    <span className="grid h-10 w-10 place-items-center rounded-lg bg-emerald-50 border border-emerald-100">
-                      {selectedProject && <selectedProject.icon className="h-5 w-5" />}
-                    </span>
-                    <span className="text-xs font-black uppercase tracking-widest">{selectedProject?.cat}</span>
-                  </div>
-                  
-                  <Dialog.Title className="text-3xl font-black tracking-tight text-zinc-950">
-                    {selectedProject?.title}
-                  </Dialog.Title>
-                  
-                  <div className="mt-6 flex-1">
-                    <h4 className="text-sm font-black uppercase text-zinc-400 tracking-wider mb-2 text-left">Project Overview</h4>
-                    <Dialog.Description className="text-sm font-medium leading-relaxed text-zinc-600 text-left">
-                      {selectedProject?.description}
-                    </Dialog.Description>
-                  </div>
-
-                  <div className="mt-8 pt-8 border-t border-zinc-100">
-                    <div className="flex items-center justify-between">
-                      <div className="flex -space-x-3">
-                        {[1, 2, 3].map(i => (
-                          <div key={i} className="h-8 w-8 rounded-full border-2 border-white bg-zinc-200 overflow-hidden">
-                            <img src={`/assets/520757073_2951050318419308_839469618729031390_n.jpg`} alt="" />
-                          </div>
-                        ))}
-                      </div>
-                      <p className="text-xs font-bold text-zinc-500">Impacting hundreds of lives</p>
+                <div className="mt-6 pt-6 border-t border-zinc-100 sm:mt-8 sm:pt-8">
+                  <div className="flex items-center justify-between">
+                    <div className="flex -space-x-3">
+                      {[1, 2, 3].map(i => (
+                        <div key={i} className="h-8 w-8 rounded-full border-2 border-white bg-zinc-200 overflow-hidden">
+                          <img src={`/assets/520757073_2951050318419308_839469618729031390_n.jpg`} alt="" />
+                        </div>
+                      ))}
                     </div>
+                    <p className="text-xs font-bold text-zinc-500">Impacting hundreds of lives</p>
                   </div>
                 </div>
               </div>

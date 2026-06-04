@@ -2,6 +2,14 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCarousel } from "../hooks/useCarousel";
 import { useBreakpoint } from "../hooks/useBreakpoint";
 
+/**
+ * @param {Object} props
+ * @param {Array} props.items
+ * @param {Function} props.renderItem
+ * @param {number|{base?:number, sm?:number, md?:number, lg?:number}} props.itemsPerView
+ * @param {string} props.className
+ * @param {string} props.gridClassName
+ */
 export function Carousel({
   items,
   renderItem,
@@ -18,10 +26,21 @@ export function Carousel({
 
     switch (breakpoint) {
       case "lg":
-        return itemsPerView.lg ?? itemsPerView.md ?? itemsPerView.sm ?? itemsPerView.base ?? 1;
+        return (
+          itemsPerView.lg ??
+          itemsPerView.md ??
+          itemsPerView.sm ??
+          itemsPerView.base ??
+          1
+        );
 
       case "md":
-        return itemsPerView.md ?? itemsPerView.sm ?? itemsPerView.base ?? 1;
+        return (
+          itemsPerView.md ??
+          itemsPerView.sm ??
+          itemsPerView.base ??
+          1
+        );
 
       case "sm":
         return itemsPerView.sm ?? itemsPerView.base ?? 1;
@@ -31,20 +50,33 @@ export function Carousel({
     }
   })();
 
-  const { currentIndex, next, prev, goTo, totalSlides, handleMouseEnter, handleMouseLeave } =
-    useCarousel(items.length, resolvedItemsPerView);
-
-  const itemGroups = Array.from({ length: totalSlides }, (_, groupIndex) => {
-    const start = groupIndex * resolvedItemsPerView;
-
-    return items.slice(start, start + resolvedItemsPerView);
-  });
-
   if (!items?.length) return null;
+
+  const {
+    currentIndex,
+    next,
+    prev,
+    goTo,
+    totalSlides,
+    handleMouseEnter,
+    handleMouseLeave,
+  } = useCarousel(items.length, resolvedItemsPerView);
+
+  const itemGroups = Array.from(
+    { length: totalSlides },
+    (_, groupIndex) => {
+      const start = groupIndex * resolvedItemsPerView;
+
+      return items.slice(
+        start,
+        start + resolvedItemsPerView
+      );
+    }
+  );
 
   return (
     <div
-      className={`relative w-full ${className}`}
+      className={`relative w-full overflow-hidden ${className}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -58,7 +90,7 @@ export function Carousel({
           {itemGroups.map((group, groupIndex) => (
             <div
               key={groupIndex}
-              className={`min-w-full grid gap-4 sm:gap-6 ${gridClassName}`}
+              className={`grid min-w-full w-full gap-4 sm:gap-6 ${gridClassName}`}
               style={{
                 gridTemplateColumns:
                   resolvedItemsPerView > 1
@@ -67,8 +99,18 @@ export function Carousel({
               }}
             >
               {group.map((item, itemIndex) => (
-                <div key={groupIndex * resolvedItemsPerView + itemIndex} className="min-w-0">
-                  {renderItem(item, groupIndex * resolvedItemsPerView + itemIndex)}
+                <div
+                  key={
+                    groupIndex * resolvedItemsPerView +
+                    itemIndex
+                  }
+                  className="min-w-0"
+                >
+                  {renderItem(
+                    item,
+                    groupIndex * resolvedItemsPerView +
+                      itemIndex
+                  )}
                 </div>
               ))}
             </div>
@@ -80,10 +122,10 @@ export function Carousel({
         <>
           <button
             onClick={prev}
+            aria-label="Previous slide"
             className="
-              hidden sm:flex
               absolute
-              left-2 lg:-left-4
+              left-2 md:left-0
               top-1/2
               -translate-y-1/2
               z-10
@@ -92,20 +134,21 @@ export function Carousel({
               p-2
               text-white
               shadow-lg
+              transition-all
+              duration-300
               hover:scale-110
-              transition
+              hover:bg-emerald-800
             "
-            aria-label="Previous slide"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
 
           <button
             onClick={next}
+            aria-label="Next slide"
             className="
-              hidden sm:flex
               absolute
-              right-2 lg:-right-4
+              right-2 md:right-0
               top-1/2
               -translate-y-1/2
               z-10
@@ -114,25 +157,35 @@ export function Carousel({
               p-2
               text-white
               shadow-lg
+              transition-all
+              duration-300
               hover:scale-110
-              transition
+              hover:bg-emerald-800
             "
-            aria-label="Next slide"
           >
             <ChevronRight className="h-5 w-5" />
           </button>
 
-          <div className="mt-6 flex justify-center gap-2">
-            {Array.from({ length: totalSlides }).map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goTo(index)}
-                className={`rounded-full transition-all duration-300 ${
-                  index === currentIndex ? "w-8 h-2 bg-emerald-700" : "w-2 h-2 bg-zinc-300"
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
+          <div className="mt-6 sm:mt-8 flex justify-center gap-2">
+            {Array.from({ length: totalSlides }).map(
+              (_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goTo(index)}
+                  aria-label={`Go to slide ${index + 1}`}
+                  aria-current={
+                    index === currentIndex
+                      ? "true"
+                      : "false"
+                  }
+                  className={`rounded-full transition-all duration-500 ${
+                    index === currentIndex
+                      ? "h-2 w-8 bg-emerald-700 shadow-md"
+                      : "h-2 w-2 bg-zinc-300 hover:bg-zinc-400"
+                  }`}
+                />
+              )
+            )}
           </div>
         </>
       )}

@@ -17,7 +17,7 @@ Services (order matters: 1-6)
 - service-5.jpg
 - service-6.jpg
 
-Projects / Gallery
+Projects
 
 - project-1.jpg
 - project-2.jpg

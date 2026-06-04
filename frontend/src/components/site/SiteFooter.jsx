@@ -13,7 +13,7 @@ import {
 const quickLinks = [
   { to: "/", label: "Home" },
   { to: "/services", label: "Services" },
-  { to: "/projects", label: "Projects/Gallery" },
+  { to: "/projects", label: "Projects" },
   { to: "/about", label: "About Us" },
 ];
 

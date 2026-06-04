@@ -11,6 +11,7 @@ export function TestimonialCarousel({
 }) {
   const renderTestimonial = (item) => (
     <article
+      key={item.name}
       className="
         h-full
         min-w-0
@@ -25,7 +26,9 @@ export function TestimonialCarousel({
         hover:shadow-2xl
       "
     >
-      <p className="text-4xl sm:text-5xl font-black leading-none text-emerald-700">"</p>
+      <p className="text-4xl sm:text-5xl font-black leading-none text-emerald-700">
+        "
+      </p>
 
       <p
         className="
@@ -53,9 +56,13 @@ export function TestimonialCarousel({
         />
 
         <div className="min-w-0">
-          <p className="font-black text-sm sm:text-base break-words">{item.name}</p>
+          <p className="font-black text-sm sm:text-base break-words">
+            {item.name}
+          </p>
 
-          <p className="text-xs sm:text-sm text-zinc-600 break-words">{item.role}</p>
+          <p className="text-xs sm:text-sm text-zinc-600 break-words">
+            {item.role}
+          </p>
         </div>
       </div>
     </article>

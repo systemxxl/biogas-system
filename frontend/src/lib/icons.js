@@ -1,0 +1,63 @@
+import { 
+  Leaf, 
+  Wrench, 
+  Settings2, 
+  Users, 
+  Flame, 
+  CheckCircle2, 
+  Recycle, 
+  Mic2, 
+  Building2,
+  RotateCcw,
+  Sprout,
+  Coins,
+  ShieldCheck,
+  LayoutDashboard,
+  FileText,
+  Settings,
+  LogOut,
+  User,
+  Bell,
+  Menu,
+  X,
+  ArrowRight,
+  MessageCircle,
+  Mail,
+  Lock,
+  Loader2,
+  AlertCircle
+} from "lucide-react";
+
+export const iconMap = {
+  Leaf,
+  Wrench,
+  Settings2,
+  Users,
+  Flame,
+  CheckCircle2,
+  Recycle,
+  Mic2,
+  Building2,
+  RotateCcw,
+  Sprout,
+  Coins,
+  ShieldCheck,
+  LayoutDashboard,
+  FileText,
+  Settings,
+  LogOut,
+  User,
+  Bell,
+  Menu,
+  X,
+  ArrowRight,
+  MessageCircle,
+  Mail,
+  Lock,
+  Loader2,
+  AlertCircle
+};
+
+export function getIcon(name) {
+  return iconMap[name] || Leaf;
+}
