@@ -1,25 +1,33 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-const BREAKPOINTS = { sm: 640, md: 768, lg: 1024 };
+const BREAKPOINTS = {
+  sm: 640,
+  md: 768,
+  lg: 1024,
+};
 
 function getBreakpoint(width) {
-  if (width >= BREAKPOINTS.lg) return 'lg';
-  if (width >= BREAKPOINTS.md) return 'md';
-  if (width >= BREAKPOINTS.sm) return 'sm';
-  return 'base';
+  if (width >= BREAKPOINTS.lg) return "lg";
+  if (width >= BREAKPOINTS.md) return "md";
+  if (width >= BREAKPOINTS.sm) return "sm";
+  return "base";
 }
 
 export function useBreakpoint() {
-  const [breakpoint, setBreakpoint] = useState(() =>
-    getBreakpoint(window.innerWidth)
-  );
+  const [breakpoint, setBreakpoint] = useState("base");
 
   useEffect(() => {
-    const observer = new ResizeObserver(([entry]) => {
-      setBreakpoint(getBreakpoint(entry.contentRect.width));
-    });
-    observer.observe(document.documentElement);
-    return () => observer.disconnect();
+    const updateBreakpoint = () => {
+      setBreakpoint(getBreakpoint(window.innerWidth));
+    };
+
+    updateBreakpoint();
+
+    window.addEventListener("resize", updateBreakpoint);
+
+    return () => {
+      window.removeEventListener("resize", updateBreakpoint);
+    };
   }, []);
 
   return breakpoint;

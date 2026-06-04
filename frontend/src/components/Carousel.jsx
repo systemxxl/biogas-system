@@ -2,14 +2,6 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCarousel } from "../hooks/useCarousel";
 import { useBreakpoint } from "../hooks/useBreakpoint";
 
-/**
- * @param {Object} props
- * @param {Array} props.items
- * @param {Function} props.renderItem
- * @param {number|{base?:number, sm?:number, md?:number, lg?:number}} props.itemsPerView
- * @param {string} props.className
- * @param {string} props.gridClassName
- */
 export function Carousel({
   items,
   renderItem,
@@ -17,17 +9,26 @@ export function Carousel({
   className = "",
   gridClassName = "",
 }) {
-  const breakpoint = useBreakpoint(); // 'base' | 'sm' | 'md' | 'lg'
+  const breakpoint = useBreakpoint();
 
-  // Resolve itemsPerView: number stays as-is; object picks the best match
   const resolvedItemsPerView = (() => {
-    if (typeof itemsPerView === "number") return itemsPerView;
-    const order = ["lg", "md", "sm", "base"];
-    const priority = order.slice(order.indexOf(breakpoint));
-    for (const bp of priority) {
-      if (itemsPerView[bp] != null) return itemsPerView[bp];
+    if (typeof itemsPerView === "number") {
+      return itemsPerView;
     }
-    return 1;
+
+    switch (breakpoint) {
+      case "lg":
+        return itemsPerView.lg ?? itemsPerView.md ?? itemsPerView.sm ?? itemsPerView.base ?? 1;
+
+      case "md":
+        return itemsPerView.md ?? itemsPerView.sm ?? itemsPerView.base ?? 1;
+
+      case "sm":
+        return itemsPerView.sm ?? itemsPerView.base ?? 1;
+
+      default:
+        return itemsPerView.base ?? 1;
+    }
   })();
 
   const { currentIndex, next, prev, goTo, totalSlides, handleMouseEnter, handleMouseLeave } =
@@ -35,26 +36,29 @@ export function Carousel({
 
   const itemGroups = Array.from({ length: totalSlides }, (_, groupIndex) => {
     const start = groupIndex * resolvedItemsPerView;
+
     return items.slice(start, start + resolvedItemsPerView);
   });
 
-  if (!items || items.length === 0) return null;
+  if (!items?.length) return null;
 
   return (
     <div
-      className={`relative ${className}`}
+      className={`relative w-full ${className}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       <div className="overflow-hidden">
         <div
           className="flex transition-transform duration-700 ease-in-out"
-          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+          style={{
+            transform: `translateX(-${currentIndex * 100}%)`,
+          }}
         >
           {itemGroups.map((group, groupIndex) => (
             <div
               key={groupIndex}
-              className={`grid min-w-full gap-4 sm:gap-6 ${gridClassName}`}
+              className={`min-w-full grid gap-4 sm:gap-6 ${gridClassName}`}
               style={{
                 gridTemplateColumns:
                   resolvedItemsPerView > 1
@@ -62,9 +66,11 @@ export function Carousel({
                     : "1fr",
               }}
             >
-              {group.map((item, itemIndex) =>
-                renderItem(item, groupIndex * resolvedItemsPerView + itemIndex),
-              )}
+              {group.map((item, itemIndex) => (
+                <div key={groupIndex * resolvedItemsPerView + itemIndex} className="min-w-0">
+                  {renderItem(item, groupIndex * resolvedItemsPerView + itemIndex)}
+                </div>
+              ))}
             </div>
           ))}
         </div>
@@ -74,32 +80,57 @@ export function Carousel({
         <>
           <button
             onClick={prev}
-            className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 rounded-full bg-emerald-700 p-1.5 sm:p-2 text-white shadow-lg transition-all duration-300 hover:scale-125 hover:bg-emerald-800"
+            className="
+              hidden sm:flex
+              absolute
+              left-2 lg:-left-4
+              top-1/2
+              -translate-y-1/2
+              z-10
+              rounded-full
+              bg-emerald-700
+              p-2
+              text-white
+              shadow-lg
+              hover:scale-110
+              transition
+            "
             aria-label="Previous slide"
           >
-            <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+            <ChevronLeft className="h-5 w-5" />
           </button>
 
           <button
             onClick={next}
-            className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 rounded-full bg-emerald-700 p-1.5 sm:p-2 text-white shadow-lg transition-all duration-300 hover:scale-125 hover:bg-emerald-800"
+            className="
+              hidden sm:flex
+              absolute
+              right-2 lg:-right-4
+              top-1/2
+              -translate-y-1/2
+              z-10
+              rounded-full
+              bg-emerald-700
+              p-2
+              text-white
+              shadow-lg
+              hover:scale-110
+              transition
+            "
             aria-label="Next slide"
           >
-            <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
+            <ChevronRight className="h-5 w-5" />
           </button>
 
-          <div className="mt-6 sm:mt-8 flex justify-center gap-2">
+          <div className="mt-6 flex justify-center gap-2">
             {Array.from({ length: totalSlides }).map((_, index) => (
               <button
                 key={index}
                 onClick={() => goTo(index)}
-                className={`rounded-full transition-all duration-500 ${
-                  index === currentIndex
-                    ? "h-2 w-8 bg-emerald-700 shadow-md"
-                    : "h-2 w-2 bg-zinc-300 hover:bg-zinc-400"
+                className={`rounded-full transition-all duration-300 ${
+                  index === currentIndex ? "w-8 h-2 bg-emerald-700" : "w-2 h-2 bg-zinc-300"
                 }`}
-                aria-label={`Go to slide group ${index + 1}`}
-                aria-current={index === currentIndex ? "true" : "false"}
+                aria-label={`Go to slide ${index + 1}`}
               />
             ))}
           </div>

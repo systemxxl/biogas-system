@@ -1,20 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-export function useCarousel(totalItems, itemsPerView = 3, autoPlayDuration = 4000) {
+export function useCarousel(
+  totalItems,
+  itemsPerView = 3,
+  autoPlayDuration = 4000
+) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
 
-  const totalSlides = Math.ceil(totalItems / itemsPerView);
+  const totalSlides = Math.max(
+    1,
+    Math.ceil(totalItems / itemsPerView)
+  );
 
-  // Reset to slide 0 when itemsPerView changes (e.g. on resize),
-  // clamping to avoid pointing at a now-nonexistent slide.
   useEffect(() => {
-    setCurrentIndex((prev) => (prev >= totalSlides ? 0 : prev));
+    setCurrentIndex((prev) =>
+      prev >= totalSlides ? 0 : prev
+    );
   }, [totalSlides]);
 
-  // Auto-play effect
   useEffect(() => {
-    if (!isAutoPlay) return;
+    if (!isAutoPlay || totalSlides <= 1) return;
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % totalSlides);
@@ -29,12 +35,14 @@ export function useCarousel(totalItems, itemsPerView = 3, autoPlayDuration = 400
   };
 
   const prev = () => {
-    setCurrentIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
+    setCurrentIndex(
+      (prev) => (prev - 1 + totalSlides) % totalSlides
+    );
     setIsAutoPlay(false);
   };
 
   const goTo = (index) => {
-    setCurrentIndex(index % totalSlides);
+    setCurrentIndex(index);
     setIsAutoPlay(false);
   };
 
