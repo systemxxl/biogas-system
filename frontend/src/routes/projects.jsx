@@ -235,7 +235,10 @@ function Projects() {
           <h2 className="mt-2 text-center text-3xl font-black text-zinc-950 md:text-4xl">Trusted by Families & Institutions</h2>
           
           <div className="mt-8">
-            <TestimonialCarousel testimonials={testimonials} itemsPerView={3} />
+            <TestimonialCarousel
+              testimonials={testimonials}
+              itemsPerView={{ base: 1, sm: 1, md: 3, lg: 3 }}
+            />
           </div>
         </div>
       </section>
