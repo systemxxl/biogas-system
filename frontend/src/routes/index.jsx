@@ -368,7 +368,10 @@ function Home() {
             </p>
           </div>
           <div className="mt-8">
-            <TestimonialCarousel testimonials={testimonials} itemsPerView={3} />
+            <TestimonialCarousel
+              testimonials={testimonials}
+              itemsPerView={{ base: 1, sm: 1, md: 3, lg: 3 }}
+            />
           </div>
         </div>
       </section>

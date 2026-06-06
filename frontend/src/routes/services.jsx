@@ -244,7 +244,10 @@ function Services() {
           </p>
 
           <div className="mt-8">
-            <TestimonialCarousel testimonials={testimonials} itemsPerView={3} />
+            <TestimonialCarousel
+              testimonials={testimonials}
+              itemsPerView={{ base: 1, sm: 1, md: 3, lg: 3 }}
+            />
           </div>
 
           <div className="mt-10 grid items-center gap-6 rounded-xl border border-white/40 bg-emerald-900/80 p-6 md:grid-cols-[0.6fr_1.4fr_1fr]">
